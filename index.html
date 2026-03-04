@@ -1,94 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="sk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>point.</title>
   <style>
-    body{font-family:system-ui;background:#FAFAF8;margin:0}
+    :root{
+      --bg:#FAFAF8;
+      --card:#FFFFFF;
+      --text:#111827;
+      --muted:#6B7280;
+
+      --rasp:#C1124A;     /* planned/done */
+      --yellow:#FBBF24;   /* extra */
+      --gray:#D1D5DB;     /* empty */
+      --rest:#E9E7E3;     /* rest */
+      --line:#E5E7EB;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);margin:0;color:var(--text)}
     .wrap{max-width:420px;margin:0 auto;padding:18px}
-    h1{margin:8px 0 2px;font-size:26px}
-    .sub{color:#6b7280;margin:0 0 14px;font-size:13px}
-    .card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:12px}
+    h1{margin:8px 0 2px;font-size:26px;letter-spacing:-.2px}
+    .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
+
+    .card{background:var(--card);border-radius:16px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:12px}
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .muted{color:var(--muted);font-size:12px}
+    .title{font-weight:800}
+
     .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:10px}
-    .day{display:flex;flex-direction:column;align-items:center;gap:6px}
-    .lab{font-size:11px;color:#6b7280}
-    .dot{width:18px;height:18px;border-radius:999px;background:#d1d5db}
-    .planned{border:2px solid #c1124a;background:transparent}
-    .done{background:#c1124a}
-    .extra{background:#fbbf24}
-    .rest{background:#e5e7eb}
-    .today{outline:2px solid rgba(17,24,39,.25);outline-offset:4px;border-radius:999px}
-    button{border:none;border-radius:12px;padding:11px 12px;font-weight:600;cursor:pointer}
-    .primary{background:#c1124a;color:#fff;flex:1}
-    .ghost{background:#f3f4f6;color:#111827}
-    .small{padding:9px 10px;border-radius:10px;font-size:13px}
-    select,input{width:100%;padding:10px;border-radius:12px;border:1px solid #e5e7eb;font-size:14px}
+    .day{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+    .lab{font-size:11px;color:var(--muted)}
+
+    .dot{width:18px;height:18px;border-radius:999px;background:var(--gray)}
+    .planned{border:2px solid var(--rasp);background:transparent}
+    .done{background:var(--rasp)}
+    .extra{background:var(--yellow)}
+    .rest{background:var(--rest)}
+    .today{outline:2px solid rgba(17,24,39,.22);outline-offset:4px;border-radius:999px}
+
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+    .mini{width:10px;height:10px;border-radius:999px;background:var(--gray)}
+    .mini.planned{border:2px solid var(--rasp);background:transparent;width:10px;height:10px}
+
+    button{border:none;border-radius:12px;padding:11px 12px;font-weight:800;cursor:pointer}
+    .primary{background:var(--rasp);color:#fff}
+    .ghost{background:#F3F4F6;color:var(--text)}
+    .warn{background:#111827;color:#fff}
+    .danger{background:#FEF2F2;color:#991B1B}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btnrow button{flex:1}
+    .btnrow .ghost, .btnrow .danger{flex:1}
+
+    /* Modal */
+    .backdrop{
+      position:fixed; inset:0;
+      background:rgba(17,24,39,.35);
+      display:none; align-items:flex-end; justify-content:center;
+      padding:14px;
+    }
+    .sheet{
+      width:100%;
+      max-width:420px;
+      background:var(--card);
+      border-radius:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      padding:14px;
+    }
+    .handle{
+      width:44px;height:5px;border-radius:999px;background:#E5E7EB;margin:4px auto 10px;
+    }
+    .hr{height:1px;background:var(--line);margin:12px 0}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    select,input{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      font-size:14px;
+      background:#fff;
+    }
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .muted{color:#6b7280;font-size:12px;margin-top:6px}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;background:#F3F4F6;
+      font-size:12px;color:var(--text);font-weight:700;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <h1>point<span style="color:#c1124a">.</span></h1>
-    <p class="sub">Mon–Sun week. Planned → Done. One point at a time.</p>
+    <h1>point<span style="color:var(--rasp)">.</span></h1>
+    <p class="sub">Tap day → details. Planned → done (+5€). Adhoc → extra (0€).</p>
 
     <div class="card">
       <div class="row">
         <div>
-          <div style="font-weight:700">This week</div>
+          <div class="title">This week</div>
           <div class="muted" id="range"></div>
         </div>
-        <button class="ghost small" onclick="resetWeek()">Reset (dev)</button>
+        <div class="chip" id="streakChip">streak: 0/7</div>
       </div>
 
       <div class="week" id="week"></div>
 
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <button class="primary" onclick="completeToday()">Complete training</button>
-        <button class="ghost" onclick="notToday()">Not today</button>
+      <div class="legend">
+        <div class="pill"><span class="mini planned"></span>planned</div>
+        <div class="pill"><span class="mini" style="background:var(--rasp)"></span>done</div>
+        <div class="pill"><span class="mini" style="background:var(--yellow)"></span>extra</div>
+        <div class="pill"><span class="mini" style="background:var(--rest)"></span>rest</div>
       </div>
-      <div class="muted">“Not today” ponúkne presun len ak je dnes planned.</div>
     </div>
 
     <div class="card">
-      <div style="font-weight:700;margin-bottom:10px">Plan training</div>
-      <div class="grid2">
+      <div class="row">
         <div>
-          <div class="muted">Day</div>
-          <select id="daySelect"></select>
+          <div class="title">Watch fund</div>
+          <div class="muted">+5€ only for planned → done</div>
         </div>
+        <div style="font-weight:900;font-size:18px" id="fund">0€</div>
+      </div>
+      <div class="muted" style="margin-top:8px" id="fundNote"></div>
+    </div>
+  </div>
+
+  <!-- Day Sheet -->
+  <div class="backdrop" id="backdrop" onclick="closeSheet(event)">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+
+      <div class="row">
         <div>
-          <div class="muted">Sport</div>
-          <select id="sportSelect">
-            <option value="run">Run</option>
-            <option value="swim">Swim</option>
-            <option value="bike">Bike</option>
-            <option value="strength">Strength</option>
-            <option value="mobility">Mobility</option>
-          </select>
+          <div class="title" id="sheetTitle">Day</div>
+          <div class="muted" id="sheetSub">status</div>
         </div>
+        <button class="ghost" onclick="hideSheet()">Close</button>
       </div>
 
-      <div style="margin-top:10px">
-        <div class="muted">Template name</div>
-        <input id="nameInput" placeholder="easy 5 km / long run / drills..." />
-      </div>
+      <div class="hr"></div>
 
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <button class="primary" onclick="plan()">Add planned</button>
-        <button class="ghost" onclick="setRest()">Rest day</button>
-      </div>
+      <div id="sheetBody"></div>
     </div>
   </div>
 
 <script>
-  const STORAGE = "point.logs.v2";
+  // Storage keys
+  const LOGS_KEY = "point.logs.v2";
+  const FUND_KEY = "point.fund.v1";
 
+  // Helpers
   function iso(d){
-    const x=new Date(d); x.setHours(0,0,0,0);
+    const x = new Date(d); x.setHours(0,0,0,0);
     return x.toISOString().slice(0,10);
   }
   function addDays(d,n){
@@ -101,69 +165,85 @@
     x.setDate(x.getDate()+diff);
     return x;
   }
+  const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
-  let logs = JSON.parse(localStorage.getItem(STORAGE) || "{}");
+  // State
+  let logs = JSON.parse(localStorage.getItem(LOGS_KEY) || "{}");
+  let fund = Number(localStorage.getItem(FUND_KEY) || "0");
 
   const today = new Date();
   const todayIso = iso(today);
   const weekStart = startOfWeekMon(today);
   const days = Array.from({length:7}).map((_,i)=>iso(addDays(weekStart,i)));
 
-  const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  let selectedDate = todayIso;
 
-  function statusFor(date){
-    return logs[date]?.status || "none";
-  }
+  function statusFor(date){ return logs[date]?.status || "none"; }
+  function logFor(date){ return logs[date] || {date, status:"none"}; }
 
   function setLog(date, patch){
     const prev = logs[date] || {date, status:"none"};
     logs[date] = {...prev, ...patch, date};
-    localStorage.setItem(STORAGE, JSON.stringify(logs));
+    localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
     render();
+    renderSheet(); // keep sheet in sync if open
+  }
+  function clearDay(date){
+    delete logs[date];
+    localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
+    render();
+    renderSheet();
   }
 
+  function addFund(amount, reason){
+    fund += amount;
+    localStorage.setItem(FUND_KEY, String(fund));
+    document.getElementById("fundNote").textContent = reason;
+    renderFund();
+  }
+  function renderFund(){
+    document.getElementById("fund").textContent = `${fund}€`;
+  }
+
+  function computeStreakMax7(){
+    // count done in last 7 days including today
+    let s=0;
+    for(let i=0;i<7;i++){
+      const d=iso(addDays(today,-i));
+      if(logs[d]?.status==="done") s++;
+    }
+    return Math.min(7,s);
+  }
+
+  // Main UI render
   function render(){
-    document.getElementById("range").textContent =
-      `${days[0]} → ${days[6]}`;
+    document.getElementById("range").textContent = `${days[0]} → ${days[6]}`;
+    renderFund();
 
-    const weekEl = document.getElementById("week");
-    weekEl.innerHTML = "";
+    const streak = computeStreakMax7();
+    document.getElementById("streakChip").textContent = `streak: ${streak}/7`;
 
-    // day dropdown
-    const ds = document.getElementById("daySelect");
-    ds.innerHTML = "";
-    days.forEach((d,i)=>{
-      const opt = document.createElement("option");
-      opt.value = d;
-      opt.textContent = `${labels[i]} (${d.slice(5)})`;
-      ds.appendChild(opt);
-    });
-    ds.value = todayIso;
+    const weekEl=document.getElementById("week");
+    weekEl.innerHTML="";
 
     days.forEach((d,i)=>{
-      const wrap = document.createElement("div");
-      wrap.className = "day";
+      const wrap=document.createElement("div");
+      wrap.className="day";
+      wrap.onclick=()=>openSheet(d);
 
-      const dot = document.createElement("div");
-      dot.className = "dot";
+      const lab=document.createElement("div");
+      lab.className="lab";
+      lab.textContent=labels[i];
 
-      const st = statusFor(d);
+      const dot=document.createElement("div");
+      dot.className="dot";
+
+      const st=statusFor(d);
       if(st==="planned") dot.classList.add("planned");
       if(st==="done") dot.classList.add("done");
       if(st==="extra") dot.classList.add("extra");
       if(st==="rest") dot.classList.add("rest");
       if(d===todayIso) dot.classList.add("today");
-
-      // klik na bodku = quick toggle planned/none (len pre plánovanie)
-      dot.onclick = ()=>{
-        const cur = statusFor(d);
-        if(cur==="none") setLog(d,{status:"planned", sport:"run", name:"(planned)"});
-        else if(cur==="planned") setLog(d,{status:"none"});
-      };
-
-      const lab = document.createElement("div");
-      lab.className = "lab";
-      lab.textContent = labels[i];
 
       wrap.appendChild(lab);
       wrap.appendChild(dot);
@@ -171,56 +251,281 @@
     });
   }
 
-  function plan(){
-    const date = document.getElementById("daySelect").value;
-    const sport = document.getElementById("sportSelect").value;
-    const name = document.getElementById("nameInput").value.trim() || "planned training";
-    setLog(date, {status:"planned", sport, name});
-    document.getElementById("nameInput").value = "";
+  // Sheet controls
+  function openSheet(date){
+    selectedDate = date;
+    document.getElementById("backdrop").style.display="flex";
+    renderSheet();
+  }
+  function hideSheet(){
+    document.getElementById("backdrop").style.display="none";
+  }
+  function closeSheet(e){
+    if(e.target.id==="backdrop") hideSheet();
   }
 
-  function setRest(){
-    const date = document.getElementById("daySelect").value;
-    setLog(date, {status:"rest"});
+  function statusLabel(st){
+    if(st==="none") return "empty";
+    if(st==="planned") return "planned";
+    if(st==="done") return "done";
+    if(st==="extra") return "adhoc (extra)";
+    if(st==="rest") return "rest day";
+    return st;
   }
 
-  function completeToday(){
-    const cur = statusFor(todayIso);
-    if(cur==="planned") setLog(todayIso, {status:"done"});
-    else setLog(todayIso, {status:"extra"});
-  }
+  function renderSheet(){
+    const bd = document.getElementById("backdrop");
+    if(bd.style.display!=="flex") return;
 
-  function notToday(){
-    // Ak je dnes planned → presun na iný deň v tom istom týždni
-    const cur = statusFor(todayIso);
-    if(cur!=="planned"){
-      alert("Today is not planned. (Nothing to move)");
+    const i = days.indexOf(selectedDate);
+    const dow = i>=0 ? labels[i] : "Day";
+    const st = statusFor(selectedDate);
+    const log = logFor(selectedDate);
+
+    document.getElementById("sheetTitle").textContent = `${dow} • ${selectedDate}`;
+    document.getElementById("sheetSub").textContent = `status: ${statusLabel(st)}`;
+
+    const body = document.getElementById("sheetBody");
+    body.innerHTML = "";
+
+    // Helper to build forms
+    function fieldRow(html){
+      const div=document.createElement("div");
+      div.innerHTML = html;
+      body.appendChild(div);
+    }
+
+    // Common edit form (for planned/extra/done)
+    function renderEditForm(defaults){
+      fieldRow(`
+        <div class="grid2">
+          <div>
+            <label>Sport</label>
+            <select id="fSport">
+              <option value="run">Run</option>
+              <option value="swim">Swim</option>
+              <option value="bike">Bike</option>
+              <option value="strength">Strength</option>
+              <option value="mobility">Mobility</option>
+            </select>
+          </div>
+          <div>
+            <label>Goal type</label>
+            <select id="fGoalType">
+              <option value="distance">Distance (km)</option>
+              <option value="time">Time (min)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label>Name</label>
+          <input id="fName" placeholder="easy 5 km / long run / drills..." />
+        </div>
+
+        <div style="margin-top:10px">
+          <label id="fGoalLabel">Value</label>
+          <input id="fGoalValue" type="number" step="0.1" placeholder="e.g. 5" />
+        </div>
+
+        <div style="margin-top:10px">
+          <label>Note (optional)</label>
+          <input id="fNote" placeholder="mood, cue, anything..." />
+        </div>
+      `);
+
+      // set defaults
+      document.getElementById("fSport").value = defaults.sport || "run";
+      document.getElementById("fName").value = defaults.name || "";
+      document.getElementById("fGoalType").value = defaults.goalType || "distance";
+      document.getElementById("fGoalValue").value = (defaults.goalValue ?? "");
+      document.getElementById("fNote").value = defaults.note || "";
+
+      const gt = document.getElementById("fGoalType");
+      const gl = document.getElementById("fGoalLabel");
+      function syncLabel(){
+        gl.textContent = gt.value==="time" ? "Minutes" : "Kilometers";
+      }
+      gt.onchange = syncLabel;
+      syncLabel();
+
+      return () => ({
+        sport: document.getElementById("fSport").value,
+        name: document.getElementById("fName").value.trim() || "training",
+        goalType: document.getElementById("fGoalType").value,
+        goalValue: Number(document.getElementById("fGoalValue").value || 0),
+        note: document.getElementById("fNote").value.trim()
+      });
+    }
+
+    // ----- STATE: none (empty)
+    if(st==="none"){
+      fieldRow(`<div class="muted">Nothing here yet.</div>`);
+      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
+
+      fieldRow(`<div class="btnrow">
+        <button class="primary" id="btnPlan">Plan training</button>
+        <button class="ghost" id="btnAdhoc">Add adhoc</button>
+      </div>
+      <div class="btnrow">
+        <button class="ghost" id="btnRest">Set rest day</button>
+        <button class="danger" id="btnClear">Clear</button>
+      </div>
+      <div class="muted">Adhoc becomes <b>yellow</b> only after you complete it. No €.</div>
+      `);
+
+      document.getElementById("btnPlan").onclick = ()=>{
+        const v=get();
+        setLog(selectedDate,{status:"planned", ...v});
+      };
+      document.getElementById("btnAdhoc").onclick = ()=>{
+        const v=get();
+        // store as a draft adhoc, still not counted as extra until completed
+        setLog(selectedDate,{status:"adhoc_draft", ...v});
+      };
+      document.getElementById("btnRest").onclick = ()=> setLog(selectedDate,{status:"rest"});
+      document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
       return;
     }
-    const target = prompt("Move planned training to which day? (Mon/Tue/Wed/Thu/Fri/Sat/Sun)");
-    if(!target) return;
 
-    const idx = labels.map(x=>x.toLowerCase()).indexOf(target.toLowerCase());
-    if(idx===-1){
-      alert("Use Mon/Tue/Wed/Thu/Fri/Sat/Sun");
+    // ----- STATE: adhoc draft (exists but not yet completed)
+    if(st==="adhoc_draft"){
+      fieldRow(`<div class="chip">adhoc training • not completed yet</div>`);
+      const get = renderEditForm(log);
+
+      fieldRow(`<div class="btnrow">
+        <button class="warn" id="btnComplete">Complete (extra)</button>
+        <button class="ghost" id="btnSave">Save edits</button>
+      </div>
+      <div class="btnrow">
+        <button class="danger" id="btnClear">Clear</button>
+      </div>
+      <div class="muted">Completion turns the day <b>yellow</b>. No € reward.</div>
+      `);
+
+      document.getElementById("btnComplete").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{status:"extra", ...v});
+        document.getElementById("fundNote").textContent = "Adhoc completed. (No € reward)";
+      };
+      document.getElementById("btnSave").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{...v});
+      };
+      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
       return;
     }
 
-    const toDate = days[idx];
-    // presun = zruš dnes + nastav planned na cieľový deň
-    const payload = {...logs[todayIso]};
-    setLog(todayIso, {status:"none"});
-    setLog(toDate, {status:"planned", sport: payload.sport || "run", name: payload.name || "planned training"});
+    // ----- STATE: planned
+    if(st==="planned"){
+      fieldRow(`<div class="chip">planned training</div>`);
+      const get = renderEditForm(log);
+
+      // move targets within week
+      const opts = days.map((d,idx)=>`<option value="${d}" ${d===selectedDate?"selected":""}>${labels[idx]} (${d.slice(5)})</option>`).join("");
+
+      fieldRow(`
+        <div style="margin-top:10px">
+          <label>Move to</label>
+          <select id="moveTo">${opts}</select>
+        </div>
+      `);
+
+      fieldRow(`<div class="btnrow">
+        <button class="primary" id="btnComplete">Complete (+5€)</button>
+        <button class="ghost" id="btnMove">Move</button>
+      </div>
+      <div class="btnrow">
+        <button class="ghost" id="btnSave">Save edits</button>
+        <button class="danger" id="btnCancel">Cancel plan</button>
+      </div>
+      `);
+
+      document.getElementById("btnComplete").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{status:"done", ...v});
+        addFund(5,"Nice. Planned → done. +5€ to your watch fund.");
+      };
+      document.getElementById("btnMove").onclick=()=>{
+        const to=document.getElementById("moveTo").value;
+        const v=get();
+        // clear current day
+        clearDay(selectedDate);
+        // set planned on target
+        setLog(to,{status:"planned", ...v});
+        // update selected date to target to keep sheet relevant
+        selectedDate = to;
+        renderSheet();
+      };
+      document.getElementById("btnSave").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{...v});
+      };
+      document.getElementById("btnCancel").onclick=()=>clearDay(selectedDate);
+      return;
+    }
+
+    // ----- STATE: rest
+    if(st==="rest"){
+      fieldRow(`<div class="chip">rest day</div>`);
+      fieldRow(`<div class="muted">You can unset rest or plan a training here.</div>`);
+      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
+
+      fieldRow(`<div class="btnrow">
+        <button class="ghost" id="btnUnset">Unset rest</button>
+        <button class="primary" id="btnPlan">Plan training</button>
+      </div>
+      <div class="btnrow">
+        <button class="danger" id="btnClear">Clear</button>
+      </div>
+      `);
+
+      document.getElementById("btnUnset").onclick=()=>clearDay(selectedDate);
+      document.getElementById("btnPlan").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{status:"planned", ...v});
+      };
+      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
+      return;
+    }
+
+    // ----- STATE: done or extra
+    if(st==="done" || st==="extra"){
+      fieldRow(`<div class="chip">${st==="done" ? "completed (done)" : "completed (extra)"}</div>`);
+      const get = renderEditForm(log);
+
+      fieldRow(`<div class="btnrow">
+        <button class="ghost" id="btnSave">Save edits</button>
+        <button class="danger" id="btnClear">Clear</button>
+      </div>
+      <div class="muted">${st==="done" ? "Done is raspberry. Reward already counted." : "Extra is yellow. No € reward."}</div>
+      `);
+
+      document.getElementById("btnSave").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{...v});
+      };
+      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
+      return;
+    }
+
+    // fallback
+    fieldRow(`<div class="muted">Unknown state.</div>`);
+    fieldRow(`<div class="btnrow"><button class="danger" onclick="clearDay(selectedDate)">Clear</button></div>`);
   }
 
-  function resetWeek(){
-    days.forEach(d=>delete logs[d]);
-    localStorage.setItem(STORAGE, JSON.stringify(logs));
-    render();
+  // Init
+  function addFund(amount, reason){
+    fund += amount;
+    localStorage.setItem(FUND_KEY, String(fund));
+    document.getElementById("fundNote").textContent = reason;
+    renderFund();
+  }
+  function renderFund(){
+    document.getElementById("fund").textContent = `${fund}€`;
   }
 
   render();
 </script>
-
 </body>
 </html>
