@@ -1,12 +1,226 @@
-<!doctype html>
-<html lang="sk">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Point</title>
-  </head>
-  <body>
-    <h1>Point beží 🚀</h1>
-    <p>Deploy na Verceli je OK. Teraz ideme pridávať funkcie.</p>
-  </body>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>point.</title>
+  <style>
+    body{font-family:system-ui;background:#FAFAF8;margin:0}
+    .wrap{max-width:420px;margin:0 auto;padding:18px}
+    h1{margin:8px 0 2px;font-size:26px}
+    .sub{color:#6b7280;margin:0 0 14px;font-size:13px}
+    .card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:12px}
+    .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:10px}
+    .day{display:flex;flex-direction:column;align-items:center;gap:6px}
+    .lab{font-size:11px;color:#6b7280}
+    .dot{width:18px;height:18px;border-radius:999px;background:#d1d5db}
+    .planned{border:2px solid #c1124a;background:transparent}
+    .done{background:#c1124a}
+    .extra{background:#fbbf24}
+    .rest{background:#e5e7eb}
+    .today{outline:2px solid rgba(17,24,39,.25);outline-offset:4px;border-radius:999px}
+    button{border:none;border-radius:12px;padding:11px 12px;font-weight:600;cursor:pointer}
+    .primary{background:#c1124a;color:#fff;flex:1}
+    .ghost{background:#f3f4f6;color:#111827}
+    .small{padding:9px 10px;border-radius:10px;font-size:13px}
+    select,input{width:100%;padding:10px;border-radius:12px;border:1px solid #e5e7eb;font-size:14px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .muted{color:#6b7280;font-size:12px;margin-top:6px}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>point<span style="color:#c1124a">.</span></h1>
+    <p class="sub">Mon–Sun week. Planned → Done. One point at a time.</p>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <div style="font-weight:700">This week</div>
+          <div class="muted" id="range"></div>
+        </div>
+        <button class="ghost small" onclick="resetWeek()">Reset (dev)</button>
+      </div>
+
+      <div class="week" id="week"></div>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="primary" onclick="completeToday()">Complete training</button>
+        <button class="ghost" onclick="notToday()">Not today</button>
+      </div>
+      <div class="muted">“Not today” ponúkne presun len ak je dnes planned.</div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:10px">Plan training</div>
+      <div class="grid2">
+        <div>
+          <div class="muted">Day</div>
+          <select id="daySelect"></select>
+        </div>
+        <div>
+          <div class="muted">Sport</div>
+          <select id="sportSelect">
+            <option value="run">Run</option>
+            <option value="swim">Swim</option>
+            <option value="bike">Bike</option>
+            <option value="strength">Strength</option>
+            <option value="mobility">Mobility</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
+        <div class="muted">Template name</div>
+        <input id="nameInput" placeholder="easy 5 km / long run / drills..." />
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="primary" onclick="plan()">Add planned</button>
+        <button class="ghost" onclick="setRest()">Rest day</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const STORAGE = "point.logs.v2";
+
+  function iso(d){
+    const x=new Date(d); x.setHours(0,0,0,0);
+    return x.toISOString().slice(0,10);
+  }
+  function addDays(d,n){
+    const x=new Date(d); x.setDate(x.getDate()+n); return x;
+  }
+  function startOfWeekMon(d){
+    const x=new Date(d); x.setHours(0,0,0,0);
+    const day=x.getDay(); // 0 Sun..6 Sat
+    const diff=(day===0?-6:1)-day;
+    x.setDate(x.getDate()+diff);
+    return x;
+  }
+
+  let logs = JSON.parse(localStorage.getItem(STORAGE) || "{}");
+
+  const today = new Date();
+  const todayIso = iso(today);
+  const weekStart = startOfWeekMon(today);
+  const days = Array.from({length:7}).map((_,i)=>iso(addDays(weekStart,i)));
+
+  const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+  function statusFor(date){
+    return logs[date]?.status || "none";
+  }
+
+  function setLog(date, patch){
+    const prev = logs[date] || {date, status:"none"};
+    logs[date] = {...prev, ...patch, date};
+    localStorage.setItem(STORAGE, JSON.stringify(logs));
+    render();
+  }
+
+  function render(){
+    document.getElementById("range").textContent =
+      `${days[0]} → ${days[6]}`;
+
+    const weekEl = document.getElementById("week");
+    weekEl.innerHTML = "";
+
+    // day dropdown
+    const ds = document.getElementById("daySelect");
+    ds.innerHTML = "";
+    days.forEach((d,i)=>{
+      const opt = document.createElement("option");
+      opt.value = d;
+      opt.textContent = `${labels[i]} (${d.slice(5)})`;
+      ds.appendChild(opt);
+    });
+    ds.value = todayIso;
+
+    days.forEach((d,i)=>{
+      const wrap = document.createElement("div");
+      wrap.className = "day";
+
+      const dot = document.createElement("div");
+      dot.className = "dot";
+
+      const st = statusFor(d);
+      if(st==="planned") dot.classList.add("planned");
+      if(st==="done") dot.classList.add("done");
+      if(st==="extra") dot.classList.add("extra");
+      if(st==="rest") dot.classList.add("rest");
+      if(d===todayIso) dot.classList.add("today");
+
+      // klik na bodku = quick toggle planned/none (len pre plánovanie)
+      dot.onclick = ()=>{
+        const cur = statusFor(d);
+        if(cur==="none") setLog(d,{status:"planned", sport:"run", name:"(planned)"});
+        else if(cur==="planned") setLog(d,{status:"none"});
+      };
+
+      const lab = document.createElement("div");
+      lab.className = "lab";
+      lab.textContent = labels[i];
+
+      wrap.appendChild(lab);
+      wrap.appendChild(dot);
+      weekEl.appendChild(wrap);
+    });
+  }
+
+  function plan(){
+    const date = document.getElementById("daySelect").value;
+    const sport = document.getElementById("sportSelect").value;
+    const name = document.getElementById("nameInput").value.trim() || "planned training";
+    setLog(date, {status:"planned", sport, name});
+    document.getElementById("nameInput").value = "";
+  }
+
+  function setRest(){
+    const date = document.getElementById("daySelect").value;
+    setLog(date, {status:"rest"});
+  }
+
+  function completeToday(){
+    const cur = statusFor(todayIso);
+    if(cur==="planned") setLog(todayIso, {status:"done"});
+    else setLog(todayIso, {status:"extra"});
+  }
+
+  function notToday(){
+    // Ak je dnes planned → presun na iný deň v tom istom týždni
+    const cur = statusFor(todayIso);
+    if(cur!=="planned"){
+      alert("Today is not planned. (Nothing to move)");
+      return;
+    }
+    const target = prompt("Move planned training to which day? (Mon/Tue/Wed/Thu/Fri/Sat/Sun)");
+    if(!target) return;
+
+    const idx = labels.map(x=>x.toLowerCase()).indexOf(target.toLowerCase());
+    if(idx===-1){
+      alert("Use Mon/Tue/Wed/Thu/Fri/Sat/Sun");
+      return;
+    }
+
+    const toDate = days[idx];
+    // presun = zruš dnes + nastav planned na cieľový deň
+    const payload = {...logs[todayIso]};
+    setLog(todayIso, {status:"none"});
+    setLog(toDate, {status:"planned", sport: payload.sport || "run", name: payload.name || "planned training"});
+  }
+
+  function resetWeek(){
+    days.forEach(d=>delete logs[d]);
+    localStorage.setItem(STORAGE, JSON.stringify(logs));
+    render();
+  }
+
+  render();
+</script>
+
+</body>
 </html>
