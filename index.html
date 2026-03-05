@@ -16,7 +16,36 @@
       --gray:#D1D5DB;     /* empty */
       --rest:#E9E7E3;     /* rest */
       --line:#E5E7EB;
+
+      --todayRing: rgba(17,24,39,.22);
+      --ghost:#F3F4F6;
+      --dangerBg:#FEF2F2;
+      --dangerText:#991B1B;
+      --sheetBackdrop:rgba(17,24,39,.35);
     }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0B0F16;
+        --card:#121826;
+        --text:#E5E7EB;
+        --muted:#9CA3AF;
+
+        --gray:#374151;     /* empty */
+        --rest:#1F2937;     /* rest */
+
+        --line:#1F2937;
+        --todayRing: rgba(229,231,235,.35);
+
+        --ghost:#1F2937;
+        --dangerBg: rgba(254,242,242,.10);
+        --dangerText:#FCA5A5;
+        --sheetBackdrop:rgba(0,0,0,.55);
+      }
+      select,input{ background:#0F172A; color:var(--text); border-color:var(--line); }
+    }
+
     *{box-sizing:border-box}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);margin:0;color:var(--text)}
     .wrap{max-width:420px;margin:0 auto;padding:18px}
@@ -27,36 +56,57 @@
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
     .muted{color:var(--muted);font-size:12px}
     .title{font-weight:800}
+    .big{font-size:16px;font-weight:900;letter-spacing:-.2px}
+    .kicker{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .spacer8{height:8px}
+    .spacer10{height:10px}
+    .spacer12{height:12px}
 
     .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:10px}
     .day{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
     .lab{font-size:11px;color:var(--muted)}
+    .lab.todayLab{color:var(--text);font-weight:800}
 
     .dot{width:18px;height:18px;border-radius:999px;background:var(--gray)}
     .planned{border:2px solid var(--rasp);background:transparent}
     .done{background:var(--rasp)}
     .extra{background:var(--yellow)}
     .rest{background:var(--rest)}
-    .today{outline:2px solid rgba(17,24,39,.22);outline-offset:4px;border-radius:999px}
+    /* today ring: works in light & dark */
+    .today{outline:2px solid var(--todayRing);outline-offset:4px;border-radius:999px}
 
     .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
     .pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
     .mini{width:10px;height:10px;border-radius:999px;background:var(--gray)}
     .mini.planned{border:2px solid var(--rasp);background:transparent;width:10px;height:10px}
 
-    button{border:none;border-radius:12px;padding:11px 12px;font-weight:800;cursor:pointer}
+    button{border:none;border-radius:12px;padding:11px 12px;font-weight:900;cursor:pointer}
     .primary{background:var(--rasp);color:#fff}
-    .ghost{background:#F3F4F6;color:var(--text)}
+    .ghost{background:var(--ghost);color:var(--text)}
     .warn{background:#111827;color:#fff}
-    .danger{background:#FEF2F2;color:#991B1B}
+    @media (prefers-color-scheme: dark){
+      .warn{background:#0B0F16;color:#fff;border:1px solid var(--line)}
+    }
+    .danger{background:var(--dangerBg);color:var(--dangerText)}
     .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
     .btnrow button{flex:1}
-    .btnrow .ghost, .btnrow .danger{flex:1}
+
+    /* Today card bits */
+    .todayHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .todayLeft{min-width:0}
+    .todayMeta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:999px;background:var(--ghost);
+      font-size:12px;color:var(--text);font-weight:900;
+    }
+    .emoji{font-size:16px;line-height:1}
+    .hint{color:var(--muted);font-size:12px;margin-top:8px}
 
     /* Modal */
     .backdrop{
       position:fixed; inset:0;
-      background:rgba(17,24,39,.35);
+      background:var(--sheetBackdrop);
       display:none; align-items:flex-end; justify-content:center;
       padding:14px;
     }
@@ -69,7 +119,7 @@
       padding:14px;
     }
     .handle{
-      width:44px;height:5px;border-radius:999px;background:#E5E7EB;margin:4px auto 10px;
+      width:44px;height:5px;border-radius:999px;background:var(--line);margin:4px auto 10px;
     }
     .hr{height:1px;background:var(--line);margin:12px 0}
     label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
@@ -84,8 +134,16 @@
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .chip{
       display:inline-flex;align-items:center;gap:8px;
-      padding:8px 10px;border-radius:999px;background:#F3F4F6;
-      font-size:12px;color:var(--text);font-weight:700;
+      padding:8px 10px;border-radius:999px;background:var(--ghost);
+      font-size:12px;color:var(--text);font-weight:900;
+    }
+
+    .closeX{
+      width:40px;height:40px;border-radius:999px;
+      display:grid;place-items:center;
+      background:var(--ghost);color:var(--text);
+      font-size:18px;font-weight:900;
+      padding:0;
     }
   </style>
 </head>
@@ -94,6 +152,11 @@
   <div class="wrap">
     <h1>point<span style="color:var(--rasp)">.</span></h1>
     <p class="sub">Tap day → details. Planned → done (+5€). Adhoc → extra (0€).</p>
+
+    <!-- TODAY CARD (NEW) -->
+    <div class="card" id="todayCard">
+      <div id="todayInner"></div>
+    </div>
 
     <div class="card">
       <div class="row">
@@ -136,7 +199,7 @@
           <div class="title" id="sheetTitle">Day</div>
           <div class="muted" id="sheetSub">status</div>
         </div>
-        <button class="ghost" onclick="hideSheet()">Close</button>
+        <button class="closeX" onclick="hideSheet()" aria-label="Close">×</button>
       </div>
 
       <div class="hr"></div>
@@ -165,7 +228,65 @@
     x.setDate(x.getDate()+diff);
     return x;
   }
+  function hashStr(s){
+    // small deterministic hash
+    let h=0;
+    for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; }
+    return Math.abs(h);
+  }
   const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+  const sportMeta = {
+    run:      { emoji:"🏃‍♀️", name:"Run" },
+    swim:     { emoji:"🏊‍♀️", name:"Swim" },
+    bike:     { emoji:"🚴‍♀️", name:"Bike" },
+    strength: { emoji:"🏋️‍♀️", name:"Strength" },
+    mobility: { emoji:"🧘‍♀️", name:"Mobility" },
+  };
+
+  // Motivation / rest tips (short, not cringe)
+  const motivationGeneric = [
+    "One point at a time.",
+    "Just show up — the rest follows.",
+    "Small win, big momentum.",
+    "You’re on point.",
+    "Consistency beats intensity."
+  ];
+  const motivationRun = [
+    "Easy day builds the engine.",
+    "Run your run — steady wins.",
+    "Just a start. That’s the point."
+  ];
+  const motivationSwim = [
+    "Smooth is fast.",
+    "One clean length at a time.",
+    "Relax + rhythm."
+  ];
+  const restTips = [
+    "Relax in a sauna ♨️",
+    "10 min mobility + early sleep 💤",
+    "Easy walk + sunlight ☀️",
+    "Hot shower + stretch 🧘‍♀️",
+    "Legs up the wall for 3–5 min 🧠"
+  ];
+
+  function pick(list, key){
+    if(!list || list.length===0) return "";
+    const idx = hashStr(key) % list.length;
+    return list[idx];
+  }
+
+  function getMotivationFor(log, dateIso){
+    const sport = (log?.sport || "run");
+    const key = `${dateIso}:${sport}:${log?.status||"none"}`;
+    if(sport==="run") return pick(motivationRun.concat(motivationGeneric), key);
+    if(sport==="swim") return pick(motivationSwim.concat(motivationGeneric), key);
+    return pick(motivationGeneric, key);
+  }
+
+  function getRestTip(dateIso){
+    return pick(restTips, `rest:${dateIso}`);
+  }
 
   // State
   let logs = JSON.parse(localStorage.getItem(LOGS_KEY) || "{}");
@@ -215,6 +336,167 @@
     return Math.min(7,s);
   }
 
+  // TODAY card render (NEW)
+  function renderTodayCard(){
+    const el = document.getElementById("todayInner");
+    const st = statusFor(todayIso);
+    const log = logFor(todayIso);
+
+    const inWeekIdx = days.indexOf(todayIso);
+    const dow = inWeekIdx>=0 ? labels[inWeekIdx] : "Today";
+
+    function metaLine(text){
+      return `<div class="hint">${text}</div>`;
+    }
+
+    // If no sport yet, show neutral icon
+    const sport = log?.sport || "run";
+    const sm = sportMeta[sport] || {emoji:"⭐", name:"Training"};
+
+    // Compose summary based on status
+    let header = `
+      <div class="todayHeader">
+        <div class="todayLeft">
+          <div class="kicker">Today</div>
+          <div class="big">${dow} • ${todayIso}</div>
+          <div class="todayMeta">
+            <span class="badge"><span class="emoji">${sm.emoji}</span>${sm.name}</span>
+            <span class="badge" id="todayStatusBadge"></span>
+          </div>
+        </div>
+        <button class="ghost" onclick="openSheet('${todayIso}')">Details</button>
+      </div>
+    `;
+
+    let statusBadge = "empty";
+    let body = "";
+    let actions = "";
+
+    if(st==="planned"){
+      statusBadge = "planned";
+      const goalTxt = (log.goalType==="time")
+        ? `${Number(log.goalValue||0)} min`
+        : `${Number(log.goalValue||0)} km`;
+      body = `
+        <div class="spacer12"></div>
+        <div class="title">${log.name || "training"}</div>
+        <div class="muted">${log.goalValue ? goalTxt : "no goal set"}</div>
+        ${log.note ? `<div class="hint">“${escapeHtml(log.note)}”</div>` : ""}
+        ${metaLine(getMotivationFor(log, todayIso))}
+      `;
+      actions = `
+        <div class="btnrow">
+          <button class="primary" onclick="quickCompletePlannedToday()">Done (+5€)</button>
+          <button class="ghost" onclick="openSheet('${todayIso}')">Move / Edit</button>
+        </div>
+      `;
+    } else if(st==="adhoc_draft"){
+      statusBadge = "unplanned";
+      const goalTxt = (log.goalType==="time")
+        ? `${Number(log.goalValue||0)} min`
+        : `${Number(log.goalValue||0)} km`;
+      body = `
+        <div class="spacer12"></div>
+        <div class="title">${log.name || "unplanned training"}</div>
+        <div class="muted">${log.goalValue ? goalTxt : "no goal set"}</div>
+        ${log.note ? `<div class="hint">“${escapeHtml(log.note)}”</div>` : ""}
+        ${metaLine("Nice extra — no pressure, just progress.")}
+      `;
+      actions = `
+        <div class="btnrow">
+          <button class="warn" onclick="quickCompleteAdhocToday()">Done (extra)</button>
+          <button class="ghost" onclick="openSheet('${todayIso}')">Edit</button>
+        </div>
+      `;
+    } else if(st==="done"){
+      statusBadge = "done";
+      body = `
+        <div class="spacer12"></div>
+        <div class="title">${log.name || "training"}</div>
+        <div class="muted">Completed. +5€ already counted.</div>
+        ${metaLine("Nice. You earned it.")}
+      `;
+      actions = `
+        <div class="btnrow">
+          <button class="ghost" onclick="openSheet('${todayIso}')">Edit details</button>
+          <button class="ghost" onclick="scrollToWeek()">See week</button>
+        </div>
+      `;
+    } else if(st==="extra"){
+      statusBadge = "extra";
+      body = `
+        <div class="spacer12"></div>
+        <div class="title">${log.name || "unplanned training"}</div>
+        <div class="muted">Completed. No € reward (extra).</div>
+        ${metaLine("Extra points for showing up.")}
+      `;
+      actions = `
+        <div class="btnrow">
+          <button class="ghost" onclick="openSheet('${todayIso}')">Edit details</button>
+          <button class="ghost" onclick="scrollToWeek()">See week</button>
+        </div>
+      `;
+    } else if(st==="rest"){
+      statusBadge = "rest day";
+      body = `
+        <div class="spacer12"></div>
+        <div class="title"><span class="emoji">🧘‍♀️</span> Rest day</div>
+        ${metaLine(getRestTip(todayIso))}
+      `;
+      actions = `
+        <div class="btnrow">
+          <button class="ghost" onclick="clearDay('${todayIso}')">Unset rest</button>
+          <button class="ghost" onclick="openSheet('${todayIso}')">Plan training</button>
+        </div>
+      `;
+    } else {
+      statusBadge = "empty";
+      body = `
+        <div class="spacer12"></div>
+        <div class="title">Nothing planned yet</div>
+        ${metaLine("Keep it flexible. Plan later — or go unplanned.")}
+      `;
+      actions = `
+        <div class="btnrow">
+          <button class="primary" onclick="openSheet('${todayIso}')">Add activity</button>
+          <button class="ghost" onclick="scrollToWeek()">See week</button>
+        </div>
+      `;
+    }
+
+    el.innerHTML = header + body + actions;
+    const b = document.getElementById("todayStatusBadge");
+    if(b) b.textContent = statusBadge;
+  }
+
+  function scrollToWeek(){
+    // small helper for mobile
+    window.scrollTo({top: 220, behavior:"smooth"});
+  }
+
+  function escapeHtml(s){
+    return String(s || "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // Quick actions (Today card)
+  function quickCompletePlannedToday(){
+    const log = logFor(todayIso);
+    if(statusFor(todayIso)!=="planned") return;
+    setLog(todayIso,{status:"done", ...log});
+    addFund(5,"Nice. Planned → done. +5€ to your watch fund.");
+  }
+  function quickCompleteAdhocToday(){
+    const log = logFor(todayIso);
+    if(statusFor(todayIso)!=="adhoc_draft") return;
+    setLog(todayIso,{status:"extra", ...log});
+    document.getElementById("fundNote").textContent = "Unplanned completed. (No € reward)";
+  }
+
   // Main UI render
   function render(){
     document.getElementById("range").textContent = `${days[0]} → ${days[6]}`;
@@ -222,6 +504,9 @@
 
     const streak = computeStreakMax7();
     document.getElementById("streakChip").textContent = `streak: ${streak}/7`;
+
+    // Today card first
+    renderTodayCard();
 
     const weekEl=document.getElementById("week");
     weekEl.innerHTML="";
@@ -234,6 +519,7 @@
       const lab=document.createElement("div");
       lab.className="lab";
       lab.textContent=labels[i];
+      if(d===todayIso) lab.classList.add("todayLab");
 
       const dot=document.createElement("div");
       dot.className="dot";
@@ -268,8 +554,9 @@
     if(st==="none") return "empty";
     if(st==="planned") return "planned";
     if(st==="done") return "done";
-    if(st==="extra") return "adhoc (extra)";
+    if(st==="extra") return "unplanned (extra)";
     if(st==="rest") return "rest day";
+    if(st==="adhoc_draft") return "unplanned (draft)";
     return st;
   }
 
@@ -288,14 +575,12 @@
     const body = document.getElementById("sheetBody");
     body.innerHTML = "";
 
-    // Helper to build forms
     function fieldRow(html){
       const div=document.createElement("div");
       div.innerHTML = html;
       body.appendChild(div);
     }
 
-    // Common edit form (for planned/extra/done)
     function renderEditForm(defaults){
       fieldRow(`
         <div class="grid2">
@@ -334,7 +619,6 @@
         </div>
       `);
 
-      // set defaults
       document.getElementById("fSport").value = defaults.sport || "run";
       document.getElementById("fName").value = defaults.name || "";
       document.getElementById("fGoalType").value = defaults.goalType || "distance";
@@ -365,13 +649,13 @@
 
       fieldRow(`<div class="btnrow">
         <button class="primary" id="btnPlan">Plan training</button>
-        <button class="ghost" id="btnAdhoc">Add adhoc</button>
+        <button class="ghost" id="btnAdhoc">Unplanned training</button>
       </div>
       <div class="btnrow">
-        <button class="ghost" id="btnRest">Set rest day</button>
+        <button class="ghost" id="btnRest">Rest day</button>
         <button class="danger" id="btnClear">Clear</button>
       </div>
-      <div class="muted">Adhoc becomes <b>yellow</b> only after you complete it. No €.</div>
+      <div class="muted">Unplanned becomes <b>yellow</b> only after you complete it. No €.</div>
       `);
 
       document.getElementById("btnPlan").onclick = ()=>{
@@ -380,7 +664,6 @@
       };
       document.getElementById("btnAdhoc").onclick = ()=>{
         const v=get();
-        // store as a draft adhoc, still not counted as extra until completed
         setLog(selectedDate,{status:"adhoc_draft", ...v});
       };
       document.getElementById("btnRest").onclick = ()=> setLog(selectedDate,{status:"rest"});
@@ -388,13 +671,13 @@
       return;
     }
 
-    // ----- STATE: adhoc draft (exists but not yet completed)
+    // ----- STATE: adhoc draft
     if(st==="adhoc_draft"){
-      fieldRow(`<div class="chip">adhoc training • not completed yet</div>`);
+      fieldRow(`<div class="chip">unplanned • not completed yet</div>`);
       const get = renderEditForm(log);
 
       fieldRow(`<div class="btnrow">
-        <button class="warn" id="btnComplete">Complete (extra)</button>
+        <button class="warn" id="btnComplete">Done (extra)</button>
         <button class="ghost" id="btnSave">Save edits</button>
       </div>
       <div class="btnrow">
@@ -406,7 +689,7 @@
       document.getElementById("btnComplete").onclick=()=>{
         const v=get();
         setLog(selectedDate,{status:"extra", ...v});
-        document.getElementById("fundNote").textContent = "Adhoc completed. (No € reward)";
+        document.getElementById("fundNote").textContent = "Unplanned completed. (No € reward)";
       };
       document.getElementById("btnSave").onclick=()=>{
         const v=get();
@@ -421,9 +704,7 @@
       fieldRow(`<div class="chip">planned training</div>`);
       const get = renderEditForm(log);
 
-      // move targets within week
       const opts = days.map((d,idx)=>`<option value="${d}" ${d===selectedDate?"selected":""}>${labels[idx]} (${d.slice(5)})</option>`).join("");
-
       fieldRow(`
         <div style="margin-top:10px">
           <label>Move to</label>
@@ -432,7 +713,7 @@
       `);
 
       fieldRow(`<div class="btnrow">
-        <button class="primary" id="btnComplete">Complete (+5€)</button>
+        <button class="primary" id="btnComplete">Done (+5€)</button>
         <button class="ghost" id="btnMove">Move</button>
       </div>
       <div class="btnrow">
@@ -449,11 +730,8 @@
       document.getElementById("btnMove").onclick=()=>{
         const to=document.getElementById("moveTo").value;
         const v=get();
-        // clear current day
         clearDay(selectedDate);
-        // set planned on target
         setLog(to,{status:"planned", ...v});
-        // update selected date to target to keep sheet relevant
         selectedDate = to;
         renderSheet();
       };
@@ -468,7 +746,7 @@
     // ----- STATE: rest
     if(st==="rest"){
       fieldRow(`<div class="chip">rest day</div>`);
-      fieldRow(`<div class="muted">You can unset rest or plan a training here.</div>`);
+      fieldRow(`<div class="muted">${getRestTip(selectedDate)}</div>`);
       const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
 
       fieldRow(`<div class="btnrow">
@@ -509,22 +787,11 @@
       return;
     }
 
-    // fallback
     fieldRow(`<div class="muted">Unknown state.</div>`);
     fieldRow(`<div class="btnrow"><button class="danger" onclick="clearDay(selectedDate)">Clear</button></div>`);
   }
 
   // Init
-  function addFund(amount, reason){
-    fund += amount;
-    localStorage.setItem(FUND_KEY, String(fund));
-    document.getElementById("fundNote").textContent = reason;
-    renderFund();
-  }
-  function renderFund(){
-    document.getElementById("fund").textContent = `${fund}€`;
-  }
-
   render();
 </script>
 </body>
