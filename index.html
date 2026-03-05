@@ -252,4 +252,1544 @@
     /* CALENDAR (new clean cells) */
     .calHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
     .calTitle{font-weight:980;font-size:22px;letter-spacing:-.2px;text-transform:lowercase}
-    .calNav{display
+    .calNav{display:flex;gap:8px}
+    .calNav button{padding:10px 12px;border-radius:12px}
+
+    .grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+    .calDow{
+      color:var(--muted);
+      font-weight:900;
+      font-size:12px;
+      text-align:center;
+      padding:4px 0;
+    }
+
+    .calCell{
+      border:none;
+      border-radius:18px;
+      padding:10px 10px 12px;
+      min-height:78px;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      background:rgba(255,255,255,.04);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    @media (prefers-color-scheme: light){
+      .calCell{background:#F3F4F6;}
+    }
+    .calCell.mutedCell{opacity:.45}
+
+    /* status fills (no borders) */
+    .calCell.plannedFill{background:rgba(193,18,74,.12)}
+    .calCell.doneFill{background:rgba(193,18,74,.20)}
+    .calCell.extraFill{background:rgba(251,191,36,.18)}
+    .calCell.restFill{background:rgba(120,130,145,.12)}
+    @media (prefers-color-scheme: light){
+      .calCell.plannedFill{background:rgba(193,18,74,.08)}
+      .calCell.doneFill{background:rgba(193,18,74,.12)}
+      .calCell.extraFill{background:rgba(251,191,36,.16)}
+      .calCell.restFill{background:rgba(120,130,145,.10)}
+    }
+
+    .calDateNum{
+      font-weight:950;
+      font-size:16px;
+      letter-spacing:-.1px;
+      line-height:1;
+    }
+
+    /* Meta: icon + value + unit (no overlap) */
+    .calMiniMeta{
+      display:grid;
+      grid-template-columns:18px 1fr auto;
+      align-items:center;
+      gap:6px;
+      font-weight:950;
+      font-size:13px;
+      line-height:1;
+      min-height:18px;
+
+      /* prevents “overhang” */
+      max-width:100%;
+    }
+    .calMiniMeta .sico{font-size:16px; line-height:1}
+    .calMiniMeta .val{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      min-width:0;
+    }
+    .calMiniMeta .unit{
+      opacity:.85;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .calEmpty{
+      margin-top:2px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(255,255,255,.22);
+      font-weight:900;
+      min-height:18px;
+    }
+    @media (prefers-color-scheme: light){
+      .calEmpty{color:rgba(17,24,39,.22)}
+    }
+
+    /* FUND */
+    .goal{
+      background:var(--card2);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      margin-top:10px;
+    }
+    .goalTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .goalName{font-weight:980;font-size:15px}
+    .goalMeta{color:var(--muted);font-size:12px;margin-top:3px;line-height:1.25}
+    .progressWrap{margin-top:10px}
+    .bar{
+      height:10px;border-radius:999px;background:rgba(255,255,255,.08);
+      overflow:hidden;border:1px solid var(--line);
+    }
+    @media (prefers-color-scheme: light){ .bar{background:#EEF0F3} }
+    .bar > div{height:100%;width:0%;background:var(--rasp);border-radius:999px}
+
+    /* FORMS */
+    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px;font-weight:900}
+    select,input,textarea{
+      width:100%;
+      padding:11px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      font-size:14px;
+      background:transparent;
+      color:var(--text);
+      outline:none;
+    }
+    @media (prefers-color-scheme: light){
+      select,input,textarea{background:#fff;color:#111827}
+    }
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .small{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.35}
+
+    /* Modal sheet */
+    .backdrop{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.45);
+      display:none; align-items:flex-end; justify-content:center;
+      padding:14px;
+      z-index:50;
+    }
+    .sheet{
+      width:100%;
+      max-width:440px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:0 16px 40px rgba(0,0,0,.45);
+      padding:14px;
+      max-height:88vh;
+      overflow:auto;
+    }
+    .handle{
+      width:44px;height:5px;border-radius:999px;background:rgba(255,255,255,.18);
+      margin:4px auto 10px;
+    }
+    @media (prefers-color-scheme: light){ .handle{background:#E5E7EB} }
+    .xbtn{
+      width:46px;height:46px;border-radius:16px;
+      display:inline-flex;align-items:center;justify-content:center;
+      font-size:22px;font-weight:1000;
+    }
+
+    /* Settings sections */
+    .sectionCard{ margin-top:14px; }
+    .sectionHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .sectionHead .h{font-weight:980;font-size:16px;letter-spacing:-.2px}
+    .sectionHead .d{color:var(--muted);font-size:12px;margin-top:2px;line-height:1.25}
+
+    /* Small plus button */
+    .plusBtn{
+      width:44px;
+      height:44px;
+      padding:0;
+      border-radius:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      font-weight:950;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="toprow">
+      <div>
+        <h1>point<span style="color:var(--rasp)">.</span></h1>
+        <p class="sub">Tapni deň → detaily. Plánovaný → hotovo (+príspevok). Neplánovaný → extra (0€).</p>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tabbar">
+        <button class="tabbtn active" id="tabDash" onclick="setTab('dash')">Dashboard</button>
+        <button class="tabbtn" id="tabCal" onclick="setTab('cal')">Kalendár</button>
+        <button class="tabbtn" id="tabWallet" onclick="setTab('wallet')">Peňaženka</button>
+        <button class="tabbtn" id="tabSet" onclick="setTab('set')">Nastavenia</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="screenDash">
+      <div class="card" id="todayCard"></div>
+
+      <div class="card">
+        <div class="row">
+          <div>
+            <div class="title">Tento týždeň</div>
+            <div class="subtitle" id="range"></div>
+          </div>
+          <div class="chip chipSmall" id="weekChip">Tréning: 0/0</div>
+        </div>
+
+        <div class="week" id="week"></div>
+
+        <div class="legend">
+          <div class="pill"><span class="mini planned"></span>plán</div>
+          <div class="pill"><span class="mini" style="background:var(--rasp)"></span>hotovo</div>
+          <div class="pill"><span class="mini" style="background:var(--yellow)"></span>extra</div>
+          <div class="pill"><span class="mini" style="background:var(--rest)"></span>rest</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div id="screenCal" style="display:none">
+      <div class="card">
+        <div class="calHeader">
+          <div class="calTitle" id="calTitle">marec 2026</div>
+          <div class="calNav">
+            <button class="ghost" onclick="shiftMonth(-1)">‹</button>
+            <button class="ghost" onclick="shiftMonth(1)">›</button>
+          </div>
+        </div>
+
+        <div class="grid7" id="calDow"></div>
+        <div class="grid7" id="calGrid"></div>
+
+        <div class="small">Tapni deň → otvorí detaily. Plánovanie je možné aj v budúcnosti, dokončenie iba dnes/spätne.</div>
+      </div>
+    </div>
+
+    <!-- WALLET -->
+    <div id="screenWallet" style="display:none">
+      <div class="card" id="fundCard"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="screenSet" style="display:none">
+      <div class="card">
+        <div class="title">Nastavenia</div>
+        <div class="subtitle">Streak, príspevky, odmeny, uložené tréningy.</div>
+
+        <!-- Section 1: basics -->
+        <div class="sectionCard">
+          <div class="sectionHead">
+            <div>
+              <div class="h">Základné nastavenia</div>
+              <div class="d">Streak, príspevok, trofej.</div>
+            </div>
+          </div>
+
+          <label>Príspevok za plánovaný tréning</label>
+          <div class="grid2">
+            <input id="setContribution" type="number" step="1" min="0" />
+            <button class="ghost" onclick="saveSettings()">Uložiť</button>
+          </div>
+          <div class="small">Použije sa pri „Splnené“ pre plánovaný tréning. Default 5€.</div>
+
+          <label>Týždenný cieľ (počet plánovaných tréningov)</label>
+          <div class="grid2">
+            <input id="setStreakTarget" type="number" step="1" min="0" />
+            <button class="ghost" onclick="saveSettings()">Uložiť</button>
+          </div>
+          <div class="small">Ak nemáš naplánované tréningy, appka ukáže 0/0.</div>
+
+          <label>Bonus po dosiahnutí cieľa</label>
+          <div class="grid2">
+            <input id="setStreakBonus" type="number" step="1" min="0" />
+            <button class="ghost" onclick="saveSettings()">Uložiť</button>
+          </div>
+
+          <label>
+            <input id="setStreakEnabled" type="checkbox" style="width:auto;transform:scale(1.2);margin-right:10px" />
+            Zapnúť týždennú trofej
+          </label>
+          <div class="small">Keď dokončíš všetky plánované tréningy v týždni, zobrazí sa trofej. Bonus (ak chceš) sa pripíše raz za týždeň.</div>
+        </div>
+
+        <!-- Section 2: rewards -->
+        <div class="sectionCard">
+          <div class="sectionHead">
+            <div>
+              <div class="h">Odmeny</div>
+              <div class="d">Pridaj, uprav, priraď športy (routing príspevkov).</div>
+            </div>
+            <button class="primary plusBtn" onclick="openGoalEditor()" aria-label="Pridať odmenu">+</button>
+          </div>
+          <div id="goalsList"></div>
+        </div>
+
+        <!-- Section 3: saved trainings -->
+        <div class="sectionCard">
+          <div class="sectionHead">
+            <div>
+              <div class="h">Uložené tréningy</div>
+              <div class="d">Pre rýchle plánovanie.</div>
+            </div>
+            <button class="ghost plusBtn" onclick="openTemplateEditor()" aria-label="Pridať uložený tréning">+</button>
+          </div>
+          <div id="tplList"></div>
+        </div>
+
+        <!-- Reset -->
+        <div class="sectionCard">
+          <button class="danger" onclick="hardReset()">Reset dát (DEV)</button>
+          <div class="small">Vymaže logy, ciele a nastavenia (len ak chceš začať od nuly).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day Sheet -->
+  <div class="backdrop" id="backdrop" onclick="closeSheet(event)">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+
+      <div class="row">
+        <div>
+          <div class="title" id="sheetTitle">Deň</div>
+          <div class="muted" id="sheetSub">status</div>
+        </div>
+        <button class="ghost xbtn" onclick="hideSheet()">×</button>
+      </div>
+
+      <div class="hr"></div>
+      <div id="sheetBody"></div>
+    </div>
+  </div>
+
+  <!-- Goal Editor Sheet -->
+  <div class="backdrop" id="goalBackdrop" onclick="closeGoal(event)">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <div class="row">
+        <div>
+          <div class="title" id="goalTitle">Odmena</div>
+          <div class="muted">Emoji, názov, cieľová suma, športy</div>
+        </div>
+        <button class="ghost xbtn" onclick="hideGoal()">×</button>
+      </div>
+      <div class="hr"></div>
+      <div id="goalBody"></div>
+    </div>
+  </div>
+
+  <!-- Template Editor Sheet -->
+  <div class="backdrop" id="tplBackdrop" onclick="closeTpl(event)">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <div class="row">
+        <div>
+          <div class="title">Uložený tréning</div>
+          <div class="muted">Prednastavený tréning</div>
+        </div>
+        <button class="ghost xbtn" onclick="hideTpl()">×</button>
+      </div>
+      <div class="hr"></div>
+      <div id="tplBody"></div>
+    </div>
+  </div>
+
+<script>
+  /* =========================
+     STORAGE
+  ========================== */
+  const LOGS_KEY = "point.logs.v3";
+  const FUND_KEY = "point.wallet.v3";
+  const SETTINGS_KEY = "point.settings.v3";
+  const TPL_KEY = "point.templates.v1";
+
+  const SPORTS = [
+    {key:"run", label:"Beh", icon:"🏃"},
+    {key:"swim", label:"Plávanie", icon:"🏊"},
+    {key:"bike", label:"Bicykel", icon:"🚴"},
+    {key:"strength", label:"Strength", icon:"🏋️"},
+    {key:"mobility", label:"Mobilita", icon:"🧘"}
+  ];
+
+  const STATUS_LABELS = {
+    none: "voľno",
+    planned: "plán",
+    done: "hotovo",
+    extra: "extra",
+    rest: "rest",
+    adhoc_draft: "neplánovaný"
+  };
+
+  function uid(){
+    return Math.random().toString(16).slice(2,10) + "-" + Date.now().toString(16).slice(-6);
+  }
+
+  let logs = JSON.parse(localStorage.getItem(LOGS_KEY) || "{}");
+
+  let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
+  if(!settings){
+    settings = {
+      contribution: 5,
+      streakEnabled: true,
+      streakTarget: 5,
+      streakBonus: 5,
+      streakPaidWeekId: null
+    };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+
+  let templates = JSON.parse(localStorage.getItem(TPL_KEY) || "[]");
+  localStorage.setItem(TPL_KEY, JSON.stringify(templates));
+
+  let wallet = JSON.parse(localStorage.getItem(FUND_KEY) || "null");
+  if(!wallet){
+    wallet = {
+      walletTotal: 0,
+      goals: [
+        { id: uid(), icon:"⌚", name:"Hodinky", target:350, saved:0, sports:["run"] }
+      ]
+    };
+    localStorage.setItem(FUND_KEY, JSON.stringify(wallet));
+  }
+
+  function saveWallet(){
+    wallet.walletTotal = Math.round(wallet.goals.reduce((s,g)=>s + (Number(g.saved)||0), 0)*100)/100;
+    localStorage.setItem(FUND_KEY, JSON.stringify(wallet));
+  }
+  function saveLogs(){ localStorage.setItem(LOGS_KEY, JSON.stringify(logs)); }
+  function saveTemplates(){ localStorage.setItem(TPL_KEY, JSON.stringify(templates)); }
+
+  function sportObj(key){ return SPORTS.find(s=>s.key===key) || SPORTS[0]; }
+  function statusFor(date){ return logs[date]?.status || "none"; }
+  function logFor(date){ return logs[date] || {date, status:"none"}; }
+
+  function setLog(date, patch){
+    const prev = logs[date] || {date, status:"none"};
+    logs[date] = {...prev, ...patch, date};
+    saveLogs();
+    renderAll();
+    renderSheet();
+  }
+  function clearDay(date){
+    delete logs[date];
+    saveLogs();
+    renderAll();
+    renderSheet();
+  }
+
+  /* =========================
+     DATE HELPERS + FORMAT
+  ========================== */
+  function iso(d){
+    const x = new Date(d); x.setHours(0,0,0,0);
+    return x.toISOString().slice(0,10);
+  }
+  function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+
+  function startOfWeekMon(d){
+    const x=new Date(d); x.setHours(0,0,0,0);
+    const day=x.getDay(); // 0 Sun..6 Sat
+    const diff=(day===0?-6:1)-day;
+    x.setDate(x.getDate()+diff);
+    return x;
+  }
+  const DOW_SK = ["Po","Ut","St","Št","Pi","So","Ne"];
+  const MONTHS_SK = ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"];
+
+  function fmtDateSK(isoStr){
+    const [y,m,d] = isoStr.split("-");
+    return `${d}.${m}.${y}`;
+  }
+  function weekIdForDate(d){
+    const w = startOfWeekMon(d);
+    return iso(w);
+  }
+  function isFutureIso(dayIso){
+    const t = iso(new Date());
+    return dayIso > t;
+  }
+
+  /* =========================
+     GOAL TYPE NORMALIZATION
+  ========================== */
+  function normGoalType(v){
+    const s = String(v || "").toLowerCase();
+    if(s.includes("čas") || s.includes("cas") || s.includes("time") || s.includes("min")) return "time";
+    if(s.includes("vzd") || s.includes("distance") || s.includes("km")) return "distance";
+    return null;
+  }
+
+  /* Format metric value so it never becomes “5.0000001” */
+  function fmtMetricValue(v){
+    const n = Number(v || 0);
+    if(!isFinite(n)) return "—";
+    const rounded = Math.round(n * 10) / 10; // max 1 decimal
+    // If integer after rounding, show as int
+    if(Math.abs(rounded - Math.round(rounded)) < 1e-9) return String(Math.round(rounded));
+    return String(rounded);
+  }
+
+  /* =========================
+     TAB NAV
+  ========================== */
+  let currentTab = "dash";
+  function setTab(t){
+    currentTab = t;
+
+    document.getElementById("tabDash").classList.toggle("active", t==="dash");
+    document.getElementById("tabCal").classList.toggle("active", t==="cal");
+    document.getElementById("tabWallet").classList.toggle("active", t==="wallet");
+    document.getElementById("tabSet").classList.toggle("active", t==="set");
+
+    document.getElementById("screenDash").style.display = (t==="dash") ? "block" : "none";
+    document.getElementById("screenCal").style.display = (t==="cal") ? "block" : "none";
+    document.getElementById("screenWallet").style.display = (t==="wallet") ? "block" : "none";
+    document.getElementById("screenSet").style.display = (t==="set") ? "block" : "none";
+  }
+
+  /* =========================
+     WEEK COUNTS (planned vs done)
+  ========================== */
+  function weekCounts(refDate=new Date()){
+    const ws = startOfWeekMon(refDate);
+    let plannedCount = 0;
+    let doneCount = 0;
+    for(let i=0;i<7;i++){
+      const d = iso(addDays(ws,i));
+      const st = logs[d]?.status;
+      if(st==="planned" || st==="done") plannedCount++;
+      if(st==="done") doneCount++;
+    }
+    return {plannedCount, doneCount};
+  }
+
+  function weekComplete(){
+    const {plannedCount, doneCount} = weekCounts(new Date());
+    return plannedCount>0 && doneCount===plannedCount;
+  }
+
+  /* =========================
+     30-DAY METRICS
+  ========================== */
+  function last30DaysMetrics(){
+    const today = new Date();
+    let planned = 0;
+    let donePlanned = 0;
+    let done = 0;
+    let extra = 0;
+
+    for(let i=0;i<30;i++){
+      const dIso = iso(addDays(today, -i));
+      const st = logs[dIso]?.status;
+      if(st==="planned" || st==="done") planned++;
+      if(st==="done") donePlanned++;
+      if(st==="done") done++;
+      if(st==="extra") extra++;
+    }
+
+    const consistencyPct = planned>0 ? Math.round((donePlanned/planned)*100) : 0;
+    return {planned, donePlanned, consistencyPct, done, extra};
+  }
+
+  /* =========================
+     WEEKLY BONUS
+  ========================== */
+  function maybePayWeeklyBonus(){
+    if(!settings.streakEnabled) return;
+    const today = new Date();
+    const wid = weekIdForDate(today);
+    const {plannedCount, doneCount} = weekCounts(today);
+
+    if(plannedCount>0 && doneCount===plannedCount && settings.streakPaidWeekId !== wid){
+      const goal = pickDefaultGoalForSport("run") || wallet.goals[0];
+      if(goal){
+        goal.saved = Number(goal.saved || 0) + Number(settings.streakBonus || 0);
+        saveWallet();
+      }
+      settings.streakPaidWeekId = wid;
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+  }
+
+  /* =========================
+     GOALS
+  ========================== */
+  function pickDefaultGoalForSport(sportKey){
+    return wallet.goals.find(g => Array.isArray(g.sports) && g.sports.includes(sportKey)) || null;
+  }
+  function goalById(id){ return wallet.goals.find(g => g.id === id) || null; }
+
+  function addContributionToGoal(goalId, amount){
+    const g = goalById(goalId) || wallet.goals[0];
+    if(!g) return;
+    g.saved = Number(g.saved || 0) + Number(amount || 0);
+    saveWallet();
+  }
+
+  /* =========================
+     TODAY CARD
+  ========================== */
+  function motivationFor(sportKey){
+    const map = {
+      run: "Dnes stačí konzistentnosť, nie heroizmus.",
+      swim: "Jeden bazénový krok po druhom. Dych a rytmus.",
+      bike: "Ľahké nohy, čistá hlava.",
+      strength: "Sila rastie z malých opakovaní.",
+      mobility: "Uvoľni telo, uvoľní sa aj hlava."
+    };
+    return map[sportKey] || "Dnes stačí prísť na bod.";
+  }
+
+  function renderToday(){
+    const todayIso = iso(new Date());
+    const l = logFor(todayIso);
+    const st = statusFor(todayIso);
+
+    const dt = new Date();
+    const dateLabel = `${DOW_SK[(dt.getDay()===0?6:dt.getDay()-1)]} • ${fmtDateSK(todayIso)}`;
+
+    const {plannedCount, doneCount} = weekCounts(dt);
+    const weekText = `Tréning: ${plannedCount===0 ? "0/0" : `${doneCount}/${plannedCount}`}`;
+
+    const m30 = last30DaysMetrics();
+
+    // Tags
+    let sportTag = "";
+    if(l.sport){
+      const s = sportObj(l.sport);
+      sportTag = `<div class="chip"><span style="font-size:16px">${s.icon}</span> ${s.label}</div>`;
+    }
+    const statusTag = `<div class="chip">${STATUS_LABELS[st] || "voľno"}</div>`;
+    const weekChip = `<div class="chip chipSmall">${weekText}</div>`;
+
+    let name = "";
+    let meta = "";
+    let reco = "";
+
+    if(st==="none"){
+      name = "Bez tréningu";
+      meta = "Dnes máš priestor na oddych alebo spontánny pohyb.";
+      reco = "Ak chceš, pridaj neplánovaný tréning.";
+    } else if(st==="rest"){
+      name = "Rest day";
+      meta = "";
+      reco = "Oddych je súčasť tréningu.\n\nZajtra pôjdeš silnejšia.";
+    } else {
+      name = l.name || "tréning";
+      const gt = normGoalType(l.goalType);
+      if(gt==="time") meta = `${fmtMetricValue(l.goalValue)} min`;
+      else if(gt==="distance") meta = `${fmtMetricValue(l.goalValue)} km`;
+      else meta = "";
+      reco = motivationFor(l.sport) + (l.note ? `\n\n${l.note}` : "");
+    }
+
+    const showTrophy = settings.streakEnabled && weekComplete();
+
+    let btns = "";
+    if(st==="planned"){
+      btns = `
+        <div class="btnrow">
+          <button class="primary" id="btnTodayDone">Splnené</button>
+          <button class="ghost" onclick="openSheet('${todayIso}')">Upraviť / Presun</button>
+        </div>
+      `;
+    } else {
+      btns = `
+        <div class="btnrow">
+          <button class="ghost" onclick="openSheet('${todayIso}')">Detaily</button>
+          <button class="ghost2" onclick="openSheet('${todayIso}')">Pridať / Upraviť</button>
+        </div>
+      `;
+    }
+
+    document.getElementById("todayCard").innerHTML = `
+      <div class="todayHeader">
+        <div>
+          <div class="muted" style="letter-spacing:.16em">TODAY</div>
+          <div class="title" style="font-size:22px">${dateLabel}</div>
+        </div>
+        <button class="ghost" onclick="openSheet('${todayIso}')">Detaily</button>
+      </div>
+
+      <div class="tagrow">
+        ${sportTag}
+        ${statusTag}
+        ${weekChip}
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="bigName">${escapeHtml(name)}</div>
+      <p class="bigMeta">${escapeHtml(meta)}</p>
+
+      <div class="quote">${escapeHtml(reco)}</div>
+      <div class="onpoint">You're on point.</div>
+
+      ${showTrophy ? `
+        <div class="trophy">
+          <div class="trophyIcon">🏆</div>
+          <div>Týždeň splnený. Si na bode.</div>
+        </div>
+      ` : ``}
+
+      <div class="metricStack">
+        <div class="metricCard">
+          <div class="metricTop">
+            <div class="metricTitle">Konzistencia (30 dní)</div>
+            <div class="metricRight">${m30.planned>0 ? `${m30.consistencyPct}%` : `0%`}</div>
+          </div>
+          <div class="metricSub">${m30.planned>0 ? `${m30.donePlanned}/${m30.planned} naplánovaných tréningov` : `0/0 naplánovaných tréningov`}</div>
+        </div>
+
+        <div class="metricCard">
+          <div class="metricTop">
+            <div class="metricTitle">Aktivita (30 dní)</div>
+            <div class="metricRight">${m30.done + m30.extra} tréningov</div>
+          </div>
+          <div class="metricSub">${m30.done} hotovo + ${m30.extra} extra</div>
+        </div>
+      </div>
+
+      ${btns}
+    `;
+
+    const btn = document.getElementById("btnTodayDone");
+    if(btn){
+      btn.onclick = ()=> quickCompleteToday();
+      btn.disabled = false;
+    }
+  }
+
+  function quickCompleteToday(){
+    const todayIso = iso(new Date());
+    const l = logFor(todayIso);
+    if(statusFor(todayIso)!=="planned") return;
+
+    const g = pickDefaultGoalForSport(l.sport) || wallet.goals[0];
+    addContributionToGoal(g?.id, settings.contribution);
+
+    setLog(todayIso, {status:"done"});
+    maybePayWeeklyBonus();
+    renderAll();
+  }
+
+  /* =========================
+     WEEK RENDER
+  ========================== */
+  function renderWeek(){
+    const today = new Date();
+    const todayIso = iso(today);
+    const ws = startOfWeekMon(today);
+    const days = Array.from({length:7}).map((_,i)=>iso(addDays(ws,i)));
+
+    document.getElementById("range").textContent = `${fmtDateSK(days[0])} → ${fmtDateSK(days[6])}`;
+
+    const weekEl=document.getElementById("week");
+    weekEl.innerHTML="";
+
+    days.forEach((d,i)=>{
+      const wrap=document.createElement("div");
+      wrap.className="day";
+      wrap.onclick=()=>openSheet(d);
+
+      const lab=document.createElement("div");
+      lab.className="lab";
+      lab.textContent=DOW_SK[i];
+
+      const dot=document.createElement("div");
+      dot.className="dot";
+
+      const st=statusFor(d);
+      if(st==="planned") dot.classList.add("planned");
+      if(st==="done") dot.classList.add("done");
+      if(st==="extra") dot.classList.add("extra");
+      if(st==="rest") dot.classList.add("rest");
+
+      if(d===todayIso){
+        dot.classList.add("todayRing");
+        dot.classList.add("todayGlow");
+        lab.style.color = "var(--text)";
+      }
+
+      wrap.appendChild(lab);
+      wrap.appendChild(dot);
+      weekEl.appendChild(wrap);
+    });
+
+    const c = weekCounts(today);
+    document.getElementById("weekChip").textContent =
+      `Tréning: ${c.plannedCount===0 ? "0/0" : `${c.doneCount}/${c.plannedCount}`}`;
+  }
+
+  /* =========================
+     CALENDAR (month)
+  ========================== */
+  let calCursor = new Date();
+  calCursor.setDate(1);
+  calCursor.setHours(0,0,0,0);
+
+  function shiftMonth(delta){
+    calCursor.setMonth(calCursor.getMonth()+delta);
+    renderCalendar();
+  }
+
+  function renderCalendar(){
+    const y = calCursor.getFullYear();
+    const m = calCursor.getMonth();
+    document.getElementById("calTitle").textContent = `${MONTHS_SK[m]} ${y}`;
+
+    const dow = document.getElementById("calDow");
+    dow.innerHTML = "";
+    DOW_SK.forEach(d=>{
+      const el = document.createElement("div");
+      el.className = "calDow";
+      el.textContent = d;
+      dow.appendChild(el);
+    });
+
+    const grid = document.getElementById("calGrid");
+    grid.innerHTML = "";
+
+    const first = new Date(y,m,1);
+    const firstDow = (first.getDay()===0 ? 6 : first.getDay()-1); // Mon=0..Sun=6
+    const daysInMonth = new Date(y,m+1,0).getDate();
+
+    for(let i=0;i<42;i++){
+      const cellIndex = i - firstDow + 1;
+      const cellDate = new Date(y,m,cellIndex);
+      const inMonth = cellIndex>=1 && cellIndex<=daysInMonth;
+
+      const cellIso = iso(cellDate);
+      const st = statusFor(cellIso);
+      const l = logFor(cellIso);
+
+      const cell = document.createElement("div");
+      cell.className = "calCell" + (inMonth ? "" : " mutedCell");
+
+      if(st==="planned") cell.classList.add("plannedFill");
+      if(st==="done") cell.classList.add("doneFill");
+      if(st==="extra") cell.classList.add("extraFill");
+      if(st==="rest") cell.classList.add("restFill");
+
+      cell.onclick = ()=> openSheet(cellIso);
+
+      const num = document.createElement("div");
+      num.className = "calDateNum";
+      num.textContent = String(cellDate.getDate()).padStart(2,"0");
+      cell.appendChild(num);
+
+      // Meta line: ONLY icon + value + unit (km/min). No name/description.
+      if(st!=="none" && st!=="rest" && st!=="adhoc_draft"){
+        const s = sportObj(l.sport || "run");
+        const gt = normGoalType(l.goalType);
+
+        let val = "—";
+        let unit = "";
+        if(gt==="time"){
+          val = fmtMetricValue(l.goalValue);
+          unit = "min";
+        } else if(gt==="distance"){
+          val = fmtMetricValue(l.goalValue);
+          unit = "km";
+        } else {
+          // fallback: show number if exists, otherwise dash
+          const n = Number(l.goalValue);
+          val = (isFinite(n) && n !== 0) ? fmtMetricValue(n) : "—";
+          unit = "";
+        }
+
+        const meta = document.createElement("div");
+        meta.className = "calMiniMeta";
+        meta.innerHTML = `
+          <span class="sico">${s.icon}</span>
+          <span class="val">${escapeHtml(val)}</span>
+          <span class="unit">${unit ? escapeHtml(unit) : ""}</span>
+        `;
+        cell.appendChild(meta);
+      } else if(st==="rest"){
+        const meta = document.createElement("div");
+        meta.className = "calMiniMeta";
+        meta.innerHTML = `<span class="sico">🛌</span><span class="val">rest</span><span class="unit"></span>`;
+        cell.appendChild(meta);
+      } else {
+        const empty = document.createElement("div");
+        empty.className = "calEmpty";
+        empty.textContent = "—";
+        cell.appendChild(empty);
+      }
+
+      grid.appendChild(cell);
+    }
+  }
+
+  /* =========================
+     FUND (wallet) + SETTINGS LISTS
+  ========================== */
+  function renderFund(){
+    const total = wallet.walletTotal || 0;
+
+    const goalCards = wallet.goals.map(g=>{
+      const pct = g.target>0 ? Math.min(100, Math.round((g.saved/g.target)*100)) : 0;
+      const sportsLabel = (g.sports && g.sports.length)
+        ? g.sports.map(k=>sportObj(k).label).join(", ")
+        : "nepriradené";
+
+      return `
+        <div class="goal">
+          <div class="goalTop">
+            <div>
+              <div class="goalName">${escapeHtml(g.icon || "🎯")} ${escapeHtml(g.name || "Odmena")}</div>
+              <div class="goalMeta">${Math.round((g.saved||0)*100)/100}€ / ${Math.round((g.target||0)*100)/100}€ • ${escapeHtml(sportsLabel)}</div>
+            </div>
+            <div class="chip chipSmall">${pct}%</div>
+          </div>
+          <div class="progressWrap">
+            <div class="bar"><div style="width:${pct}%"></div></div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    document.getElementById("fundCard").innerHTML = `
+      <div class="row">
+        <div>
+          <div class="title">Peňaženka</div>
+          <div class="subtitle">Príspevky sa rozdeľujú do odmien podľa športu.</div>
+        </div>
+        <div style="font-weight:980;font-size:22px">${Math.round(total*100)/100}€</div>
+      </div>
+      ${goalCards}
+    `;
+
+    const goalsList = document.getElementById("goalsList");
+    if(goalsList){
+      goalsList.innerHTML = wallet.goals.map(g=>{
+        const sports = (g.sports||[]).map(k=>sportObj(k).icon + " " + sportObj(k).label).join(", ");
+        return `
+          <div class="goal">
+            <div class="goalTop">
+              <div>
+                <div class="goalName">${escapeHtml(g.icon)} ${escapeHtml(g.name)}</div>
+                <div class="goalMeta">cieľ: ${g.target}€ • priradené: ${escapeHtml(sports || "—")}</div>
+              </div>
+              <button class="ghost" onclick="openGoalEditor('${g.id}')">Upraviť</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+  }
+
+  /* =========================
+     SETTINGS
+  ========================== */
+  function syncSettingsUI(){
+    document.getElementById("setContribution").value = settings.contribution ?? 5;
+    document.getElementById("setStreakTarget").value = settings.streakTarget ?? 5;
+    document.getElementById("setStreakBonus").value = settings.streakBonus ?? 5;
+    document.getElementById("setStreakEnabled").checked = !!settings.streakEnabled;
+
+    const tpl = document.getElementById("tplList");
+    if(tpl){
+      tpl.innerHTML = templates.map(t=>{
+        const s = sportObj(t.sport);
+        const gt = normGoalType(t.goalType) || t.goalType;
+        const meta = (gt==="time") ? `${fmtMetricValue(t.goalValue)} min` : `${fmtMetricValue(t.goalValue)} km`;
+        return `
+          <div class="goal">
+            <div class="goalTop">
+              <div>
+                <div class="goalName">${s.icon} ${escapeHtml(t.name)}</div>
+                <div class="goalMeta">${s.label} • ${escapeHtml(meta)}</div>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="ghost" onclick="openTemplateEditor('${t.id}')">Upraviť</button>
+                <button class="danger" onclick="deleteTemplate('${t.id}')">Zmazať</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("") || `<div class="muted">Zatiaľ nemáš žiadne uložené tréningy.</div>`;
+    }
+  }
+
+  function saveSettings(){
+    settings.contribution = Number(document.getElementById("setContribution").value || 5);
+    settings.streakTarget = Number(document.getElementById("setStreakTarget").value || 0);
+    settings.streakBonus = Number(document.getElementById("setStreakBonus").value || 0);
+    settings.streakEnabled = !!document.getElementById("setStreakEnabled").checked;
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    renderAll();
+  }
+
+  function hardReset(){
+    if(!confirm("Naozaj resetovať všetky dáta?")) return;
+    logs = {};
+    templates = [];
+    settings = {
+      contribution: 5,
+      streakEnabled: true,
+      streakTarget: 5,
+      streakBonus: 5,
+      streakPaidWeekId: null
+    };
+    wallet = {
+      walletTotal: 0,
+      goals: [
+        { id: uid(), icon:"⌚", name:"Hodinky", target:350, saved:0, sports:["run"] }
+      ]
+    };
+    saveLogs();
+    saveTemplates();
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    saveWallet();
+    renderAll();
+    hideSheet();
+    hideGoal();
+    hideTpl();
+  }
+
+  /* =========================
+     DAY SHEET
+  ========================== */
+  let selectedDate = iso(new Date());
+
+  function openSheet(date){
+    selectedDate = date;
+    document.getElementById("backdrop").style.display="flex";
+    renderSheet();
+  }
+  function hideSheet(){ document.getElementById("backdrop").style.display="none"; }
+  function closeSheet(e){ if(e.target.id==="backdrop") hideSheet(); }
+
+  function statusLabel(st){ return STATUS_LABELS[st] || st; }
+
+  function renderSheet(){
+    const bd = document.getElementById("backdrop");
+    if(bd.style.display!=="flex") return;
+
+    const dObj = new Date(selectedDate + "T00:00:00");
+    const dow = DOW_SK[(dObj.getDay()===0?6:dObj.getDay()-1)];
+    const st = statusFor(selectedDate);
+    const log = logFor(selectedDate);
+
+    const future = isFutureIso(selectedDate);
+
+    document.getElementById("sheetTitle").textContent = `${dow} • ${fmtDateSK(selectedDate)}`;
+    document.getElementById("sheetSub").textContent = `status: ${statusLabel(st)}`;
+
+    const body = document.getElementById("sheetBody");
+    body.innerHTML = "";
+
+    function fieldRow(html){
+      const div=document.createElement("div");
+      div.innerHTML = html;
+      body.appendChild(div);
+    }
+
+    function templateOptions(){
+      const opts = [`<option value="">— bez uloženého tréningu —</option>`]
+        .concat(templates.map(t=>{
+          const s = sportObj(t.sport);
+          return `<option value="${t.id}">${s.icon} ${escapeHtml(t.name)}</option>`;
+        }));
+      return opts.join("");
+    }
+
+    function renderEditForm(defaults){
+      fieldRow(`
+        <label>Uložené tréningy</label>
+        <select id="fTemplate">${templateOptions()}</select>
+
+        <div class="grid2">
+          <div>
+            <label>Šport</label>
+            <select id="fSport">
+              ${SPORTS.map(s=>`<option value="${s.key}">${s.icon} ${s.label}</option>`).join("")}
+            </select>
+          </div>
+          <div>
+            <label>Typ cieľa</label>
+            <select id="fGoalType">
+              <option value="distance">Vzdialenosť (km)</option>
+              <option value="time">Čas (min)</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Názov</label>
+        <input id="fName" placeholder="easy z2 / long run / drills..." />
+
+        <label id="fGoalLabel">Kilometre</label>
+        <input id="fGoalValue" type="number" step="0.1" placeholder="napr. 5" />
+
+        <label>Poznámka (voliteľné)</label>
+        <input id="fNote" placeholder="cue, nálada, čokoľvek..." />
+      `);
+
+      document.getElementById("fSport").value = defaults.sport || "run";
+      document.getElementById("fGoalType").value = normGoalType(defaults.goalType) || defaults.goalType || "distance";
+      document.getElementById("fName").value = defaults.name || "";
+      document.getElementById("fGoalValue").value = (defaults.goalValue ?? "");
+      document.getElementById("fNote").value = defaults.note || "";
+      document.getElementById("fTemplate").value = defaults.createdFromTemplateId || "";
+
+      const gt = document.getElementById("fGoalType");
+      const gl = document.getElementById("fGoalLabel");
+      function syncLabel(){ gl.textContent = gt.value==="time" ? "Minúty" : "Kilometre"; }
+      gt.onchange = syncLabel; syncLabel();
+
+      document.getElementById("fTemplate").onchange = (e)=>{
+        const id = e.target.value;
+        const t = templates.find(x=>x.id===id);
+        if(!t) return;
+        document.getElementById("fSport").value = t.sport;
+        document.getElementById("fGoalType").value = normGoalType(t.goalType) || t.goalType;
+        syncLabel();
+        document.getElementById("fName").value = t.name;
+        document.getElementById("fGoalValue").value = t.goalValue;
+      };
+
+      return () => ({
+        sport: document.getElementById("fSport").value,
+        goalType: document.getElementById("fGoalType").value,
+        name: (document.getElementById("fName").value.trim() || "tréning"),
+        goalValue: Number(document.getElementById("fGoalValue").value || 0),
+        note: document.getElementById("fNote").value.trim(),
+        createdFromTemplateId: (document.getElementById("fTemplate").value || null)
+      });
+    }
+
+    function goalPicker(defaultSport){
+      const def = pickDefaultGoalForSport(defaultSport) || wallet.goals[0];
+      const opts = wallet.goals.map(g=>{
+        return `<option value="${g.id}" ${def && g.id===def.id ? "selected":""}>${escapeHtml(g.icon)} ${escapeHtml(g.name)}</option>`;
+      }).join("");
+      fieldRow(`
+        <label>Príspevok pošlem na</label>
+        <select id="fGoal">${opts}</select>
+        <div class="small">Default sa vyberá podľa športu. Môžeš zmeniť.</div>
+      `);
+      return () => document.getElementById("fGoal").value;
+    }
+
+    // ----- NONE
+    if(st==="none"){
+      fieldRow(`<div class="chip">voľno</div>`);
+      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
+
+      fieldRow(`
+        <div class="btnrow">
+          <button class="primary" id="btnPlan">Naplánovať</button>
+          <button class="ghost" id="btnUnplanned">Neplánovaný</button>
+        </div>
+        <div class="btnrow">
+          <button class="ghost" id="btnRest">Rest day</button>
+          <button class="danger" id="btnClear">Vymazať</button>
+        </div>
+        ${future ? `<div class="small">Neplánovaný tréning môžeš pridať len dnes alebo spätne.</div>` : ``}
+      `);
+
+      document.getElementById("btnPlan").onclick = ()=>{
+        const v=get();
+        setLog(selectedDate,{status:"planned", ...v});
+      };
+      document.getElementById("btnUnplanned").onclick = ()=>{
+        const v=get();
+        setLog(selectedDate,{status:"adhoc_draft", ...v});
+      };
+      document.getElementById("btnRest").onclick = ()=> setLog(selectedDate,{status:"rest"});
+      document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
+
+      if(future){
+        const b = document.getElementById("btnUnplanned");
+        if(b) b.disabled = true;
+      }
+      return;
+    }
+
+    // ----- REST
+    if(st==="rest"){
+      fieldRow(`<div class="chip">rest day</div>`);
+      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
+
+      fieldRow(`
+        <div class="btnrow">
+          <button class="ghost" id="btnUnset">Zrušiť rest</button>
+          <button class="primary" id="btnPlan">Naplánovať</button>
+        </div>
+        <div class="btnrow">
+          <button class="danger" id="btnClear">Vymazať</button>
+        </div>
+      `);
+
+      document.getElementById("btnUnset").onclick=()=>clearDay(selectedDate);
+      document.getElementById("btnPlan").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{status:"planned", ...v});
+      };
+      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
+      return;
+    }
+
+    // ----- ADHOC DRAFT
+    if(st==="adhoc_draft"){
+      fieldRow(`<div class="chip">neplánovaný • ešte nie hotovo</div>`);
+      const get = renderEditForm(log);
+
+      fieldRow(`
+        <div class="btnrow">
+          <button class="primary" id="btnComplete">Dokončiť (extra)</button>
+          <button class="ghost" id="btnSave">Uložiť</button>
+        </div>
+        <div class="btnrow">
+          <button class="danger" id="btnClear">Vymazať</button>
+        </div>
+        <div class="small">Extra je bez príspevku. Dokončenie je možné len dnes alebo spätne.</div>
+      `);
+
+      document.getElementById("btnComplete").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{status:"extra", ...v});
+      };
+      document.getElementById("btnSave").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{...v});
+      };
+      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
+
+      if(future){
+        const b = document.getElementById("btnComplete");
+        if(b) b.disabled = true;
+      }
+      return;
+    }
+
+    // ----- PLANNED
+    if(st==="planned"){
+      fieldRow(`<div class="chip">plánovaný tréning</div>`);
+      const get = renderEditForm(log);
+      const getGoalId = goalPicker(log.sport || "run");
+
+      const today = new Date(selectedDate + "T00:00:00");
+      const ws = startOfWeekMon(today);
+      const days = Array.from({length:7}).map((_,i)=>iso(addDays(ws,i)));
+      const moveOpts = days
+        .filter(d => d===selectedDate || statusFor(d)==="none")
+        .map(d=>{
+          const dObj = new Date(d + "T00:00:00");
+          const dow = DOW_SK[(dObj.getDay()===0?6:dObj.getDay()-1)];
+          return `<option value="${d}" ${d===selectedDate?"selected":""}>${dow} (${fmtDateSK(d)})</option>`;
+        }).join("");
+
+      fieldRow(`
+        <label>Presunúť na</label>
+        <select id="moveTo">${moveOpts}</select>
+      `);
+
+      fieldRow(`
+        <div class="btnrow">
+          <button class="primary" id="btnDone">Splnené</button>
+          <button class="ghost" id="btnMove">Presun</button>
+        </div>
+        <div class="btnrow">
+          <button class="ghost" id="btnSave">Uložiť</button>
+          <button class="danger" id="btnCancel">Zrušiť plán</button>
+        </div>
+        ${future ? `<div class="small">Dokončenie tréningu je možné len dnes alebo spätne.</div>` : ``}
+      `);
+
+      document.getElementById("btnDone").onclick=()=>{
+        const v=get();
+        const goalId = getGoalId();
+        setLog(selectedDate,{status:"done", ...v});
+        addContributionToGoal(goalId, settings.contribution);
+        maybePayWeeklyBonus();
+        renderAll();
+      };
+
+      document.getElementById("btnMove").onclick=()=>{
+        const to=document.getElementById("moveTo").value;
+        const v=get();
+        clearDay(selectedDate);
+        setLog(to,{status:"planned", ...v});
+        selectedDate = to;
+        renderSheet();
+      };
+
+      document.getElementById("btnSave").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{...v});
+      };
+      document.getElementById("btnCancel").onclick=()=>clearDay(selectedDate);
+
+      if(future){
+        const b = document.getElementById("btnDone");
+        if(b) b.disabled = true;
+      }
+      return;
+    }
+
+    // ----- DONE / EXTRA
+    if(st==="done" || st==="extra"){
+      fieldRow(`<div class="chip">${st==="done" ? "hotovo" : "extra"}</div>`);
+      const get = renderEditForm(log);
+
+      fieldRow(`
+        <div class="btnrow">
+          <button class="ghost" id="btnSave">Uložiť</button>
+          <button class="danger" id="btnClear">Vymazať</button>
+        </div>
+        <div class="small">${st==="done" ? "Hotovo sa ráta do konzistencie a príspevkov." : "Extra je bez príspevku."}</div>
+      `);
+
+      document.getElementById("btnSave").onclick=()=>{
+        const v=get();
+        setLog(selectedDate,{...v});
+      };
+      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
+      return;
+    }
+
+    fieldRow(`<div class="muted">Neznámy stav.</div>`);
+  }
+
+  /* =========================
+     GOAL EDITOR
+  ========================== */
+  let editingGoalId = null;
+
+  function openGoalEditor(id){
+    editingGoalId = id || null;
+    document.getElementById("goalBackdrop").style.display="flex";
+    renderGoalEditor();
+  }
+  function hideGoal(){ document.getElementById("goalBackdrop").style.display="none"; }
+  function closeGoal(e){ if(e.target.id==="goalBackdrop") hideGoal(); }
+
+  function renderGoalEditor(){
+    const body = document.getElementById("goalBody");
+    body.innerHTML = "";
+
+    const isNew = !editingGoalId;
+    const g = isNew ? { id: uid(), icon:"🎯", name:"Nová odmena", target:100, saved:0, sports:[] } : goalById(editingGoalId);
+
+    document.getElementById("goalTitle").textContent = isNew ? "Nová odmena" : "Upraviť odmenu";
+
+    body.innerHTML = `
+      <div class="grid2">
+        <div>
+          <label>Emoji</label>
+          <input id="gIcon" value="${escapeAttr(g.icon||"🎯")}" placeholder="napr. ⌚" />
+          <div class="small">Môžeš vložiť akékoľvek emoji z telefónu.</div>
+        </div>
+        <div>
+          <label>Cieľová suma (€)</label>
+          <input id="gTarget" type="number" step="1" min="0" value="${Number(g.target||100)}" />
+        </div>
+      </div>
+
+      <label>Názov</label>
+      <input id="gName" value="${escapeAttr(g.name||"Odmena")}" />
+
+      <label>Priradiť športy (routing príspevkov)</label>
+      <div class="small">Ak tréning dokončíš, príspevok pôjde do prvej odmeny, ktorá má daný šport.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
+        ${SPORTS.map(s=>{
+          const checked = (g.sports||[]).includes(s.key) ? "checked" : "";
+          return `
+            <label class="chip" style="cursor:pointer">
+              <input type="checkbox" value="${s.key}" ${checked} style="width:auto;transform:scale(1.15);margin-right:10px" />
+              ${s.icon} ${s.label}
+            </label>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="btnrow">
+        <button class="primary" id="gSave">${isNew ? "Pridať odmenu" : "Uložiť"}</button>
+        ${isNew ? `<button class="ghost" onclick="hideGoal()">Zrušiť</button>` : `<button class="danger" id="gDel">Zmazať</button>`}
+      </div>
+    `;
+
+    document.getElementById("gSave").onclick = ()=>{
+      const icon = document.getElementById("gIcon").value.trim() || "🎯";
+      const target = Number(document.getElementById("gTarget").value || 100);
+      const name = document.getElementById("gName").value.trim() || "Odmena";
+      const checks = Array.from(body.querySelectorAll('input[type="checkbox"]'))
+        .filter(x=>x.checked).map(x=>x.value);
+
+      if(isNew){
+        wallet.goals.push({id:g.id, icon, name, target, saved:0, sports:checks});
+      } else {
+        g.icon = icon; g.name = name; g.target = target; g.sports = checks;
+      }
+      saveWallet();
+      renderAll();
+      hideGoal();
+    };
+
+    if(!isNew){
+      document.getElementById("gDel").onclick = ()=>{
+        if(!confirm("Zmazať odmenu?")) return;
+        wallet.goals = wallet.goals.filter(x=>x.id!==g.id);
+        if(wallet.goals.length===0){
+          wallet.goals.push({ id: uid(), icon:"⌚", name:"Hodinky", target:350, saved:0, sports:["run"] });
+        }
+        saveWallet();
+        renderAll();
+        hideGoal();
+      };
+    }
+  }
+
+  /* =========================
+     TEMPLATE EDITOR
+  ========================== */
+  let editingTplId = null;
+
+  function openTemplateEditor(id){
+    editingTplId = id || null;
+    document.getElementById("tplBackdrop").style.display="flex";
+    renderTplEditor();
+  }
+  function hideTpl(){ document.getElementById("tplBackdrop").style.display="none"; }
+  function closeTpl(e){ if(e.target.id==="tplBackdrop") hideTpl(); }
+
+  function renderTplEditor(){
+    const body = document.getElementById("tplBody");
+    body.innerHTML = "";
+
+    const isNew = !editingTplId;
+    const t = isNew
+      ? { id: uid(), sport:"run", name:"easy z2", goalType:"distance", goalValue:5 }
+      : templates.find(x=>x.id===editingTplId);
+
+    body.innerHTML = `
+      <div class="grid2">
+        <div>
+          <label>Šport</label>
+          <select id="tSport">
+            ${SPORTS.map(s=>`<option value="${s.key}">${s.icon} ${s.label}</option>`).join("")}
+          </select>
+        </div>
+        <div>
+          <label>Typ cieľa</label>
+          <select id="tType">
+            <option value="distance">Vzdialenosť (km)</option>
+            <option value="time">Čas (min)</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Názov tréningu</label>
+      <input id="tName" />
+
+      <label id="tValLabel">Kilometre</label>
+      <input id="tVal" type="number" step="0.1" />
+
+      <div class="btnrow">
+        <button class="primary" id="tSave">${isNew ? "Pridať" : "Uložiť"}</button>
+        ${isNew ? `<button class="ghost" onclick="hideTpl()">Zrušiť</button>` : `<button class="danger" id="tDel">Zmazať</button>`}
+      </div>
+    `;
+
+    document.getElementById("tSport").value = t.sport;
+    document.getElementById("tType").value = normGoalType(t.goalType) || t.goalType;
+    document.getElementById("tName").value = t.name;
+    document.getElementById("tVal").value = t.goalValue;
+
+    const typeEl = document.getElementById("tType");
+    const labEl = document.getElementById("tValLabel");
+    function sync(){ labEl.textContent = typeEl.value==="time" ? "Minúty" : "Kilometre"; }
+    typeEl.onchange = sync; sync();
+
+    document.getElementById("tSave").onclick = ()=>{
+      const sport = document.getElementById("tSport").value;
+      const goalType = document.getElementById("tType").value;
+      const name = document.getElementById("tName").value.trim() || "tréning";
+      const goalValue = Number(document.getElementById("tVal").value || 0);
+
+      if(isNew){
+        templates.push({id:t.id, sport, goalType, name, goalValue});
+      } else {
+        t.sport = sport; t.goalType = goalType; t.name = name; t.goalValue = goalValue;
+      }
+      saveTemplates();
+      renderAll();
+      hideTpl();
+    };
+
+    if(!isNew){
+      document.getElementById("tDel").onclick = ()=>{
+        deleteTemplate(t.id);
+        hideTpl();
+      };
+    }
+  }
+
+  function deleteTemplate(id){
+    if(!confirm("Zmazať uložený tréning?")) return;
+    templates = templates.filter(x=>x.id!==id);
+    saveTemplates();
+    renderAll();
+  }
+
+  /* =========================
+     RENDER ALL
+  ========================== */
+  function renderAll(){
+    maybePayWeeklyBonus();
+    renderToday();
+    renderWeek();
+    renderCalendar();
+    renderFund();
+    syncSettingsUI();
+  }
+
+  /* =========================
+     ESCAPE HELPERS
+  ========================== */
+  function escapeHtml(str){
+    return String(str||"")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+  function escapeAttr(str){
+    return escapeHtml(str).replaceAll("\n"," ");
+  }
+
+  // init
+  saveWallet();
+  renderAll();
+</script>
+</body>
+</html>
