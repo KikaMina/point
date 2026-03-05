@@ -10,50 +10,35 @@
       --card:#FFFFFF;
       --text:#111827;
       --muted:#6B7280;
+      --line:#E5E7EB;
 
       --rasp:#C1124A;     /* planned/done */
       --yellow:#FBBF24;   /* extra */
       --gray:#D1D5DB;     /* empty */
       --rest:#E9E7E3;     /* rest */
-      --line:#E5E7EB;
 
-      /* rings / halos */
-      --today-ring: rgba(17,24,39,.35);  /* light mode ring */
-      --today-ring-strong: rgba(17,24,39,.55);
-      --sheet-backdrop: rgba(17,24,39,.35);
+      --chip:#F3F4F6;
+      --shadow:0 1px 8px rgba(0,0,0,.06);
 
-      /* UI */
-      --ghost:#F3F4F6;
-      --danger-bg:#FEF2F2;
-      --danger-text:#991B1B;
+      --todayRing:rgba(17,24,39,.22);
+      --todayGlow:rgba(193,18,74,.18);
     }
 
-    /* Dark mode variables */
     @media (prefers-color-scheme: dark){
       :root{
-        --bg:#0B0D10;
-        --card:#12161B;
-        --text:#E5E7EB;
-        --muted:#9CA3AF;
+        --bg:#0B0B0D;
+        --card:#17171A;
+        --text:#F3F4F6;
+        --muted:#A1A1AA;
+        --line:#2A2A2E;
 
-        --gray:#2A313A;
-        --rest:#1B2129;
-        --line:#1F2937;
+        --chip:#232328;
+        --shadow:0 10px 26px rgba(0,0,0,.35);
 
-        --today-ring: rgba(255,255,255,.28);
-        --today-ring-strong: rgba(255,255,255,.45);
-        --sheet-backdrop: rgba(0,0,0,.55);
-
-        --ghost:#1F2937;
-        --danger-bg:#2A1217;
-        --danger-text:#FCA5A5;
+        --todayRing:rgba(251,191,36,.22);
+        --todayGlow:rgba(193,18,74,.30);
       }
-
-      select, input{
-        background:#0F141A !important;
-        color: var(--text) !important;
-        border-color: var(--line) !important;
-      }
+      select,input{ background:#111114 !important; color:var(--text) !important; }
     }
 
     *{box-sizing:border-box}
@@ -61,350 +46,340 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
       background:var(--bg);
       margin:0;
-      color:var(--text)
+      color:var(--text);
     }
     .wrap{max-width:420px;margin:0 auto;padding:18px}
-    h1{margin:8px 0 2px;font-size:26px;letter-spacing:-.2px}
-    .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
+    h1{margin:8px 0 2px;font-size:28px;letter-spacing:-.2px}
+    .sub{color:var(--muted);margin:0 0 14px;font-size:14px;line-height:1.35}
 
     .card{
       background:var(--card);
-      border-radius:16px;
+      border-radius:18px;
       padding:14px;
-      box-shadow:0 1px 6px rgba(0,0,0,.06);
-      margin-bottom:12px
+      box-shadow:var(--shadow);
+      margin-bottom:12px;
     }
-    @media (prefers-color-scheme: dark){
-      .card{ box-shadow: 0 1px 10px rgba(0,0,0,.35); }
-    }
-
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
     .muted{color:var(--muted);font-size:12px}
-    .title{font-weight:800}
-    .bigtitle{font-weight:900;font-size:20px}
-    .stack{display:flex;flex-direction:column;gap:6px}
-    .sep{height:1px;background:var(--line);margin:10px 0}
-
-    /* tags */
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:var(--ghost);
-      font-size:12px;
-      color:var(--text);
-      font-weight:800;
+    .title{font-weight:900;font-size:18px}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;background:var(--chip);
+      font-size:12px;color:var(--text);font-weight:800;
+      border:1px solid rgba(0,0,0,.03);
+    }
+    .chip.soft{font-weight:700;color:var(--muted)}
+    .chipTag{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;background:var(--chip);
+      font-size:14px;font-weight:900;
     }
 
-    /* Week */
-    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:10px}
-    .day{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-    .lab{font-size:11px;color:var(--muted)}
+    .tabs{
+      display:flex;gap:10px;align-items:center;justify-content:space-between;
+      margin:10px 0 12px;
+    }
+    .seg{
+      display:flex;background:var(--card);
+      border-radius:16px;padding:6px;box-shadow:var(--shadow);
+      gap:6px;
+    }
+    .seg button{
+      border:none;border-radius:12px;padding:10px 14px;
+      font-weight:900;cursor:pointer;
+      background:transparent;color:var(--text);
+      min-width:110px;
+    }
+    .seg button.active{
+      background:var(--chip);
+    }
 
+    button{border:none;border-radius:14px;padding:12px 14px;font-weight:900;cursor:pointer}
+    .primary{background:var(--rasp);color:#fff}
+    .ghost{background:var(--chip);color:var(--text)}
+    .danger{background:#FEF2F2;color:#991B1B}
+    @media (prefers-color-scheme: dark){
+      .danger{background:#2A1216;color:#FCA5A5}
+    }
+
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btnrow button{flex:1}
+
+    /* week dots */
+    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:10px}
+    .day{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+    .lab{font-size:12px;color:var(--muted);font-weight:700}
+
+    .dotWrap{position:relative; width:22px; height:22px; display:grid; place-items:center;}
     .dot{width:18px;height:18px;border-radius:999px;background:var(--gray)}
     .planned{border:2px solid var(--rasp);background:transparent}
     .done{background:var(--rasp)}
     .extra{background:var(--yellow)}
     .rest{background:var(--rest)}
-
-    /* Today ring around dot (works in light+dark) */
-    .today{
-      box-shadow: 0 0 0 4px var(--today-ring);
+    .todayRing{
+      position:absolute; inset:-6px;
+      border-radius:999px;
+      border:2px solid var(--todayRing);
+      pointer-events:none;
     }
-    /* if dot is planned (transparent), keep ring visible */
-    .dot.planned.today{
-      box-shadow: 0 0 0 4px var(--today-ring), 0 0 0 2px rgba(0,0,0,0);
+    .todayGlow{
+      position:absolute; inset:-10px;
+      border-radius:999px;
+      background:radial-gradient(circle, var(--todayGlow) 0%, rgba(0,0,0,0) 60%);
+      filter:blur(2px);
+      pointer-events:none;
     }
 
-    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:700}
     .mini{width:10px;height:10px;border-radius:999px;background:var(--gray)}
     .mini.planned{border:2px solid var(--rasp);background:transparent;width:10px;height:10px}
 
-    button{border:none;border-radius:12px;padding:11px 12px;font-weight:900;cursor:pointer}
-    .primary{background:var(--rasp);color:#fff}
-    .ghost{background:var(--ghost);color:var(--text)}
-    .warn{background:#111827;color:#fff}
-    .danger{background:var(--danger-bg);color:var(--danger-text)}
-    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btnrow button{flex:1}
+    /* today card */
+    .todayCardTop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .todayLabel{letter-spacing:.14em;font-weight:900;color:var(--muted);font-size:12px}
+    .todayDate{font-size:26px;font-weight:950;letter-spacing:-.3px}
+    .todayDate b{font-weight:950}
+    .todayTags{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .hr{height:1px;background:var(--line);margin:12px 0}
+    .h2{font-size:22px;font-weight:950;margin:0}
+    .bigNote{font-size:14px;color:var(--muted);margin-top:8px;white-space:pre-line}
+    .mot{margin-top:10px;color:var(--muted);white-space:pre-line}
 
-    /* Modal */
+    /* month calendar */
+    .monthHeader{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;
+    }
+    .monthTitle{font-weight:950;font-size:18px}
+    .monthNav{display:flex;gap:10px}
+    .iconBtn{width:40px;height:40px;border-radius:14px;background:var(--chip);display:grid;place-items:center;font-weight:950}
+    .dowRow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:6px 0 10px}
+    .dow{color:var(--muted);font-size:12px;font-weight:900;text-align:center}
+    .gridMonth{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+    .cell{
+      position:relative;
+      height:58px;
+      border-radius:14px;
+      background:rgba(0,0,0,.02);
+      padding:8px;
+      cursor:pointer;
+      overflow:hidden;
+    }
+    @media (prefers-color-scheme: dark){
+      .cell{background:rgba(255,255,255,.04)}
+    }
+    .cell.muted{opacity:.5}
+    .cellTop{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+    .num{font-weight:950}
+    .statusCorner{
+      width:10px;height:10px;border-radius:999px;flex:0 0 auto;
+      background:transparent;border:2px solid transparent;
+    }
+    .sc-planned{border-color:var(--rasp)}
+    .sc-done{background:var(--rasp)}
+    .sc-extra{background:var(--yellow)}
+    .sc-rest{background:var(--rest); border-color:transparent}
+
+    .miniLine{
+      margin-top:6px;
+      font-size:11px;
+      color:var(--muted);
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .miniIco{font-size:14px}
+    .cellToday{
+      outline:2px solid var(--todayRing);
+      outline-offset:3px;
+      box-shadow:0 0 0 8px var(--todayGlow);
+    }
+
+    /* Modal / sheet */
     .backdrop{
       position:fixed; inset:0;
-      background:var(--sheet-backdrop);
+      background:rgba(17,24,39,.35);
       display:none; align-items:flex-end; justify-content:center;
       padding:14px;
+      z-index:10;
     }
     .sheet{
       width:100%;
       max-width:420px;
       background:var(--card);
-      border-radius:18px;
+      border-radius:22px;
       box-shadow:0 10px 30px rgba(0,0,0,.25);
       padding:14px;
     }
-    .handle{width:44px;height:5px;border-radius:999px;background:var(--line);margin:4px auto 10px;}
-    .hr{height:1px;background:var(--line);margin:12px 0}
-
-    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .handle{width:44px;height:5px;border-radius:999px;background:var(--line);margin:4px auto 12px}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:800}
     select,input{
       width:100%;
-      padding:10px;
-      border-radius:12px;
+      padding:11px;
+      border-radius:14px;
       border:1px solid var(--line);
       font-size:14px;
       background:#fff;
       color:var(--text);
     }
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-    .chip{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 10px;border-radius:999px;background:var(--ghost);
-      font-size:12px;color:var(--text);font-weight:900;
+    .restReco{
+      margin-top:10px;
+      font-weight:950;
+      font-size:16px;
+      white-space:pre-line;
     }
-    .closeX{
-      width:44px;height:44px;border-radius:16px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:20px;font-weight:900;
-    }
-
-    /* Views */
-    .topnav{
-      display:flex;gap:10px;align-items:center;justify-content:space-between;
-      margin:8px 0 12px;
-    }
-    .seg{
-      display:flex;gap:8px;
-      background:var(--ghost);
-      padding:6px;
-      border-radius:14px;
-    }
-    .seg button{
-      padding:10px 12px;
-      border-radius:12px;
-      background:transparent;
-      color:var(--text);
-      font-weight:900;
-    }
-    .seg .active{
-      background:var(--card);
-      box-shadow:0 1px 6px rgba(0,0,0,.08);
-    }
-
-    /* Calendar month */
-    .calHead{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      margin-bottom:10px;
-    }
-    .calTitle{font-weight:900;font-size:18px}
-    .calBtns{display:flex;gap:8px}
-    .iconBtn{
-      width:40px;height:40px;border-radius:14px;background:var(--ghost);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:900;
-    }
-    .dowRow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px}
-    .dowCell{font-size:11px;color:var(--muted);text-align:center}
-    .grid{
-      display:grid;grid-template-columns:repeat(7,1fr);gap:8px;
-    }
-    .cell{
-      border-radius:14px;
-      background:transparent;
-      padding:8px 6px;
-      min-height:56px;
-      cursor:pointer;
-      position:relative;
-      border:1px solid transparent;
-    }
-    .cell.mutedCell{opacity:.45}
-    .cell:hover{border-color: var(--line)}
-    .cellTop{
-      display:flex;align-items:center;justify-content:space-between;
-      margin-bottom:6px;
-      gap:6px;
-    }
-    .num{font-weight:900;font-size:12px}
-    .miniIcon{font-size:12px;opacity:.9}
-    .miniMeta{font-size:10px;color:var(--muted);line-height:1.2}
-    .calDot{
-      width:10px;height:10px;border-radius:999px;background:var(--gray);
-      position:absolute; right:8px; bottom:8px;
-    }
-    .calDot.planned{border:2px solid var(--rasp);background:transparent}
-    .calDot.done{background:var(--rasp)}
-    .calDot.extra{background:var(--yellow)}
-    .calDot.rest{background:var(--rest)}
-
-    /* Today halo in calendar cell */
-    .cell.todayCell{
-      box-shadow: 0 0 0 3px var(--today-ring);
-      border-color: transparent;
-    }
-    .cell.todayCell .num{
-      color: var(--text);
-    }
-
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <h1>point<span style="color:var(--rasp)">.</span></h1>
-    <p class="sub">Tapni deň → detaily. Plánovaný → hotovo (+5€). Neplánovaný → extra (0€).</p>
+    <p class="sub">Tapni deň → detaily. Plánovaný → hotovo (+príspevok). Neplánovaný → extra (0€).</p>
 
-    <!-- Top nav -->
-    <div class="topnav">
+    <div class="tabs">
       <div class="seg">
-        <button id="btnWeek" class="active" onclick="setView('week')">Týždeň</button>
-        <button id="btnMonth" onclick="setView('month')">Kalendár</button>
+        <button id="tabWeek" class="active" onclick="setView('week')">Týždeň</button>
+        <button id="tabCal" onclick="setView('cal')">Kalendár</button>
       </div>
       <div class="chip" id="streakChip">streak: 0/7</div>
     </div>
 
-    <!-- TODAY card -->
+    <!-- TODAY -->
     <div class="card" id="todayCard"></div>
 
-    <!-- WEEK view -->
-    <div id="weekView">
-      <div class="card">
-        <div class="row">
-          <div class="stack">
-            <div class="title">Tento týždeň</div>
-            <div class="muted" id="range"></div>
-          </div>
-        </div>
+    <!-- WEEK -->
+    <div class="card" id="weekCard"></div>
 
-        <div class="week" id="week"></div>
-
-        <div class="legend">
-          <div class="pill"><span class="mini planned"></span>plán</div>
-          <div class="pill"><span class="mini" style="background:var(--rasp)"></span>hotovo</div>
-          <div class="pill"><span class="mini" style="background:var(--yellow)"></span>extra</div>
-          <div class="pill"><span class="mini" style="background:var(--rest)"></span>rest</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MONTH view -->
-    <div id="monthView" style="display:none">
-      <div class="card">
-        <div class="calHead">
-          <div class="calTitle" id="calTitle">marec 2026</div>
-          <div class="calBtns">
-            <div class="iconBtn" onclick="shiftMonth(-1)">‹</div>
-            <div class="iconBtn" onclick="shiftMonth(1)">›</div>
-          </div>
-        </div>
-
-        <div class="dowRow" id="dowRow"></div>
-        <div class="grid" id="calGrid"></div>
-      </div>
-    </div>
+    <!-- CAL -->
+    <div class="card" id="calCard" style="display:none"></div>
 
     <!-- FUND -->
-    <div class="card">
-      <div class="row">
-        <div class="stack">
-          <div class="title">Watch fund</div>
-          <div class="muted">+5€ len za plán → hotovo</div>
-        </div>
-        <div style="font-weight:900;font-size:18px" id="fund">0€</div>
-      </div>
-      <div class="muted" style="margin-top:8px" id="fundNote"></div>
-    </div>
+    <div class="card" id="fundCard"></div>
   </div>
 
   <!-- Day Sheet -->
   <div class="backdrop" id="backdrop" onclick="closeSheet(event)">
     <div class="sheet" onclick="event.stopPropagation()">
       <div class="handle"></div>
-
       <div class="row">
-        <div class="stack">
+        <div>
           <div class="title" id="sheetTitle">Deň</div>
           <div class="muted" id="sheetSub">status</div>
         </div>
-        <button class="ghost closeX" onclick="hideSheet()" aria-label="Zavrieť">×</button>
+        <button class="ghost" onclick="hideSheet()">✕</button>
       </div>
-
       <div class="hr"></div>
-
       <div id="sheetBody"></div>
     </div>
   </div>
 
+  <!-- Fund Sheet -->
+  <div class="backdrop" id="fundBackdrop" onclick="closeFundSheet(event)">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <div class="row">
+        <div>
+          <div class="title">Nastavenie fondu</div>
+          <div class="muted">Uprav názov, cieľ a príspevok.</div>
+        </div>
+        <button class="ghost" onclick="hideFundSheet()">✕</button>
+      </div>
+      <div class="hr"></div>
+      <div id="fundBody"></div>
+    </div>
+  </div>
+
 <script>
-  // Storage keys
+  // ---------- Storage keys
   const LOGS_KEY = "point.logs.v3";
-  const FUND_KEY = "point.fund.v1";
-  const VIEW_KEY = "point.view.v1";
-  const CAL_MONTH_KEY = "point.calmonth.v1"; // YYYY-MM
+  const FUND_AMOUNT_KEY = "point.fund.amount.v2";
+  const FUND_SETTINGS_KEY = "point.fund.settings.v2";
 
-  // Slovak day labels (Mon-start)
-  const labels = ["Po","Ut","St","Št","Pi","So","Ne"];
+  // ---------- Date helpers
+  function startOfDay(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
+  function iso(d){ return startOfDay(d).toISOString().slice(0,10); }
+  function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function fmtSK(dateLike){
+    const d = startOfDay(dateLike);
+    return `${pad2(d.getDate())}.${pad2(d.getMonth()+1)}.${d.getFullYear()}`;
+  }
+  const DOW = ["Ne","Po","Ut","St","Št","Pi","So"]; // JS: 0 Sun
+  const DOW_MON = ["Po","Ut","St","Št","Pi","So","Ne"];
+  const MONTHS = ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"];
 
-  // Helpers
-  function iso(d){
-    const x = new Date(d); x.setHours(0,0,0,0);
-    return x.toISOString().slice(0,10);
-  }
-  function addDays(d,n){
-    const x=new Date(d); x.setDate(x.getDate()+n); return x;
-  }
   function startOfWeekMon(d){
-    const x=new Date(d); x.setHours(0,0,0,0);
+    const x=startOfDay(d);
     const day=x.getDay(); // 0 Sun..6 Sat
     const diff=(day===0?-6:1)-day;
     x.setDate(x.getDate()+diff);
     return x;
   }
-  function fmtDate(isoStr){
-    // isoStr: YYYY-MM-DD -> DD.MM.YYYY
-    const [y,m,d] = isoStr.split("-");
-    return `${d}.${m}.${y}`;
-  }
-  function monthTitle(dateObj){
-    return dateObj.toLocaleString("sk-SK", { month:"long", year:"numeric" });
-  }
 
-  // State
+  // ---------- State
   let logs = JSON.parse(localStorage.getItem(LOGS_KEY) || "{}");
-  let fund = Number(localStorage.getItem(FUND_KEY) || "0");
 
-  const today = new Date();
-  const todayIso = iso(today);
+  // fund settings
+  const defaultFundSettings = {
+    icon: "⌚️",
+    name: "Watch fund",
+    goal: 100,
+    contribution: 5,
+    plannedPerWeek: 3,
+    note: ""
+  };
+  let fundSettings = JSON.parse(localStorage.getItem(FUND_SETTINGS_KEY) || "null") || defaultFundSettings;
 
-  const weekStart = startOfWeekMon(today);
-  const days = Array.from({length:7}).map((_,i)=>iso(addDays(weekStart,i)));
+  // fund amount
+  let fund = Number(localStorage.getItem(FUND_AMOUNT_KEY) || "0");
 
-  let selectedDate = todayIso;
+  // view + selected
+  let view = "week";
+  let selectedDate = iso(new Date());
 
   // calendar month cursor
-  function getStoredMonth(){
-    const saved = localStorage.getItem(CAL_MONTH_KEY);
-    if(saved && /^\d{4}-\d{2}$/.test(saved)) return saved;
-    return iso(today).slice(0,7);
-  }
-  let calMonth = getStoredMonth(); // YYYY-MM
+  let monthCursor = startOfDay(new Date());
 
-  // view
-  let view = localStorage.getItem(VIEW_KEY) || "week";
-
-  function statusFor(date){ return logs[date]?.status || "none"; }
+  // ---------- Domain helpers
   function logFor(date){ return logs[date] || {date, status:"none"}; }
+  function statusFor(date){ return logs[date]?.status || "none"; }
+
+  function statusLabelSK(st){
+    if(st==="none") return "voľno";
+    if(st==="planned") return "plán";
+    if(st==="done") return "hotovo";
+    if(st==="adhoc_draft") return "neplánovaný (rozrobené)";
+    if(st==="extra") return "extra";
+    if(st==="rest") return "rest";
+    return st;
+  }
+
+  function sportLabelSK(s){
+    return ({run:"Run",swim:"Swim",bike:"Bike",strength:"Strength",mobility:"Mobility"})[s] || "Training";
+  }
+  function sportIcon(s){
+    return ({run:"🏃‍♀️",swim:"🏊‍♀️",bike:"🚴‍♀️",strength:"🏋️‍♀️",mobility:"🧘‍♀️"})[s] || "✨";
+  }
+  function goalLine(log){
+    if(!log || !log.goalType) return "";
+    const v = Number(log.goalValue||0);
+    if(!v) return "";
+    if(log.goalType==="time") return `${Math.round(v)} min`;
+    return `${v} km`;
+  }
 
   function setLog(date, patch){
     const prev = logs[date] || {date, status:"none"};
     logs[date] = {...prev, ...patch, date};
     localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
     renderAll();
-    renderSheet(); // keep sheet in sync if open
+    renderSheet();
   }
   function clearDay(date){
     delete logs[date];
@@ -415,15 +390,15 @@
 
   function addFund(amount, reason){
     fund += amount;
-    localStorage.setItem(FUND_KEY, String(fund));
-    document.getElementById("fundNote").textContent = reason;
+    localStorage.setItem(FUND_AMOUNT_KEY, String(fund));
+    // fund note is settings note, so we show reason as temporary toast-ish text inside fund card
+    window.__fundLastReason = reason;
     renderFund();
-  }
-  function renderFund(){
-    document.getElementById("fund").textContent = `${fund}€`;
   }
 
   function computeStreakMax7(){
+    // count done in last 7 days including today
+    const today = new Date();
     let s=0;
     for(let i=0;i<7;i++){
       const d=iso(addDays(today,-i));
@@ -432,344 +407,436 @@
     return Math.min(7,s);
   }
 
-  function sportIcon(s){
-    if(s==="run") return "🏃‍♀️";
-    if(s==="swim") return "🏊‍♀️";
-    if(s==="bike") return "🚴‍♀️";
-    if(s==="strength") return "🏋️‍♀️";
-    if(s==="mobility") return "🧘‍♀️";
-    return "✨";
+  function motivationalSentence(log){
+    const s = log?.sport || "run";
+    const lib = {
+      run:[
+        "Dnes len plynulo.\nSi na dobrej vlne.",
+        "Jeden krok za druhým.\nSi presne tam, kde máš byť.",
+        "Zóna 2 je zen.\nLen pokojne a konzistentne."
+      ],
+      swim:[
+        "Dýchaj do rytmu.\nVoda ti to vráti.",
+        "Technika > ego.\nJedno dĺžka po druhej."
+      ],
+      bike:[
+        "Ľahký prevod, stabilný tlak.\nPohyb bez stresu.",
+        "Nech to ide hladko.\nDnes buduješ základ."
+      ],
+      strength:[
+        "Kvalita nad kvantitu.\nJeden dobrý set stačí.",
+        "Kontrola, dych, forma.\nSi on point."
+      ],
+      mobility:[
+        "Uvoľni napätie.\nTelo sa ti poďakuje.",
+        "Jemne a pravidelne.\nTo je sila."
+      ]
+    };
+    const arr = lib[s] || lib.run;
+    // stable pick by date
+    const seed = selectedDate.split("-").join("");
+    const idx = Number(seed.slice(-2)) % arr.length;
+    return arr[idx];
   }
 
-  function statusLabel(st){
-    if(st==="none") return "empty";
-    if(st==="planned") return "planned";
-    if(st==="done") return "done";
-    if(st==="extra") return "extra";
-    if(st==="adhoc_draft") return "unplanned (not completed)";
-    if(st==="rest") return "rest day";
-    return st;
+  function restRecommendation(){
+    const recos = [
+      "Relax v saune 🔥",
+      "Prechádzka na slnku ☀️",
+      "Ľahké natiahnutie 🧘‍♀️",
+      "Teplý čaj a skorší spánok 🍵",
+      "Masáž alebo roller 💆‍♀️"
+    ];
+    const seed = selectedDate.split("-").join("");
+    const idx = Number(seed.slice(-2)) % recos.length;
+    return recos[idx];
   }
 
-  function motivationLine(st){
-    // keep it gentle, no pressure
-    if(st==="planned") return "You're on point.\n\n";
-    if(st==="done") return "Nice. One point at a time.\n\n";
-    if(st==="rest") return "Rest is training too.\n\n";
-    if(st==="extra") return "Extra credit.\n\n";
-    return "";
-  }
-
-  function restSuggestion(){
-    return "Relax in a sauna ♨️";
-  }
-
-  // Views
+  // ---------- Views
   function setView(v){
     view = v;
-    localStorage.setItem(VIEW_KEY, v);
-    document.getElementById("btnWeek").classList.toggle("active", v==="week");
-    document.getElementById("btnMonth").classList.toggle("active", v==="month");
-    document.getElementById("weekView").style.display = v==="week" ? "block" : "none";
-    document.getElementById("monthView").style.display = v==="month" ? "block" : "none";
-    if(v==="month") renderCalendar();
+    document.getElementById("tabWeek").classList.toggle("active", v==="week");
+    document.getElementById("tabCal").classList.toggle("active", v==="cal");
+    document.getElementById("weekCard").style.display = (v==="week") ? "block" : "none";
+    document.getElementById("calCard").style.display = (v==="cal") ? "block" : "none";
   }
 
-  // WEEK render
-  function renderWeek(){
-    document.getElementById("range").textContent = `${fmtDate(days[0])} → ${fmtDate(days[6])}`;
-    const weekEl=document.getElementById("week");
-    weekEl.innerHTML="";
-
-    days.forEach((d,i)=>{
-      const wrap=document.createElement("div");
-      wrap.className="day";
-      wrap.onclick=()=>openSheet(d);
-
-      const lab=document.createElement("div");
-      lab.className="lab";
-      lab.textContent=labels[i];
-
-      const dot=document.createElement("div");
-      dot.className="dot";
-
-      const st=statusFor(d);
-      if(st==="planned") dot.classList.add("planned");
-      if(st==="done") dot.classList.add("done");
-      if(st==="extra") dot.classList.add("extra");
-      if(st==="rest") dot.classList.add("rest");
-      if(d===todayIso) dot.classList.add("today");
-
-      wrap.appendChild(lab);
-      wrap.appendChild(dot);
-      weekEl.appendChild(wrap);
-    });
-  }
-
-  // TODAY card render
+  // ---------- Render: Today
   function renderToday(){
-    const card = document.getElementById("todayCard");
-    const st = statusFor(todayIso);
-    const log = logFor(todayIso);
+    const today = startOfDay(new Date());
+    const tIso = iso(today);
+    const st = statusFor(tIso);
+    const log = logFor(tIso);
 
-    const titleDate = `${labels[days.indexOf(todayIso) >= 0 ? days.indexOf(todayIso) : 0]} • ${fmtDate(todayIso)}`;
+    const dow = DOW[today.getDay()];
+    const dateStr = fmtSK(today);
 
-    // Tags
-    let tagsHtml = "";
+    // tag text
+    const tagStatus = (st==="none") ? "voľno" : (st==="planned" ? "plán" : (st==="done" ? "hotovo" : (st==="extra" ? "extra" : (st==="rest" ? "rest" : "voľno"))));
+    const sportTag = (st==="planned"||st==="done"||st==="extra"||st==="adhoc_draft") ? `${sportIcon(log.sport)} ${sportLabelSK(log.sport)}` : (st==="rest" ? "🛌 Rest" : "🌿 Voľno");
+
+    let mainTitle = "";
+    let sub1 = "";
+    let sub2 = "";
+    let mot = "";
+
     if(st==="planned" || st==="done" || st==="extra" || st==="adhoc_draft"){
-      tagsHtml = `
-        <div class="tags">
-          <div class="tag">${sportIcon(log.sport || "run")} ${prettySport(log.sport || "run")}</div>
-          <div class="tag">${prettyStatusTag(st)}</div>
-        </div>
-      `;
+      mainTitle = (log.name || "tréning");
+      sub1 = goalLine(log);
+      sub2 = (log.note || "");
+      mot = motivationalSentence(log);
     } else if(st==="rest"){
-      tagsHtml = `
-        <div class="tags">
-          <div class="tag">🛌 rest</div>
+      mainTitle = "rest day";
+      sub1 = "";
+      sub2 = "";
+      mot = "\n" + restRecommendation(); // keep blank line before reco
+    } else {
+      mainTitle = "bez tréningu";
+      sub1 = "";
+      sub2 = "";
+      mot = "Dnes môžeš plynúť bez plánu.\nAk chceš, pridaj neplánovaný tréning.";
+    }
+
+    // actions
+    let actionsHtml = "";
+    if(st==="planned"){
+      actionsHtml = `
+        <div class="btnrow">
+          <button class="primary" onclick="completePlanned('${tIso}', true)">Hotovo (+${fundSettings.contribution}€)</button>
+          <button class="ghost" onclick="openSheet('${tIso}')">Presun / edit</button>
         </div>
       `;
     } else {
-      tagsHtml = `
-        <div class="tags">
-          <div class="tag">empty</div>
+      actionsHtml = `
+        <div class="btnrow">
+          <button class="ghost" onclick="openSheet('${tIso}')">Detaily</button>
         </div>
       `;
     }
 
-    // Content
-    let mainHtml = "";
-    if(st==="planned" || st==="done" || st==="extra" || st==="adhoc_draft"){
-      const goal = (log.goalType==="time")
-        ? (log.goalValue ? `${log.goalValue} min` : "")
-        : (log.goalValue ? `${log.goalValue} km` : "");
-      const note = log.note ? `"${escapeHtml(log.note)}"` : "";
-      const name = log.name ? escapeHtml(log.name) : "training";
+    const noteLine = sub2 ? `<div class="bigNote">${escapeHtml(sub2)}</div>` : "";
+    const midLine = sub1 ? `<div class="bigNote">${escapeHtml(sub1)}</div>` : "";
 
-      mainHtml = `
-        <div class="sep"></div>
-        <div class="stack" style="gap:2px">
-          <div class="bigtitle">${name}</div>
-          <div class="muted">${goal}</div>
-          <div class="muted">${note}</div>
-        </div>
-        <div class="sep"></div>
-        <div class="muted" style="white-space:pre-line">${motivationLine(st)} </div>
-      `;
-    } else if(st==="rest"){
-      mainHtml = `
-        <div class="sep"></div>
-        <div class="stack">
-          <div class="bigtitle">rest day</div>
-          <div style="font-size:16px;font-weight:900; margin-top:8px; white-space:pre-line">
-            ${"\n"}${restSuggestion()}
+    document.getElementById("todayCard").innerHTML = `
+      <div class="todayCardTop">
+        <div>
+          <div class="todayLabel">TODAY</div>
+          <div class="todayDate"><b>${dow}</b> • ${dateStr}</div>
+          <div class="todayTags">
+            <span class="chipTag">${escapeHtml(sportTag)}</span>
+            <span class="chipTag">${escapeHtml(tagStatus)}</span>
           </div>
         </div>
-        <div class="sep"></div>
-      `;
-    } else {
-      mainHtml = `
-        <div class="sep"></div>
-        <div class="muted">Dnes nemáš nič naplánované. Tapni “Details” a pridaj tréning alebo rest.</div>
-        <div class="sep"></div>
-      `;
-    }
-
-    // Buttons
-    let btns = "";
-    if(st==="planned"){
-      btns = `
-        <div class="btnrow">
-          <button class="primary" onclick="completePlannedToday()">Done (+5€)</button>
-          <button class="ghost" onclick="openSheet('${todayIso}')">Move / Edit</button>
-        </div>
-      `;
-    } else {
-      btns = `
-        <div class="btnrow">
-          <button class="ghost" onclick="openSheet('${todayIso}')">Details</button>
-        </div>
-      `;
-    }
-
-    card.innerHTML = `
-      <div class="row">
-        <div class="stack">
-          <div class="muted" style="letter-spacing:.12em">TODAY</div>
-          <div class="title">${titleDate}</div>
-        </div>
-        <button class="ghost" onclick="openSheet('${todayIso}')">Details</button>
       </div>
-      ${tagsHtml}
-      ${mainHtml}
-      ${btns}
+
+      <div class="hr"></div>
+
+      <div class="h2">${escapeHtml(mainTitle)}</div>
+      ${midLine}
+      ${noteLine}
+
+      <div class="mot">${escapeHtml(mot)}</div>
+
+      ${actionsHtml}
     `;
   }
 
-  function prettySport(s){
-    if(s==="run") return "Run";
-    if(s==="swim") return "Swim";
-    if(s==="bike") return "Bike";
-    if(s==="strength") return "Strength";
-    if(s==="mobility") return "Mobility";
-    return "Training";
-  }
-  function prettyStatusTag(st){
-    if(st==="planned") return "planned";
-    if(st==="done") return "done";
-    if(st==="extra") return "extra";
-    if(st==="adhoc_draft") return "unplanned";
-    return st;
-  }
-  function escapeHtml(str){
-    return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  // ---------- Render: Week
+  function renderWeek(){
+    const today = new Date();
+    const weekStart = startOfWeekMon(today);
+    const days = Array.from({length:7}).map((_,i)=>iso(addDays(weekStart,i)));
+    const range = `${fmtSK(weekStart)} → ${fmtSK(addDays(weekStart,6))}`;
+
+    const weekDots = days.map((d,i)=>{
+      const st = statusFor(d);
+      let cls = "dot";
+      if(st==="planned") cls += " planned";
+      if(st==="done") cls += " done";
+      if(st==="extra") cls += " extra";
+      if(st==="rest") cls += " rest";
+      const isToday = (d===iso(new Date()));
+      const ring = isToday ? `<div class="todayGlow"></div><div class="todayRing"></div>` : "";
+      return `
+        <div class="day" onclick="openSheet('${d}')">
+          <div class="lab">${DOW_MON[i]}</div>
+          <div class="dotWrap">
+            ${ring}
+            <div class="${cls}"></div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    document.getElementById("weekCard").innerHTML = `
+      <div class="row">
+        <div>
+          <div class="title">Tento týždeň</div>
+          <div class="muted">${range}</div>
+        </div>
+      </div>
+
+      <div class="week">${weekDots}</div>
+
+      <div class="legend">
+        <div class="pill"><span class="mini planned"></span>plán</div>
+        <div class="pill"><span class="mini" style="background:var(--rasp)"></span>hotovo</div>
+        <div class="pill"><span class="mini" style="background:var(--yellow)"></span>extra</div>
+        <div class="pill"><span class="mini" style="background:var(--rest)"></span>rest</div>
+      </div>
+    `;
   }
 
-  function completePlannedToday(){
-    const log = logFor(todayIso);
-    setLog(todayIso, { status:"done", ...log });
-    addFund(5, "Nice. Planned → done. +5€ to your watch fund.");
-  }
-
-  // Calendar (month)
-  function shiftMonth(delta){
-    const [y,m] = calMonth.split("-").map(Number);
-    const d = new Date(y, m-1, 1);
-    d.setMonth(d.getMonth() + delta);
-    calMonth = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
-    localStorage.setItem(CAL_MONTH_KEY, calMonth);
-    renderCalendar();
-  }
+  // ---------- Render: Month calendar
+  function monthStart(d){ const x=startOfDay(d); x.setDate(1); return x; }
+  function monthEnd(d){ const x=monthStart(d); x.setMonth(x.getMonth()+1); x.setDate(0); return x; }
 
   function renderCalendar(){
-    const [y,m] = calMonth.split("-").map(Number);
-    const first = new Date(y, m-1, 1);
-    const last = new Date(y, m, 0);
+    const ms = monthStart(monthCursor);
+    const me = monthEnd(monthCursor);
 
-    document.getElementById("calTitle").textContent = monthTitle(first);
+    // grid start: Monday
+    const gridStart = startOfWeekMon(ms);
+    const gridDays = [];
+    for(let i=0;i<42;i++) gridDays.push(startOfDay(addDays(gridStart,i)));
 
-    // dows
-    const dowRow = document.getElementById("dowRow");
-    dowRow.innerHTML = "";
-    labels.forEach(l=>{
-      const div = document.createElement("div");
-      div.className = "dowCell";
-      div.textContent = l;
-      dowRow.appendChild(div);
-    });
+    const title = `${MONTHS[ms.getMonth()]} ${ms.getFullYear()}`;
 
-    // grid
-    const grid = document.getElementById("calGrid");
-    grid.innerHTML = "";
-
-    // compute leading blanks based on Monday-start
-    // JS getDay(): 0 Sun..6 Sat. We want Mon=0..Sun=6
-    const jsDay = first.getDay();
-    const monIndex = (jsDay === 0) ? 6 : jsDay - 1;
-
-    const totalCells = 42; // 6 rows
-    const startDate = new Date(first);
-    startDate.setDate(first.getDate() - monIndex);
-
-    for(let i=0;i<totalCells;i++){
-      const d = new Date(startDate);
-      d.setDate(startDate.getDate() + i);
+    const cells = gridDays.map(d=>{
       const dIso = iso(d);
-
-      const cell = document.createElement("div");
-      cell.className = "cell";
-      if(d.getMonth() !== first.getMonth()) cell.classList.add("mutedCell");
-      if(dIso === todayIso) cell.classList.add("todayCell");
-
-      cell.onclick = ()=> openSheet(dIso); // tap -> sheet with preselected day
-
       const st = statusFor(dIso);
       const log = logFor(dIso);
 
-      const num = document.createElement("div");
-      num.className = "num";
-      num.textContent = String(d.getDate()).padStart(2,"0");
+      const inMonth = (d.getMonth()===ms.getMonth());
+      const isToday = (dIso===iso(new Date()));
 
-      const icon = document.createElement("div");
-      icon.className = "miniIcon";
-      icon.textContent = (st==="planned"||st==="done"||st==="extra"||st==="adhoc_draft") ? sportIcon(log.sport || "run") : (st==="rest" ? "🛌" : "");
+      let sc = "statusCorner";
+      if(st==="planned") sc += " sc-planned";
+      if(st==="done") sc += " sc-done";
+      if(st==="extra") sc += " sc-extra";
+      if(st==="rest") sc += " sc-rest";
 
-      const top = document.createElement("div");
-      top.className = "cellTop";
-      top.appendChild(num);
-      top.appendChild(icon);
+      let line1 = "";
+      let line2 = "";
 
-      const meta = document.createElement("div");
-      meta.className = "miniMeta";
       if(st==="planned"||st==="done"||st==="extra"||st==="adhoc_draft"){
-        const name = (log.name || "").trim();
-        const goal = log.goalType==="time"
-          ? (log.goalValue ? `${log.goalValue}m` : "")
-          : (log.goalValue ? `${log.goalValue}k` : "");
-        meta.textContent = `${name ? name.slice(0,16) : "training"}${goal ? " • "+goal : ""}`;
+        line1 = `${sportIcon(log.sport)} ${log.name || "tréning"}`;
+        const gl = goalLine(log);
+        if(gl) line2 = `• ${gl}`;
       } else if(st==="rest"){
-        meta.textContent = "rest";
+        line1 = `🛌 rest`;
       } else {
-        meta.textContent = "";
+        line1 = "";
       }
 
-      cell.appendChild(top);
-      cell.appendChild(meta);
+      return `
+        <div class="cell ${inMonth ? "" : "muted"} ${isToday ? "cellToday" : ""}" onclick="openSheet('${dIso}')">
+          <div class="cellTop">
+            <div class="num">${pad2(d.getDate())}</div>
+            <div class="${sc}"></div>
+          </div>
+          ${line1 ? `<div class="miniLine"><span class="miniIco">${escapeHtml(line1.split(" ")[0])}</span><span style="overflow:hidden;text-overflow:ellipsis">${escapeHtml(line1.replace(line1.split(" ")[0],"").trim())}</span></div>` : `<div class="miniLine" style="height:14px"></div>`}
+          ${line2 ? `<div class="miniLine">${escapeHtml(line2)}</div>` : ``}
+        </div>
+      `;
+    }).join("");
 
-      // status dot
-      if(st !== "none"){
-        const dot = document.createElement("div");
-        dot.className = "calDot";
-        if(st==="planned") dot.classList.add("planned");
-        if(st==="done") dot.classList.add("done");
-        if(st==="extra") dot.classList.add("extra");
-        if(st==="rest") dot.classList.add("rest");
-        // draft shown as gray dot (so user sees “something there”)
-        if(st==="adhoc_draft") dot.style.background = "var(--gray)";
-        cell.appendChild(dot);
-      }
+    document.getElementById("calCard").innerHTML = `
+      <div class="monthHeader">
+        <div class="monthTitle">${escapeHtml(title)}</div>
+        <div class="monthNav">
+          <div class="iconBtn" onclick="navMonth(-1)">‹</div>
+          <div class="iconBtn" onclick="navMonth(1)">›</div>
+        </div>
+      </div>
 
-      grid.appendChild(cell);
-    }
+      <div class="dowRow">
+        <div class="dow">Po</div><div class="dow">Ut</div><div class="dow">St</div><div class="dow">Št</div><div class="dow">Pi</div><div class="dow">So</div><div class="dow">Ne</div>
+      </div>
+
+      <div class="gridMonth">${cells}</div>
+    `;
   }
 
-  // Sheet controls
+  function navMonth(dir){
+    const x = monthStart(monthCursor);
+    x.setMonth(x.getMonth()+dir);
+    monthCursor = x;
+    renderCalendar();
+  }
+
+  // ---------- Render: Fund
+  function saveFundSettings(patch){
+    fundSettings = {...fundSettings, ...patch};
+    localStorage.setItem(FUND_SETTINGS_KEY, JSON.stringify(fundSettings));
+    renderFund();
+  }
+
+  function estimate(){
+    const goal = Number(fundSettings.goal||0);
+    const contribution = Number(fundSettings.contribution||0);
+    const ppw = Number(fundSettings.plannedPerWeek||0);
+
+    const remaining = Math.max(0, goal - fund);
+    const perWeek = contribution * ppw;
+    if(perWeek <= 0) return {remaining, trainings:null, weeks:null, months:null};
+
+    // We want "odhad tréningov" as contributions-needed (planned->done count)
+    const trainings = Math.ceil(remaining / contribution);
+    const weeks = remaining / perWeek;
+    const months = weeks / 4.345;
+
+    return {remaining, trainings, weeks, months};
+  }
+
+  function renderFund(){
+    const e = estimate();
+    const goal = Number(fundSettings.goal||0);
+    const remaining = e.remaining;
+
+    const progress = goal>0 ? Math.min(100, Math.round((fund/goal)*100)) : 0;
+
+    const estLine = (e.trainings && e.weeks!=null && e.months!=null)
+      ? `Odhadom: <b>${e.trainings}</b> tréningov<br><span class="muted">≈ ${e.months.toFixed(1)} mesiaca • ~${Math.ceil(e.weeks)} týždňov</span>`
+      : `<span class="muted">Nastav príspevok a plán/týždeň, aby sme vedeli odhadnúť čas.</span>`;
+
+    const note = (fundSettings.note||"").trim();
+    const noteHtml = note ? `<div class="muted" style="margin-top:8px">${escapeHtml(note)}</div>` : "";
+
+    const reason = window.__fundLastReason ? `<div class="muted" style="margin-top:8px">${escapeHtml(window.__fundLastReason)}</div>` : "";
+    // clear last reason after render (so it doesn't stick forever)
+    window.__fundLastReason = "";
+
+    document.getElementById("fundCard").innerHTML = `
+      <div class="row">
+        <div>
+          <div class="title">${escapeHtml(fundSettings.icon || "⌚️")} ${escapeHtml(fundSettings.name || "Fond")}</div>
+          <div class="muted">Príspevok: +${Number(fundSettings.contribution||0)}€ (len plán → hotovo)</div>
+        </div>
+        <button class="ghost" onclick="openFundSheet()">Upraviť</button>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="row" style="align-items:flex-end">
+        <div>
+          <div class="muted">Aktuálne</div>
+          <div style="font-weight:950;font-size:26px">${fund}€</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Cieľ</div>
+          <div style="font-weight:950;font-size:20px">${goal}€</div>
+        </div>
+      </div>
+
+      <div class="muted" style="margin-top:10px">Zostáva: <b>${remaining}€</b> • ${progress}%</div>
+      <div class="hr"></div>
+      <div class="muted" style="line-height:1.35">${estLine}</div>
+      ${noteHtml}
+      ${reason}
+    `;
+  }
+
+  function openFundSheet(){
+    document.getElementById("fundBackdrop").style.display="flex";
+    renderFundSheet();
+  }
+  function hideFundSheet(){
+    document.getElementById("fundBackdrop").style.display="none";
+  }
+  function closeFundSheet(e){
+    if(e.target.id==="fundBackdrop") hideFundSheet();
+  }
+
+  function renderFundSheet(){
+    const b = document.getElementById("fundBody");
+    b.innerHTML = `
+      <div class="grid2">
+        <div>
+          <label>Ikona (emoji)</label>
+          <input id="ffIcon" placeholder="⌚️" value="${escapeAttr(fundSettings.icon||"⌚️")}" />
+          <div class="muted" style="margin-top:6px">Tip: vlož emoji z klávesnice.</div>
+        </div>
+        <div>
+          <label>Názov fondu</label>
+          <input id="ffName" placeholder="Watch fund" value="${escapeAttr(fundSettings.name||"Watch fund")}" />
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-top:10px">
+        <div>
+          <label>Cieľ (€)</label>
+          <input id="ffGoal" type="number" min="0" step="1" value="${Number(fundSettings.goal||100)}" />
+        </div>
+        <div>
+          <label>Príspevok (€) za plán → hotovo</label>
+          <input id="ffContrib" type="number" min="0" step="1" value="${Number(fundSettings.contribution||5)}" />
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
+        <label>Plánované tréningy / týždeň</label>
+        <input id="ffPpw" type="number" min="0" step="1" value="${Number(fundSettings.plannedPerWeek||3)}" />
+        <div class="muted" style="margin-top:6px">Použijeme to na výpočet odhadu mesiacov a tréningov.</div>
+      </div>
+
+      <div style="margin-top:10px">
+        <label>Poznámka (voliteľné)</label>
+        <input id="ffNote" placeholder="napr. Garmin 265S, motivácia, …" value="${escapeAttr(fundSettings.note||"")}" />
+      </div>
+
+      <div class="btnrow">
+        <button class="primary" id="ffSave">Uložiť</button>
+        <button class="ghost" id="ffClose">Zavrieť</button>
+      </div>
+    `;
+
+    document.getElementById("ffSave").onclick = ()=>{
+      saveFundSettings({
+        icon: document.getElementById("ffIcon").value.trim() || "⌚️",
+        name: document.getElementById("ffName").value.trim() || "Watch fund",
+        goal: Number(document.getElementById("ffGoal").value || 100),
+        contribution: Number(document.getElementById("ffContrib").value || 5),
+        plannedPerWeek: Number(document.getElementById("ffPpw").value || 3),
+        note: document.getElementById("ffNote").value.trim()
+      });
+      hideFundSheet();
+    };
+    document.getElementById("ffClose").onclick = hideFundSheet;
+  }
+
+  // ---------- Day Sheet
   function openSheet(date){
     selectedDate = date;
     document.getElementById("backdrop").style.display="flex";
     renderSheet();
   }
-  function hideSheet(){
-    document.getElementById("backdrop").style.display="none";
-  }
-  function closeSheet(e){
-    if(e.target.id==="backdrop") hideSheet();
-  }
+  function hideSheet(){ document.getElementById("backdrop").style.display="none"; }
+  function closeSheet(e){ if(e.target.id==="backdrop") hideSheet(); }
 
   function renderSheet(){
     const bd = document.getElementById("backdrop");
     if(bd.style.display!=="flex") return;
 
-    const weekIdx = days.indexOf(selectedDate);
-    const dow = weekIdx>=0 ? labels[weekIdx] : "";
+    const d = new Date(selectedDate+"T00:00:00");
+    const dow = DOW[d.getDay()];
     const st = statusFor(selectedDate);
     const log = logFor(selectedDate);
 
-    const title = dow ? `${dow} • ${fmtDate(selectedDate)}` : fmtDate(selectedDate);
-    document.getElementById("sheetTitle").textContent = title;
-    document.getElementById("sheetSub").textContent = `status: ${statusLabel(st)}`;
+    document.getElementById("sheetTitle").textContent = `${dow} • ${fmtSK(d)}`;
+    document.getElementById("sheetSub").textContent = `status: ${statusLabelSK(st)}`;
 
     const body = document.getElementById("sheetBody");
     body.innerHTML = "";
 
-    function fieldRow(html){
-      const div=document.createElement("div");
+    function field(html){
+      const div = document.createElement("div");
       div.innerHTML = html;
       body.appendChild(div);
     }
 
     function renderEditForm(defaults){
-      fieldRow(`
+      field(`
         <div class="grid2">
           <div>
             <label>Šport</label>
@@ -792,7 +859,7 @@
 
         <div style="margin-top:10px">
           <label>Názov</label>
-          <input id="fName" placeholder="easy 5 km / long run / drills..." />
+          <input id="fName" placeholder="easy z2 / long run / drills..." />
         </div>
 
         <div style="margin-top:10px">
@@ -802,13 +869,13 @@
 
         <div style="margin-top:10px">
           <label>Poznámka (voliteľné)</label>
-          <input id="fNote" placeholder="mood, cue, anything..." />
+          <input id="fNote" placeholder="mood, cue, čokoľvek..." />
         </div>
       `);
 
       document.getElementById("fSport").value = defaults.sport || "run";
-      document.getElementById("fName").value = defaults.name || "";
       document.getElementById("fGoalType").value = defaults.goalType || "distance";
+      document.getElementById("fName").value = defaults.name || "";
       document.getElementById("fGoalValue").value = (defaults.goalValue ?? "");
       document.getElementById("fNote").value = defaults.note || "";
 
@@ -822,188 +889,243 @@
 
       return () => ({
         sport: document.getElementById("fSport").value,
-        name: document.getElementById("fName").value.trim() || "training",
         goalType: document.getElementById("fGoalType").value,
+        name: document.getElementById("fName").value.trim() || "tréning",
         goalValue: Number(document.getElementById("fGoalValue").value || 0),
         note: document.getElementById("fNote").value.trim()
       });
     }
 
-    // EMPTY
+    // Activity type selector for empty
     if(st==="none"){
-      fieldRow(`<div class="muted">Zatiaľ tu nič nie je.</div>`);
-      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
-
-      fieldRow(`<div class="btnrow">
-        <button class="primary" id="btnPlan">Plánovaný tréning</button>
-        <button class="ghost" id="btnAdhoc">Neplánovaný tréning</button>
-      </div>
-      <div class="btnrow">
-        <button class="ghost" id="btnRest">Rest day</button>
-        <button class="danger" id="btnClear">Vymazať</button>
-      </div>
-      <div class="muted">Neplánovaný sa zafarbí na <b>žlto</b> až po dokončení. Bez €.</div>
+      field(`
+        <label>Typ aktivity</label>
+        <select id="aType">
+          <option value="none">Voľno</option>
+          <option value="planned">Plánovaný tréning</option>
+          <option value="adhoc_draft">Neplánovaný tréning</option>
+          <option value="rest">Rest day</option>
+        </select>
       `);
 
-      document.getElementById("btnPlan").onclick = ()=>{
+      field(`<div id="aArea" style="margin-top:10px"></div>`);
+
+      const aType = document.getElementById("aType");
+      const aArea = document.getElementById("aArea");
+
+      function paintArea(){
+        aArea.innerHTML = "";
+        const v = aType.value;
+
+        if(v==="none"){
+          aArea.innerHTML = `<div class="muted">Dnes bez tréningu. Ak chceš, pridaj neplánovaný tréning.</div>
+            <div class="btnrow"><button class="danger" onclick="clearDay('${selectedDate}')">Vyčistiť</button></div>`;
+          return;
+        }
+
+        if(v==="rest"){
+          aArea.innerHTML = `
+            <div class="chip">rest day</div>
+            <div class="restReco">${escapeHtml(" \n" + restRecommendation())}</div>
+            <div class="btnrow">
+              <button class="primary" id="restSet">Nastaviť rest</button>
+              <button class="danger" onclick="clearDay('${selectedDate}')">Vyčistiť</button>
+            </div>
+          `;
+          document.getElementById("restSet").onclick = ()=> setLog(selectedDate,{status:"rest"});
+          return;
+        }
+
+        // planned or adhoc -> show form
+        const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
+        const isPlanned = (v==="planned");
+
+        aArea.insertAdjacentHTML("beforeend", `
+          <div class="btnrow">
+            <button class="primary" id="saveAct">${isPlanned ? "Uložiť plán" : "Uložiť neplánovaný"}</button>
+            <button class="danger" onclick="clearDay('${selectedDate}')">Vyčistiť</button>
+          </div>
+          <div class="muted" style="margin-top:6px">${isPlanned ? "Príspevok sa pripočíta len pri plán → hotovo." : "Neplánovaný sa stane extra až po dokončení. Bez €."}</div>
+        `);
+
+        document.getElementById("saveAct").onclick = ()=>{
+          const data = get();
+          setLog(selectedDate, {status: v, ...data});
+        };
+      }
+
+      aType.onchange = paintArea;
+      paintArea();
+      return;
+    }
+
+    // adhoc draft
+    if(st==="adhoc_draft"){
+      field(`<div class="chip">neplánovaný tréning • rozrobené</div>`);
+      const get = renderEditForm(log);
+
+      field(`
+        <div class="btnrow">
+          <button class="primary" id="btnComplete">Dokončiť (extra)</button>
+          <button class="ghost" id="btnSave">Uložiť</button>
+        </div>
+        <div class="btnrow">
+          <button class="danger" id="btnClear">Vyčistiť</button>
+        </div>
+        <div class="muted">Po dokončení sa deň zafarbí na žlto. Bez €.</div>
+      `);
+
+      document.getElementById("btnComplete").onclick = ()=>{
         const v=get();
-        setLog(selectedDate,{status:"planned", ...v});
+        setLog(selectedDate,{status:"extra", ...v});
       };
-      document.getElementById("btnAdhoc").onclick = ()=>{
+      document.getElementById("btnSave").onclick = ()=>{
         const v=get();
-        setLog(selectedDate,{status:"adhoc_draft", ...v});
+        setLog(selectedDate,{...v});
       };
-      document.getElementById("btnRest").onclick = ()=> setLog(selectedDate,{status:"rest"});
       document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
       return;
     }
 
-    // ADHOC DRAFT
-    if(st==="adhoc_draft"){
-      fieldRow(`<div class="chip">unplanned training • not completed yet</div>`);
-      const get = renderEditForm(log);
+    // rest
+    if(st==="rest"){
+      field(`<div class="chip">rest day</div>`);
+      field(`<div class="restReco">${escapeHtml(" \n" + restRecommendation())}</div>`);
 
-      fieldRow(`<div class="btnrow">
-        <button class="warn" id="btnComplete">Complete (extra)</button>
-        <button class="ghost" id="btnSave">Uložiť zmeny</button>
-      </div>
-      <div class="btnrow">
-        <button class="danger" id="btnClear">Vymazať</button>
-      </div>
-      <div class="muted">Dokončenie zafarbí deň na <b>žlto</b>. Bez €.</div>
-      `);
-
-      document.getElementById("btnComplete").onclick=()=>{
-        const v=get();
-        setLog(selectedDate,{status:"extra", ...v});
-        document.getElementById("fundNote").textContent = "Extra completed. (No € reward)";
-      };
-      document.getElementById("btnSave").onclick=()=>{
-        const v=get();
-        setLog(selectedDate,{...v});
-      };
-      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
-      return;
-    }
-
-    // PLANNED
-    if(st==="planned"){
-      fieldRow(`<div class="chip">planned training</div>`);
-      const get = renderEditForm(log);
-
-      // move targets within week: only empty days OR rest allowed? (keep it safe: only empty days)
-      const allowed = days.filter(d => {
-        const s = statusFor(d);
-        return d===selectedDate || s==="none";
-      });
-      const opts = allowed.map(d=>{
-        const idx = days.indexOf(d);
-        const l = idx>=0 ? labels[idx] : "";
-        return `<option value="${d}" ${d===selectedDate?"selected":""}>${l} (${fmtDate(d)})</option>`;
-      }).join("");
-
-      fieldRow(`
-        <div style="margin-top:10px">
-          <label>Presunúť na</label>
-          <select id="moveTo">${opts}</select>
+      field(`
+        <div class="btnrow">
+          <button class="ghost" id="btnUnset">Zrušiť rest</button>
+          <button class="primary" id="btnPlan">Pridať plán</button>
+        </div>
+        <div class="btnrow">
+          <button class="danger" id="btnClear">Vyčistiť</button>
         </div>
       `);
 
-      fieldRow(`<div class="btnrow">
-        <button class="primary" id="btnComplete">Hotovo (+5€)</button>
-        <button class="ghost" id="btnMove">Presunúť</button>
-      </div>
-      <div class="btnrow">
-        <button class="ghost" id="btnSave">Uložiť zmeny</button>
-        <button class="danger" id="btnCancel">Zrušiť plán</button>
-      </div>
+      document.getElementById("btnUnset").onclick = ()=> clearDay(selectedDate);
+      document.getElementById("btnPlan").onclick = ()=>{
+        setLog(selectedDate,{status:"planned", sport:"run", goalType:"distance", goalValue:0, name:"tréning", note:""});
+        renderSheet();
+      };
+      document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
+      return;
+    }
+
+    // planned
+    if(st==="planned"){
+      field(`<div class="chip">plánovaný tréning</div>`);
+      const get = renderEditForm(log);
+
+      // move targets: only days that are empty (none) within current week (Mon..Sun of that selectedDate week)
+      const sd = new Date(selectedDate+"T00:00:00");
+      const ws = startOfWeekMon(sd);
+      const weekDays = Array.from({length:7}).map((_,i)=>startOfDay(addDays(ws,i)));
+      const moveOptions = weekDays
+        .filter(d=>{
+          const di = iso(d);
+          return di===selectedDate || statusFor(di)==="none"; // only empty or current
+        })
+        .map(d=>{
+          const di = iso(d);
+          return `<option value="${di}" ${di===selectedDate?"selected":""}>${DOW[d.getDay()]} (${fmtSK(d)})</option>`;
+        }).join("");
+
+      field(`
+        <div style="margin-top:10px">
+          <label>Presunúť na</label>
+          <select id="moveTo">${moveOptions}</select>
+          <div class="muted" style="margin-top:6px">Ukazujem len voľné dni v tomto týždni.</div>
+        </div>
       `);
 
-      document.getElementById("btnComplete").onclick=()=>{
-        const v=get();
-        setLog(selectedDate,{status:"done", ...v});
-        addFund(5,"Nice. Planned → done. +5€ to your watch fund.");
-      };
-      document.getElementById("btnMove").onclick=()=>{
-        const to=document.getElementById("moveTo").value;
-        const v=get();
+      field(`
+        <div class="btnrow">
+          <button class="primary" id="btnComplete">Hotovo (+${fundSettings.contribution}€)</button>
+          <button class="ghost" id="btnMove">Presunúť</button>
+        </div>
+        <div class="btnrow">
+          <button class="ghost" id="btnSave">Uložiť</button>
+          <button class="danger" id="btnCancel">Zrušiť plán</button>
+        </div>
+      `);
+
+      document.getElementById("btnComplete").onclick = ()=> completePlanned(selectedDate, false, get);
+      document.getElementById("btnMove").onclick = ()=>{
+        const to = document.getElementById("moveTo").value;
+        const v = get();
         clearDay(selectedDate);
-        setLog(to,{status:"planned", ...v});
+        setLog(to, {status:"planned", ...v});
         selectedDate = to;
         renderSheet();
       };
-      document.getElementById("btnSave").onclick=()=>{
+      document.getElementById("btnSave").onclick = ()=>{
         const v=get();
         setLog(selectedDate,{...v});
       };
-      document.getElementById("btnCancel").onclick=()=>clearDay(selectedDate);
+      document.getElementById("btnCancel").onclick = ()=> clearDay(selectedDate);
       return;
     }
 
-    // REST
-    if(st==="rest"){
-      fieldRow(`<div class="chip">rest day</div>`);
-      fieldRow(`<div style="font-size:16px;font-weight:900; white-space:pre-line">${"\n"}${restSuggestion()}</div>`);
-      fieldRow(`<div class="muted" style="margin-top:10px">Môžeš unsetnúť rest alebo naplánovať tréning.</div>`);
-      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
-
-      fieldRow(`<div class="btnrow">
-        <button class="ghost" id="btnUnset">Unset rest</button>
-        <button class="primary" id="btnPlan">Plánovaný tréning</button>
-      </div>
-      <div class="btnrow">
-        <button class="danger" id="btnClear">Vymazať</button>
-      </div>
-      `);
-
-      document.getElementById("btnUnset").onclick=()=>clearDay(selectedDate);
-      document.getElementById("btnPlan").onclick=()=>{
-        const v=get();
-        setLog(selectedDate,{status:"planned", ...v});
-      };
-      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
-      return;
-    }
-
-    // DONE / EXTRA
+    // done/extra
     if(st==="done" || st==="extra"){
-      fieldRow(`<div class="chip">${st==="done" ? "completed (done)" : "completed (extra)"}</div>`);
+      field(`<div class="chip">${st==="done" ? "hotovo" : "extra"}</div>`);
       const get = renderEditForm(log);
 
-      fieldRow(`<div class="btnrow">
-        <button class="ghost" id="btnSave">Uložiť zmeny</button>
-        <button class="danger" id="btnClear">Vymazať</button>
-      </div>
-      <div class="muted">${st==="done" ? "Done je raspberry. Odmena už prirátaná." : "Extra je žlté. Bez €."}</div>
+      field(`
+        <div class="btnrow">
+          <button class="ghost" id="btnSave">Uložiť</button>
+          <button class="danger" id="btnClear">Vyčistiť</button>
+        </div>
+        <div class="muted">${st==="done" ? "Príspevok už bol započítaný." : "Extra je bez €."}</div>
       `);
 
-      document.getElementById("btnSave").onclick=()=>{
+      document.getElementById("btnSave").onclick = ()=>{
         const v=get();
         setLog(selectedDate,{...v});
       };
-      document.getElementById("btnClear").onclick=()=>clearDay(selectedDate);
+      document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
       return;
     }
 
-    fieldRow(`<div class="muted">Unknown state.</div>`);
-    fieldRow(`<div class="btnrow"><button class="danger" onclick="clearDay(selectedDate)">Vymazať</button></div>`);
+    field(`<div class="muted">Neznámy stav.</div>`);
+    field(`<div class="btnrow"><button class="danger" onclick="clearDay('${selectedDate}')">Vyčistiť</button></div>`);
   }
 
-  // Main render
-  function renderAll(){
-    renderFund();
+  function completePlanned(dateIso, fromTodayCard=false, getter=null){
+    const log = logFor(dateIso);
+    const v = getter ? getter() : log;
+    setLog(dateIso,{status:"done", ...v});
+    addFund(Number(fundSettings.contribution||5), `Príspevok +${Number(fundSettings.contribution||5)}€ (plán → hotovo).`);
+  }
 
+  // ---------- Render all
+  function renderAll(){
     const streak = computeStreakMax7();
     document.getElementById("streakChip").textContent = `streak: ${streak}/7`;
 
     renderToday();
     renderWeek();
-    if(view==="month") renderCalendar();
+    renderCalendar();
+    renderFund();
   }
 
-  // Init
-  setView(view);
+  // ---------- escape helpers
+  function escapeHtml(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+  function escapeAttr(s){ return escapeHtml(s).replaceAll('"',"&quot;"); }
+
+  // ---------- Init
+  // ensure fund settings stored once so edits persist
+  localStorage.setItem(FUND_SETTINGS_KEY, JSON.stringify(fundSettings));
+
   renderAll();
+  setView("week");
 </script>
 </body>
 </html>
