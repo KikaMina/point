@@ -17,63 +17,107 @@
       --rest:#E9E7E3;     /* rest */
       --line:#E5E7EB;
 
-      --todayRing: rgba(17,24,39,.22);
+      /* rings / halos */
+      --today-ring: rgba(17,24,39,.35);  /* light mode ring */
+      --today-ring-strong: rgba(17,24,39,.55);
+      --sheet-backdrop: rgba(17,24,39,.35);
+
+      /* UI */
       --ghost:#F3F4F6;
-      --dangerBg:#FEF2F2;
-      --dangerText:#991B1B;
-      --sheetBackdrop:rgba(17,24,39,.35);
+      --danger-bg:#FEF2F2;
+      --danger-text:#991B1B;
     }
 
-    /* Dark mode */
+    /* Dark mode variables */
     @media (prefers-color-scheme: dark){
       :root{
-        --bg:#0B0F16;
-        --card:#121826;
+        --bg:#0B0D10;
+        --card:#12161B;
         --text:#E5E7EB;
         --muted:#9CA3AF;
 
-        --gray:#374151;     /* empty */
-        --rest:#1F2937;     /* rest */
-
+        --gray:#2A313A;
+        --rest:#1B2129;
         --line:#1F2937;
-        --todayRing: rgba(229,231,235,.35);
+
+        --today-ring: rgba(255,255,255,.28);
+        --today-ring-strong: rgba(255,255,255,.45);
+        --sheet-backdrop: rgba(0,0,0,.55);
 
         --ghost:#1F2937;
-        --dangerBg: rgba(254,242,242,.10);
-        --dangerText:#FCA5A5;
-        --sheetBackdrop:rgba(0,0,0,.55);
+        --danger-bg:#2A1217;
+        --danger-text:#FCA5A5;
       }
-      select,input{ background:#0F172A; color:var(--text); border-color:var(--line); }
+
+      select, input{
+        background:#0F141A !important;
+        color: var(--text) !important;
+        border-color: var(--line) !important;
+      }
     }
 
     *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);margin:0;color:var(--text)}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:var(--bg);
+      margin:0;
+      color:var(--text)
+    }
     .wrap{max-width:420px;margin:0 auto;padding:18px}
     h1{margin:8px 0 2px;font-size:26px;letter-spacing:-.2px}
     .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
 
-    .card{background:var(--card);border-radius:16px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:12px}
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:14px;
+      box-shadow:0 1px 6px rgba(0,0,0,.06);
+      margin-bottom:12px
+    }
+    @media (prefers-color-scheme: dark){
+      .card{ box-shadow: 0 1px 10px rgba(0,0,0,.35); }
+    }
+
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
     .muted{color:var(--muted);font-size:12px}
     .title{font-weight:800}
-    .big{font-size:16px;font-weight:900;letter-spacing:-.2px}
-    .kicker{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-    .spacer8{height:8px}
-    .spacer10{height:10px}
-    .spacer12{height:12px}
+    .bigtitle{font-weight:900;font-size:20px}
+    .stack{display:flex;flex-direction:column;gap:6px}
+    .sep{height:1px;background:var(--line);margin:10px 0}
 
+    /* tags */
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:var(--ghost);
+      font-size:12px;
+      color:var(--text);
+      font-weight:800;
+    }
+
+    /* Week */
     .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:10px}
     .day{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
     .lab{font-size:11px;color:var(--muted)}
-    .lab.todayLab{color:var(--text);font-weight:800}
 
     .dot{width:18px;height:18px;border-radius:999px;background:var(--gray)}
     .planned{border:2px solid var(--rasp);background:transparent}
     .done{background:var(--rasp)}
     .extra{background:var(--yellow)}
     .rest{background:var(--rest)}
-    /* today ring: works in light & dark */
-    .today{outline:2px solid var(--todayRing);outline-offset:4px;border-radius:999px}
+
+    /* Today ring around dot (works in light+dark) */
+    .today{
+      box-shadow: 0 0 0 4px var(--today-ring);
+    }
+    /* if dot is planned (transparent), keep ring visible */
+    .dot.planned.today{
+      box-shadow: 0 0 0 4px var(--today-ring), 0 0 0 2px rgba(0,0,0,0);
+    }
 
     .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
     .pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
@@ -84,29 +128,14 @@
     .primary{background:var(--rasp);color:#fff}
     .ghost{background:var(--ghost);color:var(--text)}
     .warn{background:#111827;color:#fff}
-    @media (prefers-color-scheme: dark){
-      .warn{background:#0B0F16;color:#fff;border:1px solid var(--line)}
-    }
-    .danger{background:var(--dangerBg);color:var(--dangerText)}
+    .danger{background:var(--danger-bg);color:var(--danger-text)}
     .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
     .btnrow button{flex:1}
-
-    /* Today card bits */
-    .todayHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-    .todayLeft{min-width:0}
-    .todayMeta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:7px 10px;border-radius:999px;background:var(--ghost);
-      font-size:12px;color:var(--text);font-weight:900;
-    }
-    .emoji{font-size:16px;line-height:1}
-    .hint{color:var(--muted);font-size:12px;margin-top:8px}
 
     /* Modal */
     .backdrop{
       position:fixed; inset:0;
-      background:var(--sheetBackdrop);
+      background:var(--sheet-backdrop);
       display:none; align-items:flex-end; justify-content:center;
       padding:14px;
     }
@@ -118,10 +147,9 @@
       box-shadow:0 10px 30px rgba(0,0,0,.25);
       padding:14px;
     }
-    .handle{
-      width:44px;height:5px;border-radius:999px;background:var(--line);margin:4px auto 10px;
-    }
+    .handle{width:44px;height:5px;border-radius:999px;background:var(--line);margin:4px auto 10px;}
     .hr{height:1px;background:var(--line);margin:12px 0}
+
     label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
     select,input{
       width:100%;
@@ -130,58 +158,161 @@
       border:1px solid var(--line);
       font-size:14px;
       background:#fff;
+      color:var(--text);
     }
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
     .chip{
       display:inline-flex;align-items:center;gap:8px;
       padding:8px 10px;border-radius:999px;background:var(--ghost);
       font-size:12px;color:var(--text);font-weight:900;
     }
-
     .closeX{
-      width:40px;height:40px;border-radius:999px;
-      display:grid;place-items:center;
-      background:var(--ghost);color:var(--text);
-      font-size:18px;font-weight:900;
-      padding:0;
+      width:44px;height:44px;border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:20px;font-weight:900;
     }
+
+    /* Views */
+    .topnav{
+      display:flex;gap:10px;align-items:center;justify-content:space-between;
+      margin:8px 0 12px;
+    }
+    .seg{
+      display:flex;gap:8px;
+      background:var(--ghost);
+      padding:6px;
+      border-radius:14px;
+    }
+    .seg button{
+      padding:10px 12px;
+      border-radius:12px;
+      background:transparent;
+      color:var(--text);
+      font-weight:900;
+    }
+    .seg .active{
+      background:var(--card);
+      box-shadow:0 1px 6px rgba(0,0,0,.08);
+    }
+
+    /* Calendar month */
+    .calHead{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;
+    }
+    .calTitle{font-weight:900;font-size:18px}
+    .calBtns{display:flex;gap:8px}
+    .iconBtn{
+      width:40px;height:40px;border-radius:14px;background:var(--ghost);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;
+    }
+    .dowRow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px}
+    .dowCell{font-size:11px;color:var(--muted);text-align:center}
+    .grid{
+      display:grid;grid-template-columns:repeat(7,1fr);gap:8px;
+    }
+    .cell{
+      border-radius:14px;
+      background:transparent;
+      padding:8px 6px;
+      min-height:56px;
+      cursor:pointer;
+      position:relative;
+      border:1px solid transparent;
+    }
+    .cell.mutedCell{opacity:.45}
+    .cell:hover{border-color: var(--line)}
+    .cellTop{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:6px;
+      gap:6px;
+    }
+    .num{font-weight:900;font-size:12px}
+    .miniIcon{font-size:12px;opacity:.9}
+    .miniMeta{font-size:10px;color:var(--muted);line-height:1.2}
+    .calDot{
+      width:10px;height:10px;border-radius:999px;background:var(--gray);
+      position:absolute; right:8px; bottom:8px;
+    }
+    .calDot.planned{border:2px solid var(--rasp);background:transparent}
+    .calDot.done{background:var(--rasp)}
+    .calDot.extra{background:var(--yellow)}
+    .calDot.rest{background:var(--rest)}
+
+    /* Today halo in calendar cell */
+    .cell.todayCell{
+      box-shadow: 0 0 0 3px var(--today-ring);
+      border-color: transparent;
+    }
+    .cell.todayCell .num{
+      color: var(--text);
+    }
+
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <h1>point<span style="color:var(--rasp)">.</span></h1>
-    <p class="sub">Tap day → details. Planned → done (+5€). Adhoc → extra (0€).</p>
+    <p class="sub">Tapni deň → detaily. Plánovaný → hotovo (+5€). Neplánovaný → extra (0€).</p>
 
-    <!-- TODAY CARD (NEW) -->
-    <div class="card" id="todayCard">
-      <div id="todayInner"></div>
+    <!-- Top nav -->
+    <div class="topnav">
+      <div class="seg">
+        <button id="btnWeek" class="active" onclick="setView('week')">Týždeň</button>
+        <button id="btnMonth" onclick="setView('month')">Kalendár</button>
+      </div>
+      <div class="chip" id="streakChip">streak: 0/7</div>
     </div>
 
-    <div class="card">
-      <div class="row">
-        <div>
-          <div class="title">This week</div>
-          <div class="muted" id="range"></div>
+    <!-- TODAY card -->
+    <div class="card" id="todayCard"></div>
+
+    <!-- WEEK view -->
+    <div id="weekView">
+      <div class="card">
+        <div class="row">
+          <div class="stack">
+            <div class="title">Tento týždeň</div>
+            <div class="muted" id="range"></div>
+          </div>
         </div>
-        <div class="chip" id="streakChip">streak: 0/7</div>
-      </div>
 
-      <div class="week" id="week"></div>
+        <div class="week" id="week"></div>
 
-      <div class="legend">
-        <div class="pill"><span class="mini planned"></span>planned</div>
-        <div class="pill"><span class="mini" style="background:var(--rasp)"></span>done</div>
-        <div class="pill"><span class="mini" style="background:var(--yellow)"></span>extra</div>
-        <div class="pill"><span class="mini" style="background:var(--rest)"></span>rest</div>
+        <div class="legend">
+          <div class="pill"><span class="mini planned"></span>plán</div>
+          <div class="pill"><span class="mini" style="background:var(--rasp)"></span>hotovo</div>
+          <div class="pill"><span class="mini" style="background:var(--yellow)"></span>extra</div>
+          <div class="pill"><span class="mini" style="background:var(--rest)"></span>rest</div>
+        </div>
       </div>
     </div>
 
+    <!-- MONTH view -->
+    <div id="monthView" style="display:none">
+      <div class="card">
+        <div class="calHead">
+          <div class="calTitle" id="calTitle">marec 2026</div>
+          <div class="calBtns">
+            <div class="iconBtn" onclick="shiftMonth(-1)">‹</div>
+            <div class="iconBtn" onclick="shiftMonth(1)">›</div>
+          </div>
+        </div>
+
+        <div class="dowRow" id="dowRow"></div>
+        <div class="grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <!-- FUND -->
     <div class="card">
       <div class="row">
-        <div>
+        <div class="stack">
           <div class="title">Watch fund</div>
-          <div class="muted">+5€ only for planned → done</div>
+          <div class="muted">+5€ len za plán → hotovo</div>
         </div>
         <div style="font-weight:900;font-size:18px" id="fund">0€</div>
       </div>
@@ -195,11 +326,11 @@
       <div class="handle"></div>
 
       <div class="row">
-        <div>
-          <div class="title" id="sheetTitle">Day</div>
+        <div class="stack">
+          <div class="title" id="sheetTitle">Deň</div>
           <div class="muted" id="sheetSub">status</div>
         </div>
-        <button class="closeX" onclick="hideSheet()" aria-label="Close">×</button>
+        <button class="ghost closeX" onclick="hideSheet()" aria-label="Zavrieť">×</button>
       </div>
 
       <div class="hr"></div>
@@ -210,8 +341,13 @@
 
 <script>
   // Storage keys
-  const LOGS_KEY = "point.logs.v2";
+  const LOGS_KEY = "point.logs.v3";
   const FUND_KEY = "point.fund.v1";
+  const VIEW_KEY = "point.view.v1";
+  const CAL_MONTH_KEY = "point.calmonth.v1"; // YYYY-MM
+
+  // Slovak day labels (Mon-start)
+  const labels = ["Po","Ut","St","Št","Pi","So","Ne"];
 
   // Helpers
   function iso(d){
@@ -228,64 +364,13 @@
     x.setDate(x.getDate()+diff);
     return x;
   }
-  function hashStr(s){
-    // small deterministic hash
-    let h=0;
-    for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; }
-    return Math.abs(h);
+  function fmtDate(isoStr){
+    // isoStr: YYYY-MM-DD -> DD.MM.YYYY
+    const [y,m,d] = isoStr.split("-");
+    return `${d}.${m}.${y}`;
   }
-  const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-
-  const sportMeta = {
-    run:      { emoji:"🏃‍♀️", name:"Run" },
-    swim:     { emoji:"🏊‍♀️", name:"Swim" },
-    bike:     { emoji:"🚴‍♀️", name:"Bike" },
-    strength: { emoji:"🏋️‍♀️", name:"Strength" },
-    mobility: { emoji:"🧘‍♀️", name:"Mobility" },
-  };
-
-  // Motivation / rest tips (short, not cringe)
-  const motivationGeneric = [
-    "One point at a time.",
-    "Just show up — the rest follows.",
-    "Small win, big momentum.",
-    "You’re on point.",
-    "Consistency beats intensity."
-  ];
-  const motivationRun = [
-    "Easy day builds the engine.",
-    "Run your run — steady wins.",
-    "Just a start. That’s the point."
-  ];
-  const motivationSwim = [
-    "Smooth is fast.",
-    "One clean length at a time.",
-    "Relax + rhythm."
-  ];
-  const restTips = [
-    "Relax in a sauna ♨️",
-    "10 min mobility + early sleep 💤",
-    "Easy walk + sunlight ☀️",
-    "Hot shower + stretch 🧘‍♀️",
-    "Legs up the wall for 3–5 min 🧠"
-  ];
-
-  function pick(list, key){
-    if(!list || list.length===0) return "";
-    const idx = hashStr(key) % list.length;
-    return list[idx];
-  }
-
-  function getMotivationFor(log, dateIso){
-    const sport = (log?.sport || "run");
-    const key = `${dateIso}:${sport}:${log?.status||"none"}`;
-    if(sport==="run") return pick(motivationRun.concat(motivationGeneric), key);
-    if(sport==="swim") return pick(motivationSwim.concat(motivationGeneric), key);
-    return pick(motivationGeneric, key);
-  }
-
-  function getRestTip(dateIso){
-    return pick(restTips, `rest:${dateIso}`);
+  function monthTitle(dateObj){
+    return dateObj.toLocaleString("sk-SK", { month:"long", year:"numeric" });
   }
 
   // State
@@ -294,10 +379,22 @@
 
   const today = new Date();
   const todayIso = iso(today);
+
   const weekStart = startOfWeekMon(today);
   const days = Array.from({length:7}).map((_,i)=>iso(addDays(weekStart,i)));
 
   let selectedDate = todayIso;
+
+  // calendar month cursor
+  function getStoredMonth(){
+    const saved = localStorage.getItem(CAL_MONTH_KEY);
+    if(saved && /^\d{4}-\d{2}$/.test(saved)) return saved;
+    return iso(today).slice(0,7);
+  }
+  let calMonth = getStoredMonth(); // YYYY-MM
+
+  // view
+  let view = localStorage.getItem(VIEW_KEY) || "week";
 
   function statusFor(date){ return logs[date]?.status || "none"; }
   function logFor(date){ return logs[date] || {date, status:"none"}; }
@@ -306,13 +403,13 @@
     const prev = logs[date] || {date, status:"none"};
     logs[date] = {...prev, ...patch, date};
     localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
-    render();
+    renderAll();
     renderSheet(); // keep sheet in sync if open
   }
   function clearDay(date){
     delete logs[date];
     localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
-    render();
+    renderAll();
     renderSheet();
   }
 
@@ -327,7 +424,6 @@
   }
 
   function computeStreakMax7(){
-    // count done in last 7 days including today
     let s=0;
     for(let i=0;i<7;i++){
       const d=iso(addDays(today,-i));
@@ -336,178 +432,52 @@
     return Math.min(7,s);
   }
 
-  // TODAY card render (NEW)
-  function renderTodayCard(){
-    const el = document.getElementById("todayInner");
-    const st = statusFor(todayIso);
-    const log = logFor(todayIso);
-
-    const inWeekIdx = days.indexOf(todayIso);
-    const dow = inWeekIdx>=0 ? labels[inWeekIdx] : "Today";
-
-    function metaLine(text){
-      return `<div class="hint">${text}</div>`;
-    }
-
-    // If no sport yet, show neutral icon
-    const sport = log?.sport || "run";
-    const sm = sportMeta[sport] || {emoji:"⭐", name:"Training"};
-
-    // Compose summary based on status
-    let header = `
-      <div class="todayHeader">
-        <div class="todayLeft">
-          <div class="kicker">Today</div>
-          <div class="big">${dow} • ${todayIso}</div>
-          <div class="todayMeta">
-            <span class="badge"><span class="emoji">${sm.emoji}</span>${sm.name}</span>
-            <span class="badge" id="todayStatusBadge"></span>
-          </div>
-        </div>
-        <button class="ghost" onclick="openSheet('${todayIso}')">Details</button>
-      </div>
-    `;
-
-    let statusBadge = "empty";
-    let body = "";
-    let actions = "";
-
-    if(st==="planned"){
-      statusBadge = "planned";
-      const goalTxt = (log.goalType==="time")
-        ? `${Number(log.goalValue||0)} min`
-        : `${Number(log.goalValue||0)} km`;
-      body = `
-        <div class="spacer12"></div>
-        <div class="title">${log.name || "training"}</div>
-        <div class="muted">${log.goalValue ? goalTxt : "no goal set"}</div>
-        ${log.note ? `<div class="hint">“${escapeHtml(log.note)}”</div>` : ""}
-        ${metaLine(getMotivationFor(log, todayIso))}
-      `;
-      actions = `
-        <div class="btnrow">
-          <button class="primary" onclick="quickCompletePlannedToday()">Done (+5€)</button>
-          <button class="ghost" onclick="openSheet('${todayIso}')">Move / Edit</button>
-        </div>
-      `;
-    } else if(st==="adhoc_draft"){
-      statusBadge = "unplanned";
-      const goalTxt = (log.goalType==="time")
-        ? `${Number(log.goalValue||0)} min`
-        : `${Number(log.goalValue||0)} km`;
-      body = `
-        <div class="spacer12"></div>
-        <div class="title">${log.name || "unplanned training"}</div>
-        <div class="muted">${log.goalValue ? goalTxt : "no goal set"}</div>
-        ${log.note ? `<div class="hint">“${escapeHtml(log.note)}”</div>` : ""}
-        ${metaLine("Nice extra — no pressure, just progress.")}
-      `;
-      actions = `
-        <div class="btnrow">
-          <button class="warn" onclick="quickCompleteAdhocToday()">Done (extra)</button>
-          <button class="ghost" onclick="openSheet('${todayIso}')">Edit</button>
-        </div>
-      `;
-    } else if(st==="done"){
-      statusBadge = "done";
-      body = `
-        <div class="spacer12"></div>
-        <div class="title">${log.name || "training"}</div>
-        <div class="muted">Completed. +5€ already counted.</div>
-        ${metaLine("Nice. You earned it.")}
-      `;
-      actions = `
-        <div class="btnrow">
-          <button class="ghost" onclick="openSheet('${todayIso}')">Edit details</button>
-          <button class="ghost" onclick="scrollToWeek()">See week</button>
-        </div>
-      `;
-    } else if(st==="extra"){
-      statusBadge = "extra";
-      body = `
-        <div class="spacer12"></div>
-        <div class="title">${log.name || "unplanned training"}</div>
-        <div class="muted">Completed. No € reward (extra).</div>
-        ${metaLine("Extra points for showing up.")}
-      `;
-      actions = `
-        <div class="btnrow">
-          <button class="ghost" onclick="openSheet('${todayIso}')">Edit details</button>
-          <button class="ghost" onclick="scrollToWeek()">See week</button>
-        </div>
-      `;
-    } else if(st==="rest"){
-      statusBadge = "rest day";
-      body = `
-        <div class="spacer12"></div>
-        <div class="title"><span class="emoji">🧘‍♀️</span> Rest day</div>
-        ${metaLine(getRestTip(todayIso))}
-      `;
-      actions = `
-        <div class="btnrow">
-          <button class="ghost" onclick="clearDay('${todayIso}')">Unset rest</button>
-          <button class="ghost" onclick="openSheet('${todayIso}')">Plan training</button>
-        </div>
-      `;
-    } else {
-      statusBadge = "empty";
-      body = `
-        <div class="spacer12"></div>
-        <div class="title">Nothing planned yet</div>
-        ${metaLine("Keep it flexible. Plan later — or go unplanned.")}
-      `;
-      actions = `
-        <div class="btnrow">
-          <button class="primary" onclick="openSheet('${todayIso}')">Add activity</button>
-          <button class="ghost" onclick="scrollToWeek()">See week</button>
-        </div>
-      `;
-    }
-
-    el.innerHTML = header + body + actions;
-    const b = document.getElementById("todayStatusBadge");
-    if(b) b.textContent = statusBadge;
+  function sportIcon(s){
+    if(s==="run") return "🏃‍♀️";
+    if(s==="swim") return "🏊‍♀️";
+    if(s==="bike") return "🚴‍♀️";
+    if(s==="strength") return "🏋️‍♀️";
+    if(s==="mobility") return "🧘‍♀️";
+    return "✨";
   }
 
-  function scrollToWeek(){
-    // small helper for mobile
-    window.scrollTo({top: 220, behavior:"smooth"});
+  function statusLabel(st){
+    if(st==="none") return "empty";
+    if(st==="planned") return "planned";
+    if(st==="done") return "done";
+    if(st==="extra") return "extra";
+    if(st==="adhoc_draft") return "unplanned (not completed)";
+    if(st==="rest") return "rest day";
+    return st;
   }
 
-  function escapeHtml(s){
-    return String(s || "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
+  function motivationLine(st){
+    // keep it gentle, no pressure
+    if(st==="planned") return "You're on point.\n\n";
+    if(st==="done") return "Nice. One point at a time.\n\n";
+    if(st==="rest") return "Rest is training too.\n\n";
+    if(st==="extra") return "Extra credit.\n\n";
+    return "";
   }
 
-  // Quick actions (Today card)
-  function quickCompletePlannedToday(){
-    const log = logFor(todayIso);
-    if(statusFor(todayIso)!=="planned") return;
-    setLog(todayIso,{status:"done", ...log});
-    addFund(5,"Nice. Planned → done. +5€ to your watch fund.");
-  }
-  function quickCompleteAdhocToday(){
-    const log = logFor(todayIso);
-    if(statusFor(todayIso)!=="adhoc_draft") return;
-    setLog(todayIso,{status:"extra", ...log});
-    document.getElementById("fundNote").textContent = "Unplanned completed. (No € reward)";
+  function restSuggestion(){
+    return "Relax in a sauna ♨️";
   }
 
-  // Main UI render
-  function render(){
-    document.getElementById("range").textContent = `${days[0]} → ${days[6]}`;
-    renderFund();
+  // Views
+  function setView(v){
+    view = v;
+    localStorage.setItem(VIEW_KEY, v);
+    document.getElementById("btnWeek").classList.toggle("active", v==="week");
+    document.getElementById("btnMonth").classList.toggle("active", v==="month");
+    document.getElementById("weekView").style.display = v==="week" ? "block" : "none";
+    document.getElementById("monthView").style.display = v==="month" ? "block" : "none";
+    if(v==="month") renderCalendar();
+  }
 
-    const streak = computeStreakMax7();
-    document.getElementById("streakChip").textContent = `streak: ${streak}/7`;
-
-    // Today card first
-    renderTodayCard();
-
+  // WEEK render
+  function renderWeek(){
+    document.getElementById("range").textContent = `${fmtDate(days[0])} → ${fmtDate(days[6])}`;
     const weekEl=document.getElementById("week");
     weekEl.innerHTML="";
 
@@ -519,7 +489,6 @@
       const lab=document.createElement("div");
       lab.className="lab";
       lab.textContent=labels[i];
-      if(d===todayIso) lab.classList.add("todayLab");
 
       const dot=document.createElement("div");
       dot.className="dot";
@@ -537,6 +506,233 @@
     });
   }
 
+  // TODAY card render
+  function renderToday(){
+    const card = document.getElementById("todayCard");
+    const st = statusFor(todayIso);
+    const log = logFor(todayIso);
+
+    const titleDate = `${labels[days.indexOf(todayIso) >= 0 ? days.indexOf(todayIso) : 0]} • ${fmtDate(todayIso)}`;
+
+    // Tags
+    let tagsHtml = "";
+    if(st==="planned" || st==="done" || st==="extra" || st==="adhoc_draft"){
+      tagsHtml = `
+        <div class="tags">
+          <div class="tag">${sportIcon(log.sport || "run")} ${prettySport(log.sport || "run")}</div>
+          <div class="tag">${prettyStatusTag(st)}</div>
+        </div>
+      `;
+    } else if(st==="rest"){
+      tagsHtml = `
+        <div class="tags">
+          <div class="tag">🛌 rest</div>
+        </div>
+      `;
+    } else {
+      tagsHtml = `
+        <div class="tags">
+          <div class="tag">empty</div>
+        </div>
+      `;
+    }
+
+    // Content
+    let mainHtml = "";
+    if(st==="planned" || st==="done" || st==="extra" || st==="adhoc_draft"){
+      const goal = (log.goalType==="time")
+        ? (log.goalValue ? `${log.goalValue} min` : "")
+        : (log.goalValue ? `${log.goalValue} km` : "");
+      const note = log.note ? `"${escapeHtml(log.note)}"` : "";
+      const name = log.name ? escapeHtml(log.name) : "training";
+
+      mainHtml = `
+        <div class="sep"></div>
+        <div class="stack" style="gap:2px">
+          <div class="bigtitle">${name}</div>
+          <div class="muted">${goal}</div>
+          <div class="muted">${note}</div>
+        </div>
+        <div class="sep"></div>
+        <div class="muted" style="white-space:pre-line">${motivationLine(st)} </div>
+      `;
+    } else if(st==="rest"){
+      mainHtml = `
+        <div class="sep"></div>
+        <div class="stack">
+          <div class="bigtitle">rest day</div>
+          <div style="font-size:16px;font-weight:900; margin-top:8px; white-space:pre-line">
+            ${"\n"}${restSuggestion()}
+          </div>
+        </div>
+        <div class="sep"></div>
+      `;
+    } else {
+      mainHtml = `
+        <div class="sep"></div>
+        <div class="muted">Dnes nemáš nič naplánované. Tapni “Details” a pridaj tréning alebo rest.</div>
+        <div class="sep"></div>
+      `;
+    }
+
+    // Buttons
+    let btns = "";
+    if(st==="planned"){
+      btns = `
+        <div class="btnrow">
+          <button class="primary" onclick="completePlannedToday()">Done (+5€)</button>
+          <button class="ghost" onclick="openSheet('${todayIso}')">Move / Edit</button>
+        </div>
+      `;
+    } else {
+      btns = `
+        <div class="btnrow">
+          <button class="ghost" onclick="openSheet('${todayIso}')">Details</button>
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="row">
+        <div class="stack">
+          <div class="muted" style="letter-spacing:.12em">TODAY</div>
+          <div class="title">${titleDate}</div>
+        </div>
+        <button class="ghost" onclick="openSheet('${todayIso}')">Details</button>
+      </div>
+      ${tagsHtml}
+      ${mainHtml}
+      ${btns}
+    `;
+  }
+
+  function prettySport(s){
+    if(s==="run") return "Run";
+    if(s==="swim") return "Swim";
+    if(s==="bike") return "Bike";
+    if(s==="strength") return "Strength";
+    if(s==="mobility") return "Mobility";
+    return "Training";
+  }
+  function prettyStatusTag(st){
+    if(st==="planned") return "planned";
+    if(st==="done") return "done";
+    if(st==="extra") return "extra";
+    if(st==="adhoc_draft") return "unplanned";
+    return st;
+  }
+  function escapeHtml(str){
+    return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  }
+
+  function completePlannedToday(){
+    const log = logFor(todayIso);
+    setLog(todayIso, { status:"done", ...log });
+    addFund(5, "Nice. Planned → done. +5€ to your watch fund.");
+  }
+
+  // Calendar (month)
+  function shiftMonth(delta){
+    const [y,m] = calMonth.split("-").map(Number);
+    const d = new Date(y, m-1, 1);
+    d.setMonth(d.getMonth() + delta);
+    calMonth = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+    localStorage.setItem(CAL_MONTH_KEY, calMonth);
+    renderCalendar();
+  }
+
+  function renderCalendar(){
+    const [y,m] = calMonth.split("-").map(Number);
+    const first = new Date(y, m-1, 1);
+    const last = new Date(y, m, 0);
+
+    document.getElementById("calTitle").textContent = monthTitle(first);
+
+    // dows
+    const dowRow = document.getElementById("dowRow");
+    dowRow.innerHTML = "";
+    labels.forEach(l=>{
+      const div = document.createElement("div");
+      div.className = "dowCell";
+      div.textContent = l;
+      dowRow.appendChild(div);
+    });
+
+    // grid
+    const grid = document.getElementById("calGrid");
+    grid.innerHTML = "";
+
+    // compute leading blanks based on Monday-start
+    // JS getDay(): 0 Sun..6 Sat. We want Mon=0..Sun=6
+    const jsDay = first.getDay();
+    const monIndex = (jsDay === 0) ? 6 : jsDay - 1;
+
+    const totalCells = 42; // 6 rows
+    const startDate = new Date(first);
+    startDate.setDate(first.getDate() - monIndex);
+
+    for(let i=0;i<totalCells;i++){
+      const d = new Date(startDate);
+      d.setDate(startDate.getDate() + i);
+      const dIso = iso(d);
+
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      if(d.getMonth() !== first.getMonth()) cell.classList.add("mutedCell");
+      if(dIso === todayIso) cell.classList.add("todayCell");
+
+      cell.onclick = ()=> openSheet(dIso); // tap -> sheet with preselected day
+
+      const st = statusFor(dIso);
+      const log = logFor(dIso);
+
+      const num = document.createElement("div");
+      num.className = "num";
+      num.textContent = String(d.getDate()).padStart(2,"0");
+
+      const icon = document.createElement("div");
+      icon.className = "miniIcon";
+      icon.textContent = (st==="planned"||st==="done"||st==="extra"||st==="adhoc_draft") ? sportIcon(log.sport || "run") : (st==="rest" ? "🛌" : "");
+
+      const top = document.createElement("div");
+      top.className = "cellTop";
+      top.appendChild(num);
+      top.appendChild(icon);
+
+      const meta = document.createElement("div");
+      meta.className = "miniMeta";
+      if(st==="planned"||st==="done"||st==="extra"||st==="adhoc_draft"){
+        const name = (log.name || "").trim();
+        const goal = log.goalType==="time"
+          ? (log.goalValue ? `${log.goalValue}m` : "")
+          : (log.goalValue ? `${log.goalValue}k` : "");
+        meta.textContent = `${name ? name.slice(0,16) : "training"}${goal ? " • "+goal : ""}`;
+      } else if(st==="rest"){
+        meta.textContent = "rest";
+      } else {
+        meta.textContent = "";
+      }
+
+      cell.appendChild(top);
+      cell.appendChild(meta);
+
+      // status dot
+      if(st !== "none"){
+        const dot = document.createElement("div");
+        dot.className = "calDot";
+        if(st==="planned") dot.classList.add("planned");
+        if(st==="done") dot.classList.add("done");
+        if(st==="extra") dot.classList.add("extra");
+        if(st==="rest") dot.classList.add("rest");
+        // draft shown as gray dot (so user sees “something there”)
+        if(st==="adhoc_draft") dot.style.background = "var(--gray)";
+        cell.appendChild(dot);
+      }
+
+      grid.appendChild(cell);
+    }
+  }
+
   // Sheet controls
   function openSheet(date){
     selectedDate = date;
@@ -550,26 +746,17 @@
     if(e.target.id==="backdrop") hideSheet();
   }
 
-  function statusLabel(st){
-    if(st==="none") return "empty";
-    if(st==="planned") return "planned";
-    if(st==="done") return "done";
-    if(st==="extra") return "unplanned (extra)";
-    if(st==="rest") return "rest day";
-    if(st==="adhoc_draft") return "unplanned (draft)";
-    return st;
-  }
-
   function renderSheet(){
     const bd = document.getElementById("backdrop");
     if(bd.style.display!=="flex") return;
 
-    const i = days.indexOf(selectedDate);
-    const dow = i>=0 ? labels[i] : "Day";
+    const weekIdx = days.indexOf(selectedDate);
+    const dow = weekIdx>=0 ? labels[weekIdx] : "";
     const st = statusFor(selectedDate);
     const log = logFor(selectedDate);
 
-    document.getElementById("sheetTitle").textContent = `${dow} • ${selectedDate}`;
+    const title = dow ? `${dow} • ${fmtDate(selectedDate)}` : fmtDate(selectedDate);
+    document.getElementById("sheetTitle").textContent = title;
     document.getElementById("sheetSub").textContent = `status: ${statusLabel(st)}`;
 
     const body = document.getElementById("sheetBody");
@@ -585,7 +772,7 @@
       fieldRow(`
         <div class="grid2">
           <div>
-            <label>Sport</label>
+            <label>Šport</label>
             <select id="fSport">
               <option value="run">Run</option>
               <option value="swim">Swim</option>
@@ -595,26 +782,26 @@
             </select>
           </div>
           <div>
-            <label>Goal type</label>
+            <label>Typ cieľa</label>
             <select id="fGoalType">
-              <option value="distance">Distance (km)</option>
-              <option value="time">Time (min)</option>
+              <option value="distance">Vzdialenosť (km)</option>
+              <option value="time">Čas (min)</option>
             </select>
           </div>
         </div>
 
         <div style="margin-top:10px">
-          <label>Name</label>
+          <label>Názov</label>
           <input id="fName" placeholder="easy 5 km / long run / drills..." />
         </div>
 
         <div style="margin-top:10px">
-          <label id="fGoalLabel">Value</label>
-          <input id="fGoalValue" type="number" step="0.1" placeholder="e.g. 5" />
+          <label id="fGoalLabel">Hodnota</label>
+          <input id="fGoalValue" type="number" step="0.1" placeholder="napr. 5" />
         </div>
 
         <div style="margin-top:10px">
-          <label>Note (optional)</label>
+          <label>Poznámka (voliteľné)</label>
           <input id="fNote" placeholder="mood, cue, anything..." />
         </div>
       `);
@@ -628,7 +815,7 @@
       const gt = document.getElementById("fGoalType");
       const gl = document.getElementById("fGoalLabel");
       function syncLabel(){
-        gl.textContent = gt.value==="time" ? "Minutes" : "Kilometers";
+        gl.textContent = gt.value==="time" ? "Minúty" : "Kilometre";
       }
       gt.onchange = syncLabel;
       syncLabel();
@@ -642,20 +829,20 @@
       });
     }
 
-    // ----- STATE: none (empty)
+    // EMPTY
     if(st==="none"){
-      fieldRow(`<div class="muted">Nothing here yet.</div>`);
+      fieldRow(`<div class="muted">Zatiaľ tu nič nie je.</div>`);
       const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
 
       fieldRow(`<div class="btnrow">
-        <button class="primary" id="btnPlan">Plan training</button>
-        <button class="ghost" id="btnAdhoc">Unplanned training</button>
+        <button class="primary" id="btnPlan">Plánovaný tréning</button>
+        <button class="ghost" id="btnAdhoc">Neplánovaný tréning</button>
       </div>
       <div class="btnrow">
         <button class="ghost" id="btnRest">Rest day</button>
-        <button class="danger" id="btnClear">Clear</button>
+        <button class="danger" id="btnClear">Vymazať</button>
       </div>
-      <div class="muted">Unplanned becomes <b>yellow</b> only after you complete it. No €.</div>
+      <div class="muted">Neplánovaný sa zafarbí na <b>žlto</b> až po dokončení. Bez €.</div>
       `);
 
       document.getElementById("btnPlan").onclick = ()=>{
@@ -671,25 +858,25 @@
       return;
     }
 
-    // ----- STATE: adhoc draft
+    // ADHOC DRAFT
     if(st==="adhoc_draft"){
-      fieldRow(`<div class="chip">unplanned • not completed yet</div>`);
+      fieldRow(`<div class="chip">unplanned training • not completed yet</div>`);
       const get = renderEditForm(log);
 
       fieldRow(`<div class="btnrow">
-        <button class="warn" id="btnComplete">Done (extra)</button>
-        <button class="ghost" id="btnSave">Save edits</button>
+        <button class="warn" id="btnComplete">Complete (extra)</button>
+        <button class="ghost" id="btnSave">Uložiť zmeny</button>
       </div>
       <div class="btnrow">
-        <button class="danger" id="btnClear">Clear</button>
+        <button class="danger" id="btnClear">Vymazať</button>
       </div>
-      <div class="muted">Completion turns the day <b>yellow</b>. No € reward.</div>
+      <div class="muted">Dokončenie zafarbí deň na <b>žlto</b>. Bez €.</div>
       `);
 
       document.getElementById("btnComplete").onclick=()=>{
         const v=get();
         setLog(selectedDate,{status:"extra", ...v});
-        document.getElementById("fundNote").textContent = "Unplanned completed. (No € reward)";
+        document.getElementById("fundNote").textContent = "Extra completed. (No € reward)";
       };
       document.getElementById("btnSave").onclick=()=>{
         const v=get();
@@ -699,26 +886,36 @@
       return;
     }
 
-    // ----- STATE: planned
+    // PLANNED
     if(st==="planned"){
       fieldRow(`<div class="chip">planned training</div>`);
       const get = renderEditForm(log);
 
-      const opts = days.map((d,idx)=>`<option value="${d}" ${d===selectedDate?"selected":""}>${labels[idx]} (${d.slice(5)})</option>`).join("");
+      // move targets within week: only empty days OR rest allowed? (keep it safe: only empty days)
+      const allowed = days.filter(d => {
+        const s = statusFor(d);
+        return d===selectedDate || s==="none";
+      });
+      const opts = allowed.map(d=>{
+        const idx = days.indexOf(d);
+        const l = idx>=0 ? labels[idx] : "";
+        return `<option value="${d}" ${d===selectedDate?"selected":""}>${l} (${fmtDate(d)})</option>`;
+      }).join("");
+
       fieldRow(`
         <div style="margin-top:10px">
-          <label>Move to</label>
+          <label>Presunúť na</label>
           <select id="moveTo">${opts}</select>
         </div>
       `);
 
       fieldRow(`<div class="btnrow">
-        <button class="primary" id="btnComplete">Done (+5€)</button>
-        <button class="ghost" id="btnMove">Move</button>
+        <button class="primary" id="btnComplete">Hotovo (+5€)</button>
+        <button class="ghost" id="btnMove">Presunúť</button>
       </div>
       <div class="btnrow">
-        <button class="ghost" id="btnSave">Save edits</button>
-        <button class="danger" id="btnCancel">Cancel plan</button>
+        <button class="ghost" id="btnSave">Uložiť zmeny</button>
+        <button class="danger" id="btnCancel">Zrušiť plán</button>
       </div>
       `);
 
@@ -743,18 +940,19 @@
       return;
     }
 
-    // ----- STATE: rest
+    // REST
     if(st==="rest"){
       fieldRow(`<div class="chip">rest day</div>`);
-      fieldRow(`<div class="muted">${getRestTip(selectedDate)}</div>`);
+      fieldRow(`<div style="font-size:16px;font-weight:900; white-space:pre-line">${"\n"}${restSuggestion()}</div>`);
+      fieldRow(`<div class="muted" style="margin-top:10px">Môžeš unsetnúť rest alebo naplánovať tréning.</div>`);
       const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
 
       fieldRow(`<div class="btnrow">
         <button class="ghost" id="btnUnset">Unset rest</button>
-        <button class="primary" id="btnPlan">Plan training</button>
+        <button class="primary" id="btnPlan">Plánovaný tréning</button>
       </div>
       <div class="btnrow">
-        <button class="danger" id="btnClear">Clear</button>
+        <button class="danger" id="btnClear">Vymazať</button>
       </div>
       `);
 
@@ -767,16 +965,16 @@
       return;
     }
 
-    // ----- STATE: done or extra
+    // DONE / EXTRA
     if(st==="done" || st==="extra"){
       fieldRow(`<div class="chip">${st==="done" ? "completed (done)" : "completed (extra)"}</div>`);
       const get = renderEditForm(log);
 
       fieldRow(`<div class="btnrow">
-        <button class="ghost" id="btnSave">Save edits</button>
-        <button class="danger" id="btnClear">Clear</button>
+        <button class="ghost" id="btnSave">Uložiť zmeny</button>
+        <button class="danger" id="btnClear">Vymazať</button>
       </div>
-      <div class="muted">${st==="done" ? "Done is raspberry. Reward already counted." : "Extra is yellow. No € reward."}</div>
+      <div class="muted">${st==="done" ? "Done je raspberry. Odmena už prirátaná." : "Extra je žlté. Bez €."}</div>
       `);
 
       document.getElementById("btnSave").onclick=()=>{
@@ -788,11 +986,24 @@
     }
 
     fieldRow(`<div class="muted">Unknown state.</div>`);
-    fieldRow(`<div class="btnrow"><button class="danger" onclick="clearDay(selectedDate)">Clear</button></div>`);
+    fieldRow(`<div class="btnrow"><button class="danger" onclick="clearDay(selectedDate)">Vymazať</button></div>`);
+  }
+
+  // Main render
+  function renderAll(){
+    renderFund();
+
+    const streak = computeStreakMax7();
+    document.getElementById("streakChip").textContent = `streak: ${streak}/7`;
+
+    renderToday();
+    renderWeek();
+    if(view==="month") renderCalendar();
   }
 
   // Init
-  render();
+  setView(view);
+  renderAll();
 </script>
 </body>
 </html>
