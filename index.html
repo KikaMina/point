@@ -15,7 +15,7 @@
 
       --rasp:#C1124A;     /* planned/done */
       --yellow:#FBBF24;   /* extra */
-      --gray:#3A3F48;     /* empty */
+      --gray:#3A3F48;     /* none */
       --rest:#2A2F38;     /* rest */
       --pill:#1C2027;
       --btn:#232834;
@@ -24,12 +24,11 @@
       --shadow: 0 10px 30px rgba(0,0,0,.35);
     }
 
-    /* Light mode auto (keď má user svetlý systém) */
     @media (prefers-color-scheme: light){
       :root{
         --bg:#FAFAF8;
         --card:#FFFFFF;
-        --card2:#FFFFFF;
+        --card2:#F6F7F9;
         --text:#111827;
         --muted:#6B7280;
         --line:#E5E7EB;
@@ -51,15 +50,17 @@
       margin:0;
       color:var(--text);
     }
-    .wrap{max-width:440px;margin:0 auto;padding:18px 16px 40px}
+
+    .wrap{max-width:480px;margin:0 auto;padding:18px 16px 40px}
     h1{margin:8px 0 2px;font-size:30px;letter-spacing:-.2px}
     .sub{color:var(--muted);margin:0 0 14px;font-size:14px;line-height:1.35}
 
     .toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+
     .chip{
       display:inline-flex;align-items:center;gap:8px;
       padding:10px 12px;border-radius:999px;background:var(--pill);
-      font-size:13px;color:var(--text);font-weight:800;
+      font-size:13px;color:var(--text);font-weight:900;
       border:1px solid var(--line);
       white-space:nowrap;
     }
@@ -68,6 +69,8 @@
       display:flex;gap:10px;align-items:center;justify-content:space-between;
       margin:10px 0 14px;
     }
+
+    /* Tabbar – responsive (4 tabs) */
     .tabbar{
       background:var(--card);
       border:1px solid var(--line);
@@ -75,19 +78,28 @@
       padding:6px;
       display:flex;gap:6px;
       box-shadow:var(--shadow);
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      max-width:100%;
     }
+    .tabbar::-webkit-scrollbar{height:0}
+
     .tabbtn{
       border:none;border-radius:12px;
-      padding:10px 14px;
+      padding:10px 12px;
       background:transparent;
       color:var(--muted);
-      font-weight:900;
+      font-weight:950;
       cursor:pointer;
-      min-width:110px;
+      min-width:92px;
+      flex:0 0 auto;
     }
     .tabbtn.active{
       background:var(--btn);
       color:var(--text);
+    }
+    @media (max-width:420px){
+      .tabbtn{min-width:82px;padding:9px 10px}
     }
 
     .card{
@@ -98,13 +110,14 @@
       box-shadow:var(--shadow);
       margin-bottom:12px;
     }
+
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
     .muted{color:var(--muted);font-size:12px}
     .title{font-weight:950;font-size:20px;letter-spacing:-.2px}
     .subtitle{color:var(--muted);font-size:13px;margin-top:2px}
     .hr{height:1px;background:var(--line);margin:12px 0}
 
-    /* Today card */
+    /* Today */
     .todayHeader{
       display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
     }
@@ -114,21 +127,23 @@
       padding:10px 12px;border-radius:999px;
       background:var(--pill);
       border:1px solid var(--line);
-      font-weight:900;
+      font-weight:950;
       font-size:14px;
     }
     .tag .ico{font-size:18px}
+
     .bigName{
       font-size:28px;font-weight:1000;letter-spacing:-.4px;margin:12px 0 4px;
       line-height:1.05;
     }
     .bigMeta{font-size:16px;color:var(--muted);margin:0}
+
     .quote{
       margin-top:12px;
       color:var(--muted);
       font-size:15px;
       line-height:1.35;
-      white-space:pre-line; /* kvôli voľnému riadku */
+      white-space:pre-line;
     }
 
     button{border:none;border-radius:14px;padding:12px 14px;font-weight:950;cursor:pointer}
@@ -139,14 +154,32 @@
     .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
     .btnrow button{flex:1}
 
+    /* Trophy msg + simple animation */
+    .trophyMsg{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 12px;border-radius:14px;
+      background:rgba(251,191,36,.12);
+      border:1px solid rgba(251,191,36,.25);
+      margin-top:10px;
+      font-weight:900;
+      color:var(--text);
+    }
+    .trophyIco{
+      font-size:18px;
+      animation: trophyPop 900ms ease-in-out infinite;
+      transform-origin:50% 60%;
+    }
+    @keyframes trophyPop{
+      0%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-2px) rotate(-2deg)}
+      100%{transform:translateY(0) rotate(0deg)}
+    }
+
     /* Week */
     .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:12px}
     .day{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
     .lab{font-size:12px;color:var(--muted);font-weight:900}
-    .dot{
-      width:18px;height:18px;border-radius:999px;background:var(--gray);
-      position:relative;
-    }
+    .dot{width:18px;height:18px;border-radius:999px;background:var(--gray);position:relative}
     .planned{border:2px solid var(--rasp);background:transparent}
     .done{background:var(--rasp)}
     .extra{background:var(--yellow)}
@@ -157,30 +190,20 @@
       border-radius:999px;
     }
     @media (prefers-color-scheme: light){
-      .todayRing{
-        outline:2px solid rgba(17,24,39,.22);
-        outline-offset:6px;
-      }
+      .todayRing{ outline:2px solid rgba(17,24,39,.22); outline-offset:6px; }
     }
-    .todayGlow{
-      box-shadow: 0 0 0 0 rgba(193,18,74,.0);
-    }
-    /* extra glow iba v dark */
+    .todayGlow{ box-shadow: 0 0 0 0 rgba(193,18,74,.0); }
     @media (prefers-color-scheme: dark){
-      .todayGlow{
-        box-shadow: 0 0 0 8px rgba(193,18,74,.12);
-      }
+      .todayGlow{ box-shadow: 0 0 0 8px rgba(193,18,74,.08); }
     }
 
     .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .pill{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:800}
+    .pill{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:850}
     .mini{width:10px;height:10px;border-radius:999px;background:var(--gray)}
     .mini.planned{border:2px solid var(--rasp);background:transparent}
 
-    /* Calendar */
-    .calHeader{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px
-    }
+    /* Calendar header */
+    .calHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
     .calTitle{font-weight:1000;font-size:20px;letter-spacing:-.2px;text-transform:lowercase}
     .calNav{display:flex;gap:8px}
     .calNav button{padding:10px 12px;border-radius:12px}
@@ -192,52 +215,70 @@
       text-align:center;
       padding:6px 0;
     }
+
+    /* Calendar – SOFT FILL (no borders, no dots) */
     .calCell{
       background:var(--card2);
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:10px 8px 8px;
-      min-height:70px;
+      border:none;
+      border-radius:18px;              /* point shape */
+      padding:10px 10px 8px;
+      min-height:72px;
       cursor:pointer;
       position:relative;
       overflow:hidden;
     }
-    .calCell.mutedCell{
-      opacity:.45;
+    @media (prefers-color-scheme: light){
+      .calCell{ background: #F6F7F9; }
     }
-    .calDateRow{
-      display:flex;align-items:center;justify-content:space-between;gap:6px;
-      font-weight:1000;
+
+    .calCell.stNone{ background: var(--card2); }
+    .calCell.stPlanned{ background: rgba(193,18,74,.10); }
+    .calCell.stDone{ background: rgba(193,18,74,.18); }
+    .calCell.stExtra{ background: rgba(251,191,36,.16); }
+    .calCell.stRest{ background: rgba(58,63,72,.16); }
+
+    @media (prefers-color-scheme: light){
+      .calCell.stPlanned{ background: rgba(193,18,74,.08); }
+      .calCell.stDone{ background: rgba(193,18,74,.14); }
+      .calCell.stExtra{ background: rgba(251,191,36,.18); }
+      .calCell.stRest{ background: rgba(107,114,128,.12); }
     }
-    .calDateNum{font-size:14px}
-    .calBadgeDot{
-      width:10px;height:10px;border-radius:999px;background:var(--gray);
-      flex:0 0 auto;
-    }
-    .calBadgeDot.planned{border:2px solid var(--rasp);background:transparent}
-    .calBadgeDot.done{background:var(--rasp)}
-    .calBadgeDot.extra{background:var(--yellow)}
-    .calBadgeDot.rest{background:var(--rest)}
+
+    .calCell.mutedCell{ opacity:.45; }
+
+    .calDateRow{display:flex;align-items:center;justify-content:space-between;gap:6px;font-weight:1000}
+    .calDateNum{font-size:14px;font-weight:1000}
+
     .calInfo{
-      margin-top:8px;
+      margin-top:10px;
       display:flex;
       flex-direction:column;
-      gap:4px;
+      gap:6px;
       font-size:12px;
-      color:var(--muted);
       line-height:1.15;
+      min-width:0;
     }
     .calInfo .line1{
       display:flex;align-items:center;gap:6px;min-width:0;
-      font-weight:900;color:var(--text);
+      font-weight:950;color:var(--text);
     }
     .calInfo .line1 span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .calInfo .line2{
       display:flex;align-items:center;gap:6px;
       white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      color:var(--muted);
+      font-weight:850;
     }
 
-    /* Fund */
+    .calPlaceholder{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:850;
+      opacity:.85;
+    }
+
+    /* Fund (wallet tab) */
     .goal{
       background:var(--card2);
       border:1px solid var(--line);
@@ -262,8 +303,6 @@
       background:var(--rasp);
       border-radius:999px;
     }
-    .goalBottom{display:flex;gap:10px;margin-top:10px}
-    .goalBottom button{flex:1;padding:10px 12px}
 
     /* Forms */
     label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px;font-weight:900}
@@ -293,7 +332,7 @@
     }
     .sheet{
       width:100%;
-      max-width:440px;
+      max-width:480px;
       background:var(--card);
       border:1px solid var(--line);
       border-radius:22px;
@@ -309,7 +348,6 @@
     @media (prefers-color-scheme: light){
       .handle{background:#E5E7EB}
     }
-
     .xbtn{
       width:46px;height:46px;border-radius:16px;
       display:inline-flex;align-items:center;justify-content:center;
@@ -321,17 +359,7 @@
       font-size:18px;
       font-weight:1000;
       line-height:1.25;
-      white-space:pre-line; /* aby fungoval voľný riadok */
-    }
-
-    /* Trophy pop animation (jemné) */
-    @keyframes trophyPop{
-      0% { transform: scale(.98); opacity:.85; }
-      60% { transform: scale(1.03); opacity:1; }
-      100% { transform: scale(1); opacity:1; }
-    }
-    .trophyPop{
-      animation: trophyPop 420ms ease-out;
+      white-space:pre-line;
     }
   </style>
 </head>
@@ -349,9 +377,9 @@
       <div class="tabbar">
         <button class="tabbtn active" id="tabWeek" onclick="setTab('week')">Týždeň</button>
         <button class="tabbtn" id="tabCal" onclick="setTab('cal')">Kalendár</button>
+        <button class="tabbtn" id="tabWal" onclick="setTab('wal')">Peňaženka</button>
         <button class="tabbtn" id="tabSet" onclick="setTab('set')">Nastavenia</button>
       </div>
-      <div class="chip" id="streakChip">Tréning: 0/0</div>
     </div>
 
     <!-- TODAY -->
@@ -365,6 +393,7 @@
             <div class="title">Tento týždeň</div>
             <div class="subtitle" id="range"></div>
           </div>
+          <div class="chip" id="weekTrainChip">Tréning: 0/0</div>
         </div>
 
         <div class="week" id="week"></div>
@@ -396,6 +425,11 @@
       </div>
     </div>
 
+    <!-- WALLET -->
+    <div id="screenWal" style="display:none">
+      <div class="card" id="fundCard"></div>
+    </div>
+
     <!-- SETTINGS -->
     <div id="screenSet" style="display:none">
       <div class="card">
@@ -409,14 +443,14 @@
           <input id="setContribution" type="number" step="1" min="0" />
           <button class="ghost" onclick="saveSettings()">Uložiť</button>
         </div>
-        <div class="small">Použije sa pri „Hotovo“ pre plánovaný tréning. Default 5€.</div>
+        <div class="small">Použije sa pri „Splnené“ pre plánovaný tréning. Default 5€.</div>
 
-        <label>Týždenný cieľ (fallback)</label>
+        <label>Týždenný cieľ (počet tréningov)</label>
         <div class="grid2">
           <input id="setStreakTarget" type="number" step="1" min="0" />
           <button class="ghost" onclick="saveSettings()">Uložiť</button>
         </div>
-        <div class="small">Ak nemáš v týždni žiadny plán, používa sa toto číslo. Ak chceš 0/0, nastav 0.</div>
+        <div class="small">Pozn.: je to cieľ za všetky športy spolu. Ak nemáš v týždni žiadny plán, zobrazuje sa 0/0.</div>
 
         <label>Bonus po dosiahnutí cieľa</label>
         <div class="grid2">
@@ -428,7 +462,7 @@
           <input id="setStreakEnabled" type="checkbox" style="width:auto;transform:scale(1.2);margin-right:10px" />
           Zapnúť streak odmeny
         </label>
-        <div class="small">Bonus sa pripíše iba raz za týždeň, keď splníš plán.</div>
+        <div class="small">Bonus sa pripíše iba raz za týždeň, keď dosiahneš cieľ.</div>
 
         <div class="hr"></div>
 
@@ -460,9 +494,6 @@
         <div class="small">Vymaže logy, ciele a nastavenia (len ak chceš začať od nuly).</div>
       </div>
     </div>
-
-    <!-- FUND (always visible at bottom) -->
-    <div class="card" id="fundCard"></div>
   </div>
 
   <!-- Day Sheet -->
@@ -553,7 +584,7 @@
     settings = {
       contribution: 5,
       streakEnabled: true,
-      streakTarget: 0,    // fallback default 0 => 0/0 if no plan
+      streakTarget: 5,
       streakBonus: 5,
       streakPaidWeekId: null
     };
@@ -627,7 +658,7 @@
     x.setDate(x.getDate()+diff);
     return x;
   }
-  const DOW_SK = ["Po","Ut","St","Št","Pi","So","Ne"]; // Mon..Sun
+  const DOW_SK = ["Po","Ut","St","Št","Pi","So","Ne"];
   const MONTHS_SK = ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"];
 
   function fmtDateSK(isoStr){
@@ -648,46 +679,47 @@
     currentTab = t;
     document.getElementById("tabWeek").classList.toggle("active", t==="week");
     document.getElementById("tabCal").classList.toggle("active", t==="cal");
+    document.getElementById("tabWal").classList.toggle("active", t==="wal");
     document.getElementById("tabSet").classList.toggle("active", t==="set");
 
     document.getElementById("screenWeek").style.display = (t==="week") ? "block" : "none";
     document.getElementById("screenCal").style.display = (t==="cal") ? "block" : "none";
+    document.getElementById("screenWal").style.display = (t==="wal") ? "block" : "none";
     document.getElementById("screenSet").style.display = (t==="set") ? "block" : "none";
   }
 
   /* =========================
-     STREAK (weekly plan)
-     - doneCount: planned->done in current week
-     - target: number of planned trainings in current week (planned + done)
-     - 0/0 when no plan
+     COUNTS: week + 30 days consistency
   ========================== */
-  function countDoneThisWeek(){
+  function weekPlannedAndDone(){
     const today = new Date();
     const ws = startOfWeekMon(today);
-    let count = 0;
-    for(let i=0;i<7;i++){
-      const d = iso(addDays(ws,i));
-      if(logs[d]?.status === "done") count++;
-    }
-    return count;
-  }
-
-  function plannedCountThisWeek(){
-    const today = new Date();
-    const ws = startOfWeekMon(today);
-    let count = 0;
-
+    let planned = 0;
+    let done = 0;
     for(let i=0;i<7;i++){
       const d = iso(addDays(ws,i));
       const st = logs[d]?.status;
-      if(st === "planned" || st === "done") count++;
+      if(st==="planned" || st==="done") planned++;
+      if(st==="done") done++;
     }
-    return count;
+    return {planned, done};
   }
 
-  function weeklyTarget(){
-    // 0/0 when no plan (flexi)
-    return plannedCountThisWeek();
+  // planned trainings in last N days = days with status planned or done
+  function consistencyLastDays(days=30){
+    const end = new Date(); end.setHours(0,0,0,0);
+    const start = addDays(end, -(days-1));
+    let planned = 0;
+    let done = 0;
+
+    for(let i=0;i<days;i++){
+      const d = iso(addDays(start,i));
+      const st = logs[d]?.status;
+      if(st==="planned" || st==="done") planned++;
+      if(st==="done") done++;
+    }
+    const pct = planned>0 ? Math.round((done/planned)*100) : 0;
+    return {planned, done, pct};
   }
 
   function maybePayWeeklyBonus(){
@@ -695,10 +727,12 @@
     const today = new Date();
     const wid = weekIdForDate(today);
 
-    const doneCount = countDoneThisWeek();
-    const target = weeklyTarget();
+    const wk = weekPlannedAndDone();
+    // streakTarget = “počet naplánovaných tréningov v týždni” (flexi)
+    const target = wk.planned; // <- toto je presne to, čo chceš: max/target = plán v týždni
+    if(target===0) return;
 
-    if(target > 0 && doneCount >= target && settings.streakPaidWeekId !== wid){
+    if(wk.done >= target && settings.streakPaidWeekId !== wid){
       const goal = pickDefaultGoalForSport("run") || wallet.goals[0];
       if(goal){
         goal.saved = Number(goal.saved || 0) + Number(settings.streakBonus || 0);
@@ -710,72 +744,14 @@
   }
 
   /* =========================
-     CONSISTENCY (30 days) - Variant A
-     plannedDays = planned + done
-     doneDays = done
-     pct = doneDays / plannedDays
-  ========================== */
-  function consistency30d(){
-    const today = new Date();
-    let plannedDays = 0;
-    let doneDays = 0;
-
-    for(let i=0;i<30;i++){
-      const d = iso(addDays(today,-i));
-      const st = logs[d]?.status;
-      if(st === "planned" || st === "done") plannedDays++;
-      if(st === "done") doneDays++;
-    }
-
-    const hasPlan = plannedDays > 0;
-    const pct = hasPlan ? Math.round((doneDays / plannedDays) * 100) : 0;
-
-    return { plannedDays, doneDays, hasPlan, pct };
-  }
-
-  /* =========================
-     TROPHY POP (once per week)
-  ========================== */
-  function celebrateIfWeekJustCompleted(){
-    const wid = weekIdForDate(new Date());
-    const done = countDoneThisWeek();
-    const target = weeklyTarget();
-    const complete = (target > 0 && done >= target);
-
-    const key = "point.weekCelebrated.v1";
-    const mem = JSON.parse(localStorage.getItem(key) || "{}");
-
-    if(complete && mem[wid] !== true){
-      mem[wid] = true;
-      localStorage.setItem(key, JSON.stringify(mem));
-
-      const chip = document.getElementById("streakChip");
-      if(chip){
-        chip.classList.remove("trophyPop");
-        void chip.offsetWidth;
-        chip.classList.add("trophyPop");
-      }
-
-      const tt = document.getElementById("weekTrophy");
-      if(tt){
-        tt.classList.remove("trophyPop");
-        void tt.offsetWidth;
-        tt.classList.add("trophyPop");
-      }
-    }
-  }
-
-  /* =========================
      GOALS
   ========================== */
   function pickDefaultGoalForSport(sportKey){
     return wallet.goals.find(g => Array.isArray(g.sports) && g.sports.includes(sportKey)) || null;
   }
-
   function goalById(id){
     return wallet.goals.find(g => g.id === id) || null;
   }
-
   function addContributionToGoal(goalId, amount){
     const g = goalById(goalId) || wallet.goals[0];
     if(!g) return;
@@ -788,13 +764,13 @@
   ========================== */
   function motivationFor(sportKey){
     const map = {
-      run: "Dnes stačí konzistentnosť, nie heroizmus.\n\nYou're on point.",
-      swim: "Jeden bazénový krok po druhom. Dych a rytmus.\n\nYou're on point.",
-      bike: "Ľahké nohy, čistá hlava.\n\nYou're on point.",
-      strength: "Sila rastie z malých opakovaní.\n\nYou're on point.",
-      mobility: "Uvoľni telo, uvoľní sa aj hlava.\n\nYou're on point."
+      run: "Dnes stačí konzistentnosť, nie heroizmus.",
+      swim: "Jeden bazénový krok po druhom. Dych a rytmus.",
+      bike: "Ľahké nohy, čistá hlava.",
+      strength: "Sila rastie z malých opakovaní.",
+      mobility: "Uvoľni telo, uvoľní sa aj hlava."
     };
-    return map[sportKey] || "You're on point.";
+    return map[sportKey] || "Konzistentnosť vyhráva.";
   }
 
   function renderToday(){
@@ -803,61 +779,62 @@
     const st = statusFor(todayIso);
 
     const now = new Date();
-    const dow = DOW_SK[(now.getDay()===0?6:now.getDay()-1)];
-    const dateLabel = `${dow} • ${fmtDateSK(todayIso)}`;
+    const dowLabel = DOW_SK[(now.getDay()===0?6:now.getDay()-1)];
+    const dateLabel = `${dowLabel} • ${fmtDateSK(todayIso)}`;
 
-    const doneCountW = countDoneThisWeek();
-    const targetW = weeklyTarget();
-    const weekComplete = (targetW > 0 && doneCountW >= targetW);
-
-    const c = consistency30d();
-
+    // tags
     let statusTag = (st==="none") ? "voľno" : STATUS_LABELS[st];
     let sportTag = "";
-    let sportIcon = "✨";
-    let sportLabel = "";
     if(l.sport){
       const s = sportObj(l.sport);
-      sportIcon = s.icon;
-      sportLabel = s.label;
-      sportTag = `<div class="tag"><span class="ico">${sportIcon}</span>${sportLabel}</div>`;
+      sportTag = `<div class="tag"><span class="ico">${s.icon}</span>${s.label}</div>`;
     }
 
-    let secondTag = `<div class="tag">${statusTag}</div>`;
+    // training chip (week done/planned)
+    const wk = weekPlannedAndDone();
+    const weekChip = `Tréning: ${wk.done}/${wk.planned}`;
+
+    // 30 days consistency
+    const c = consistencyLastDays(30);
+    const consText = (c.planned===0)
+      ? `Konzistencia (30 dní): 0% • 0/0 naplánovaných tréningov`
+      : `Konzistencia (30 dní): ${c.pct}% • ${c.done}/${c.planned} naplánovaných tréningov`;
+
     let name = "";
     let meta = "";
-    let note = "";
     let reco = "";
 
     if(st==="none"){
       name = "Bez tréningu";
       meta = "Dnes máš priestor na oddych alebo spontánny pohyb.";
-      note = "";
-      reco = "Dopraj telu pauzu.\n\nAk chceš, pridaj neplánovaný tréning.";
+      reco = "Konzistentnosť niekedy znamená aj oddych.\n\nAk chceš, pridaj neplánovaný tréning.";
     } else if(st==="rest"){
       name = "Rest day";
       meta = "";
-      note = "";
-      reco = "Relax v saune 🔥\n\nZajtra pôjdeš silnejšia.";
+      reco = "Oddych je tréning.\n\nZajtra pôjdeš silnejšia.";
     } else {
       name = l.name || "tréning";
-      if(l.goalType === "time"){
-        meta = `${Number(l.goalValue||0)} min`;
-      } else if(l.goalType === "distance"){
-        meta = `${Number(l.goalValue||0)} km`;
-      } else {
-        meta = "";
-      }
-      note = (l.note || "").trim();
-      reco = motivationFor(l.sport) + "\n\n" + (note ? note : "");
+      if(l.goalType === "time") meta = `${Number(l.goalValue||0)} min`;
+      else if(l.goalType === "distance") meta = `${Number(l.goalValue||0)} km`;
+      else meta = "";
+
+      const base = motivationFor(l.sport);
+      const note = (l.note || "").trim();
+      reco = "Konzistentnosť vyhráva.\n\n" + base + (note ? ("\n\n" + note) : "");
     }
 
-    // Buttons
+    // trophy message when week completed (done == planned, planned>0)
+    const showTrophy = (wk.planned>0 && wk.done>=wk.planned);
+    const trophyHtml = showTrophy
+      ? `<div class="trophyMsg"><span class="trophyIco">🏆</span><span>Týždeň splnený. Si na bode.</span></div>`
+      : "";
+
+    // buttons
     let btns = "";
     if(st==="planned"){
       btns = `
         <div class="btnrow">
-          <button class="primary" onclick="quickCompleteToday()">Príspevok (+${settings.contribution}€)</button>
+          <button class="primary" onclick="quickCompleteToday()">Splnené (+${settings.contribution}€)</button>
           <button class="ghost" onclick="openSheet('${todayIso}')">Upraviť / Presun</button>
         </div>
       `;
@@ -870,30 +847,26 @@
       `;
     }
 
-    const detailsBtn = `<button class="ghost" onclick="openSheet('${todayIso}')">Detaily</button>`;
-
-    const consistencyBlock = c.hasPlan
-      ? `<div class="chip">Konzistencia (30 dní): <b>${c.pct}%</b> • ${c.doneDays}/${c.plannedDays} naplánovaných tréningov</div>`
-      : `<div class="chip">Konzistencia (30 dní): — <span style="color:var(--muted);font-weight:800">Naplánuj pár tréningov, aby sme ju vedeli počítať.</span></div>`;
-
     document.getElementById("todayCard").innerHTML = `
       <div class="todayHeader">
         <div>
           <div class="muted" style="letter-spacing:.18em">TODAY</div>
           <div class="title" style="font-size:26px">${dateLabel}</div>
         </div>
-        ${detailsBtn}
+        <button class="ghost" onclick="openSheet('${todayIso}')">Detaily</button>
       </div>
 
       <div class="tagrow">
         ${sportTag}
-        ${secondTag}
+        <div class="tag">${statusTag}</div>
+        <div class="tag">${weekChip}</div>
       </div>
 
       <div class="tagrow" style="margin-top:10px">
-        ${consistencyBlock}
-        ${weekComplete ? `<div class="chip" id="weekTrophy">🏆 Week complete. You're on point.</div>` : ``}
+        <div class="tag" style="font-weight:900">${consText}</div>
       </div>
+
+      ${trophyHtml}
 
       <div class="hr"></div>
 
@@ -919,7 +892,6 @@
     setLog(todayIso, {status:"done"});
     maybePayWeeklyBonus();
     renderAll();
-    celebrateIfWeekJustCompleted();
   }
 
   /* =========================
@@ -932,6 +904,9 @@
     const days = Array.from({length:7}).map((_,i)=>iso(addDays(ws,i)));
 
     document.getElementById("range").textContent = `${fmtDateSK(days[0])} → ${fmtDateSK(days[6])}`;
+
+    const wk = weekPlannedAndDone();
+    document.getElementById("weekTrainChip").textContent = `Tréning: ${wk.done}/${wk.planned}`;
 
     const weekEl=document.getElementById("week");
     weekEl.innerHTML="";
@@ -955,20 +930,15 @@
       if(st==="rest") dot.classList.add("rest");
 
       if(d===todayIso){
-        dot.classList.add("todayRing");
-        dot.classList.add("todayGlow");
+        dot.classList.add("todayRing","todayGlow");
         lab.style.color = "var(--text)";
+        lab.style.fontWeight = "950";
       }
 
       wrap.appendChild(lab);
       wrap.appendChild(dot);
       weekEl.appendChild(wrap);
     });
-
-    const doneCount = countDoneThisWeek();
-    const target = weeklyTarget();
-    const trophy = (target > 0 && doneCount >= target) ? "🏆 " : "";
-    document.getElementById("streakChip").textContent = `${trophy}Tréning: ${doneCount}/${target}`;
   }
 
   /* =========================
@@ -1006,8 +976,8 @@
 
     for(let i=0;i<42;i++){
       const cellIndex = i - firstDow + 1;
-      let cellDate = new Date(y,m,cellIndex);
-      let inMonth = cellIndex>=1 && cellIndex<=daysInMonth;
+      const cellDate = new Date(y,m,cellIndex);
+      const inMonth = cellIndex>=1 && cellIndex<=daysInMonth;
 
       const cellIso = iso(cellDate);
       const st = statusFor(cellIso);
@@ -1015,14 +985,15 @@
 
       const cell = document.createElement("div");
       cell.className = "calCell" + (inMonth ? "" : " mutedCell");
-      cell.onclick = ()=> openSheet(cellIso);
 
-      const dot = document.createElement("div");
-      dot.className = "calBadgeDot";
-      if(st==="planned") dot.classList.add("planned");
-      if(st==="done") dot.classList.add("done");
-      if(st==="extra") dot.classList.add("extra");
-      if(st==="rest") dot.classList.add("rest");
+      const stClass =
+        st==="planned" ? " stPlanned" :
+        st==="done" ? " stDone" :
+        st==="extra" ? " stExtra" :
+        st==="rest" ? " stRest" : " stNone";
+      cell.className += stClass;
+
+      cell.onclick = ()=> openSheet(cellIso);
 
       const dateRow = document.createElement("div");
       dateRow.className = "calDateRow";
@@ -1032,34 +1003,42 @@
       num.textContent = String(cellDate.getDate()).padStart(2,"0");
 
       dateRow.appendChild(num);
-      dateRow.appendChild(dot);
-
       cell.appendChild(dateRow);
 
-      if(st!=="none"){
+      // soft info / placeholder
+      if(st==="none"){
+        const ph = document.createElement("div");
+        ph.className = "calPlaceholder";
+        ph.textContent = "—"; // jemný placeholder
+        cell.appendChild(ph);
+      } else if(st==="rest"){
+        const info = document.createElement("div");
+        info.className = "calInfo";
+        info.innerHTML = `<div class="line1"><span>🛌</span><span>rest</span></div><div class="line2"><span>oddýchni si</span></div>`;
+        cell.appendChild(info);
+      } else {
         const info = document.createElement("div");
         info.className = "calInfo";
 
-        if(st==="rest"){
-          info.innerHTML = `<div class="line1"><span>🛌</span><span>rest</span></div>`;
-          cell.appendChild(info);
-        } else {
-          const s = sportObj(l.sport || "run");
-          const line1 = document.createElement("div");
-          line1.className = "line1";
-          line1.innerHTML = `<span>${s.icon}</span><span>${escapeHtml(l.name || "tréning")}</span>`;
+        const s = sportObj(l.sport || "run");
+        const line1 = document.createElement("div");
+        line1.className = "line1";
+        line1.innerHTML = `<span>${s.icon}</span><span>${escapeHtml(l.name || "tréning")}</span>`;
 
-          const line2 = document.createElement("div");
-          line2.className = "line2";
-          let meta = "";
-          if(l.goalType==="time") meta = `${Number(l.goalValue||0)}m`;
-          if(l.goalType==="distance") meta = `${Number(l.goalValue||0)}k`;
-          line2.innerHTML = `<span>${escapeHtml(meta)}</span><span>•</span><span>${STATUS_LABELS[st] || st}</span>`;
+        const line2 = document.createElement("div");
+        line2.className = "line2";
 
-          info.appendChild(line1);
-          info.appendChild(line2);
-          cell.appendChild(info);
-        }
+        let meta = "";
+        if(l.goalType==="time") meta = `${Number(l.goalValue||0)} min`;
+        if(l.goalType==="distance") meta = `${Number(l.goalValue||0)} km`;
+
+        line2.innerHTML = meta
+          ? `<span>${escapeHtml(meta)}</span><span>•</span><span>${STATUS_LABELS[st] || st}</span>`
+          : `<span>${STATUS_LABELS[st] || st}</span>`;
+
+        info.appendChild(line1);
+        info.appendChild(line2);
+        cell.appendChild(info);
       }
 
       grid.appendChild(cell);
@@ -1067,7 +1046,7 @@
   }
 
   /* =========================
-     FUND CARD + SETTINGS GOALS LIST
+     WALLET RENDER + SETTINGS GOALS LIST
   ========================== */
   function renderFund(){
     const total = wallet.walletTotal || 0;
@@ -1105,6 +1084,7 @@
       ${goalCards}
     `;
 
+    // settings goals list
     const goalsList = document.getElementById("goalsList");
     if(goalsList){
       goalsList.innerHTML = wallet.goals.map(g=>{
@@ -1125,7 +1105,7 @@
   }
 
   /* =========================
-     SETTINGS SAVE
+     SETTINGS
   ========================== */
   function syncSettingsUI(){
     document.getElementById("setContribution").value = settings.contribution ?? 5;
@@ -1202,16 +1182,10 @@
     document.getElementById("backdrop").style.display="flex";
     renderSheet();
   }
-  function hideSheet(){
-    document.getElementById("backdrop").style.display="none";
-  }
-  function closeSheet(e){
-    if(e.target.id==="backdrop") hideSheet();
-  }
+  function hideSheet(){ document.getElementById("backdrop").style.display="none"; }
+  function closeSheet(e){ if(e.target.id==="backdrop") hideSheet(); }
 
-  function statusLabel(st){
-    return STATUS_LABELS[st] || st;
-  }
+  function statusLabel(st){ return STATUS_LABELS[st] || st; }
 
   function renderSheet(){
     const bd = document.getElementById("backdrop");
@@ -1284,10 +1258,7 @@
 
       const gt = document.getElementById("fGoalType");
       const gl = document.getElementById("fGoalLabel");
-
-      function syncLabel(){
-        gl.textContent = gt.value==="time" ? "Minúty" : "Kilometre";
-      }
+      function syncLabel(){ gl.textContent = gt.value==="time" ? "Minúty" : "Kilometre"; }
       gt.onchange = syncLabel;
       syncLabel();
 
@@ -1325,6 +1296,7 @@
       return () => document.getElementById("fGoal").value;
     }
 
+    // ----- NONE
     if(st==="none"){
       fieldRow(`<div class="chip">voľno</div>`);
       fieldRow(`<div class="restReco">Dnes je priestor na oddych.\n\nAle môžeš pridať aj neplánovaný tréning.</div>`);
@@ -1354,9 +1326,10 @@
       return;
     }
 
+    // ----- REST
     if(st==="rest"){
       fieldRow(`<div class="chip">rest day</div>`);
-      fieldRow(`<div class="restReco">Relax v saune 🔥\n\nZajtra pôjdeš silnejšia.</div>`);
+      fieldRow(`<div class="restReco">Oddych je tréning.\n\nZajtra pôjdeš silnejšia.</div>`);
       const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
 
       fieldRow(`
@@ -1378,6 +1351,7 @@
       return;
     }
 
+    // ----- ADHOC DRAFT
     if(st==="adhoc_draft"){
       fieldRow(`<div class="chip">neplánovaný • ešte nie hotovo</div>`);
       const get = renderEditForm(log);
@@ -1405,6 +1379,7 @@
       return;
     }
 
+    // ----- PLANNED
     if(st==="planned"){
       fieldRow(`<div class="chip">plánovaný tréning</div>`);
       const get = renderEditForm(log);
@@ -1428,7 +1403,7 @@
 
       fieldRow(`
         <div class="btnrow">
-          <button class="primary" id="btnContrib">Príspevok (+${settings.contribution}€)</button>
+          <button class="primary" id="btnContrib">Splnené (+${settings.contribution}€)</button>
           <button class="ghost" id="btnMove">Presun</button>
         </div>
         <div class="btnrow">
@@ -1444,7 +1419,6 @@
         addContributionToGoal(goalId, settings.contribution);
         maybePayWeeklyBonus();
         renderAll();
-        celebrateIfWeekJustCompleted();
       };
 
       document.getElementById("btnMove").onclick=()=>{
@@ -1464,6 +1438,7 @@
       return;
     }
 
+    // ----- DONE / EXTRA
     if(st==="done" || st==="extra"){
       fieldRow(`<div class="chip">${st==="done" ? "hotovo" : "extra"}</div>`);
       const get = renderEditForm(log);
@@ -1473,7 +1448,7 @@
           <button class="ghost" id="btnSave">Uložiť</button>
           <button class="danger" id="btnClear">Vymazať</button>
         </div>
-        <div class="small">${st==="done" ? "Hotovo je započítané v tréningoch aj v príspevkoch." : "Extra je bez príspevku."}</div>
+        <div class="small">${st==="done" ? "Hotovo je započítané v konzistencii aj v príspevkoch." : "Extra je bez príspevku."}</div>
       `);
 
       document.getElementById("btnSave").onclick=()=>{
@@ -1497,12 +1472,8 @@
     document.getElementById("goalBackdrop").style.display="flex";
     renderGoalEditor();
   }
-  function hideGoal(){
-    document.getElementById("goalBackdrop").style.display="none";
-  }
-  function closeGoal(e){
-    if(e.target.id==="goalBackdrop") hideGoal();
-  }
+  function hideGoal(){ document.getElementById("goalBackdrop").style.display="none"; }
+  function closeGoal(e){ if(e.target.id==="goalBackdrop") hideGoal(); }
 
   function renderGoalEditor(){
     const body = document.getElementById("goalBody");
@@ -1650,9 +1621,7 @@
 
     const typeEl = document.getElementById("tType");
     const labEl = document.getElementById("tValLabel");
-    function sync(){
-      labEl.textContent = typeEl.value==="time" ? "Minúty" : "Kilometre";
-    }
+    function sync(){ labEl.textContent = typeEl.value==="time" ? "Minúty" : "Kilometre"; }
     typeEl.onchange = sync; sync();
 
     document.getElementById("tSave").onclick = ()=>{
@@ -1696,7 +1665,6 @@
     renderCalendar();
     renderFund();
     syncSettingsUI();
-    celebrateIfWeekJustCompleted();
   }
 
   /* =========================
@@ -1710,9 +1678,7 @@
       .replaceAll('"',"&quot;")
       .replaceAll("'","&#039;");
   }
-  function escapeAttr(str){
-    return escapeHtml(str).replaceAll("\n"," ");
-  }
+  function escapeAttr(str){ return escapeHtml(str).replaceAll("\n"," "); }
 
   // init
   renderAll();
