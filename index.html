@@ -14,10 +14,10 @@
       --muted:#A5ADBA;
       --line:rgba(255,255,255,.08);
 
-      --rasp:#C1124A;     /* planned/done */
-      --yellow:#FBBF24;   /* extra */
-      --gray:#3A3F48;     /* empty */
-      --rest:#2A2F38;     /* rest */
+      --rasp:#C1124A;
+      --yellow:#FBBF24;
+      --gray:#3A3F48;
+      --rest:#2A2F38;
 
       --pill:#1C2027;
       --btn:#232834;
@@ -25,6 +25,8 @@
 
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius:18px;
+
+      --weekend:#d86a91;
     }
 
     @media (prefers-color-scheme: light){
@@ -43,6 +45,8 @@
         --btn2:#ECEFF3;
 
         --shadow: 0 1px 10px rgba(0,0,0,.06);
+
+        --weekend:rgba(193,18,74,.52);
       }
     }
 
@@ -69,12 +73,12 @@
       color:var(--muted);
       margin:0 0 14px;
       font-size:13px;
-      line-height:1.35
+      line-height:1.35;
     }
 
     .toprow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 
-    /* Tabs */
+    /* Top icon nav */
     .tabs{ margin:10px 0 14px; }
     .tabbar{
       background:var(--card);
@@ -84,26 +88,36 @@
       display:flex;
       gap:6px;
       box-shadow:var(--shadow);
-      overflow:hidden;
     }
     .tabbtn{
       border:none;
       border-radius:12px;
-      padding:10px 10px;
+      height:44px;
       background:transparent;
       color:var(--muted);
-      font-weight:850;
       cursor:pointer;
       flex:1;
       min-width:0;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      font-size:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0;
     }
-    .tabbtn.active{ background:var(--btn); color:var(--text); }
+    .tabbtn.active{
+      background:var(--btn);
+      color:var(--text);
+    }
+    .navIcon{
+      width:22px;
+      height:22px;
+      stroke:currentColor;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      display:block;
+    }
 
-    /* Cards */
     .card{
       background:var(--card);
       border:1px solid var(--line);
@@ -124,7 +138,6 @@
     }
     .hr{height:1px;background:var(--line);margin:12px 0}
 
-    /* Chips / tags (smaller + lighter) */
     .chip{
       display:inline-flex;
       align-items:center;
@@ -146,17 +159,17 @@
     }
 
     .tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-/* TODAY tags: smaller + tighter */
-#todayCard .tagrow .chip{
-  padding:6px 9px;
-  font-size:12px;
-  font-weight:850;
-  gap:6px;
-}
-#todayCard .tagrow .chip span{
-  font-size:14px !important; /* ikonka v chip */
-}
 
+    /* TODAY tags smaller */
+    #todayCard .tagrow .chip{
+      padding:6px 8px;
+      font-size:11px;
+      font-weight:850;
+      gap:5px;
+    }
+    #todayCard .tagrow .chip span{
+      font-size:13px !important;
+    }
 
     button{border:none;border-radius:14px;padding:12px 14px;font-weight:900;cursor:pointer}
     .primary{background:var(--rasp);color:#fff}
@@ -167,7 +180,6 @@
     .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
     .btnrow button{flex:1}
 
-    /* TODAY */
     .todayHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
     .bigName{
       font-size:26px;
@@ -185,14 +197,13 @@
       white-space:pre-line;
     }
     .onpoint{
-      margin-top:10px;
+      margin-top:8px;
       color:var(--muted);
       font-size:14px;
       line-height:1.4;
     }
 
-    /* Compact metric cards inside today */
-    .metricStack{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .metricStack{display:flex;flex-direction:column;gap:10px;margin-top:18px}
     .metricCard{
       background:var(--card2);
       border:1px solid var(--line);
@@ -204,7 +215,6 @@
     .metricRight{font-weight:950;font-size:14px}
     .metricSub{margin-top:4px;color:var(--muted);font-size:12px;line-height:1.25}
 
-    /* Trophy banner */
     .trophy{
       background:rgba(251,191,36,.14);
       border:1px solid rgba(251,191,36,.35);
@@ -232,7 +242,6 @@
       100%{transform:rotate(0deg) translateY(0)}
     }
 
-    /* WEEK */
     .week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:12px}
     .day{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
     .lab{font-size:12px;color:var(--muted);font-weight:850}
@@ -260,7 +269,7 @@
     .mini{width:10px;height:10px;border-radius:999px;background:var(--gray)}
     .mini.planned{border:2px solid var(--rasp);background:transparent}
 
-    /* CALENDAR (new clean cells) */
+    /* CALENDAR */
     .calHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
     .calTitle{font-weight:980;font-size:22px;letter-spacing:-.2px;text-transform:lowercase}
     .calNav{display:flex;gap:8px}
@@ -278,78 +287,46 @@
     .calCell{
       border:none;
       border-radius:18px;
-      padding:10px 10px 12px;
-      min-height:78px;
+      padding:8px 8px 10px;
+      min-height:76px;
       cursor:pointer;
       position:relative;
       overflow:hidden;
-      background:rgba(255,255,255,.04);
+      background:transparent;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      align-items:center;
+      justify-content:flex-start;
+      gap:6px;
     }
-    @media (prefers-color-scheme: light){
-      .calCell{background:#F3F4F6;}
-    }
-    .calCell.mutedCell{opacity:.45}
-
-    /* status fills (no borders) */
-    .calCell.plannedFill{background:rgba(193,18,74,.12)}
-    .calCell.doneFill{background:rgba(193,18,74,.20)}
-    .calCell.extraFill{background:rgba(251,191,36,.18)}
-    .calCell.restFill{background:rgba(120,130,145,.12)}
-    @media (prefers-color-scheme: light){
-      .calCell.plannedFill{background:rgba(193,18,74,.08)}
-      .calCell.doneFill{background:rgba(193,18,74,.12)}
-      .calCell.extraFill{background:rgba(251,191,36,.16)}
-      .calCell.restFill{background:rgba(120,130,145,.10)}
-    }
+    .calCell.mutedCell{opacity:.35}
 
     .calDateNum{
-      font-weight:950;
-      font-size:16px;
+      font-weight:700;
+      font-size:15px;
       letter-spacing:-.1px;
       line-height:1;
+      color:var(--text);
+    }
+    .calDateNum.weekend{
+      color:var(--weekend);
     }
 
-    /* Meta: icon + value + unit (no overlap) */
-    .calMiniMeta{
-      display:grid;
-      grid-template-columns:18px 1fr auto;
-      align-items:center;
-      gap:6px;
-      font-weight:950;
-      font-size:13px;
+    .calPoint{
+      width:14px;
+      height:14px;
+      border-radius:999px;
+      flex:0 0 auto;
+    }
+    .calPoint.planned{border:2px solid var(--rasp);background:transparent}
+    .calPoint.done{background:var(--rasp)}
+    .calPoint.extra{background:var(--yellow)}
+    .calPoint.rest{background:var(--rest)}
+
+    .calSport{
+      font-size:14px;
       line-height:1;
-      min-height:18px;
-
-      /* prevents “overhang” */
-      max-width:100%;
-    }
-    .calMiniMeta .sico{font-size:16px; line-height:1}
-    .calMiniMeta .val{
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      min-width:0;
-    }
-    .calMiniMeta .unit{
-      opacity:.85;
-      font-weight:900;
-      white-space:nowrap;
-    }
-
-    .calEmpty{
-      margin-top:2px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:rgba(255,255,255,.22);
-      font-weight:900;
-      min-height:18px;
-    }
-    @media (prefers-color-scheme: light){
-      .calEmpty{color:rgba(17,24,39,.22)}
+      min-height:14px;
     }
 
     /* FUND */
@@ -389,7 +366,6 @@
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .small{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.35}
 
-    /* Modal sheet */
     .backdrop{
       position:fixed; inset:0;
       background:rgba(0,0,0,.45);
@@ -419,13 +395,14 @@
       font-size:22px;font-weight:1000;
     }
 
-    /* Settings sections */
-    .sectionCard{ margin-top:14px; }
-    .sectionHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+    /* Settings spacing */
+    .sectionCard{ margin-top:28px; }
+    .sectionHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
     .sectionHead .h{font-weight:980;font-size:16px;letter-spacing:-.2px}
     .sectionHead .d{color:var(--muted);font-size:12px;margin-top:2px;line-height:1.25}
+    #screenSet label{ margin-top:14px; }
+    #screenSet .small{ margin-top:10px; }
 
-    /* Small plus button */
     .plusBtn{
       width:44px;
       height:44px;
@@ -451,10 +428,42 @@
 
     <div class="tabs">
       <div class="tabbar">
-        <button class="tabbtn active" id="tabDash" onclick="setTab('dash')">Dashboard</button>
-        <button class="tabbtn" id="tabCal" onclick="setTab('cal')">Kalendár</button>
-        <button class="tabbtn" id="tabWallet" onclick="setTab('wallet')">Peňaženka</button>
-        <button class="tabbtn" id="tabSet" onclick="setTab('set')">Nastavenia</button>
+        <button class="tabbtn active" id="tabDash" onclick="setTab('dash')" aria-label="Dashboard" title="Dashboard">
+          <svg viewBox="0 0 24 24" class="navIcon" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="2"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
+          </svg>
+        </button>
+
+        <button class="tabbtn" id="tabCal" onclick="setTab('cal')" aria-label="Kalendár" title="Kalendár">
+          <svg viewBox="0 0 24 24" class="navIcon" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="3"></rect>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+            <line x1="8" y1="3" x2="8" y2="7"></line>
+            <line x1="16" y1="3" x2="16" y2="7"></line>
+          </svg>
+        </button>
+
+        <button class="tabbtn" id="tabWallet" onclick="setTab('wallet')" aria-label="Peňaženka" title="Peňaženka">
+          <svg viewBox="0 0 24 24" class="navIcon" aria-hidden="true">
+            <path d="M4 7.5h13.5a2.5 2.5 0 0 1 2.5 2.5v7a2.5 2.5 0 0 1-2.5 2.5H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z"></path>
+            <path d="M16 12h4"></path>
+            <circle cx="16" cy="12" r="1"></circle>
+          </svg>
+        </button>
+
+        <button class="tabbtn" id="tabSet" onclick="setTab('set')" aria-label="Nastavenia" title="Nastavenia">
+          <svg viewBox="0 0 24 24" class="navIcon" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <circle cx="9" cy="6" r="2"></circle>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <circle cx="15" cy="12" r="2"></circle>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+            <circle cx="11" cy="18" r="2"></circle>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -511,7 +520,6 @@
         <div class="title">Nastavenia</div>
         <div class="subtitle">Streak, príspevky, odmeny, uložené tréningy.</div>
 
-        <!-- Section 1: basics -->
         <div class="sectionCard">
           <div class="sectionHead">
             <div>
@@ -547,7 +555,6 @@
           <div class="small">Keď dokončíš všetky plánované tréningy v týždni, zobrazí sa trofej. Bonus (ak chceš) sa pripíše raz za týždeň.</div>
         </div>
 
-        <!-- Section 2: rewards -->
         <div class="sectionCard">
           <div class="sectionHead">
             <div>
@@ -559,7 +566,6 @@
           <div id="goalsList"></div>
         </div>
 
-        <!-- Section 3: saved trainings -->
         <div class="sectionCard">
           <div class="sectionHead">
             <div>
@@ -571,7 +577,6 @@
           <div id="tplList"></div>
         </div>
 
-        <!-- Reset -->
         <div class="sectionCard">
           <button class="danger" onclick="hardReset()">Reset dát (DEV)</button>
           <div class="small">Vymaže logy, ciele a nastavenia (len ak chceš začať od nuly).</div>
@@ -631,9 +636,6 @@
   </div>
 
 <script>
-  /* =========================
-     STORAGE
-  ========================== */
   const LOGS_KEY = "point.logs.v3";
   const FUND_KEY = "point.wallet.v3";
   const SETTINGS_KEY = "point.settings.v3";
@@ -713,9 +715,6 @@
     renderSheet();
   }
 
-  /* =========================
-     DATE HELPERS + FORMAT
-  ========================== */
   function iso(d){
     const x = new Date(d); x.setHours(0,0,0,0);
     return x.toISOString().slice(0,10);
@@ -724,7 +723,7 @@
 
   function startOfWeekMon(d){
     const x=new Date(d); x.setHours(0,0,0,0);
-    const day=x.getDay(); // 0 Sun..6 Sat
+    const day=x.getDay();
     const diff=(day===0?-6:1)-day;
     x.setDate(x.getDate()+diff);
     return x;
@@ -745,9 +744,6 @@
     return dayIso > t;
   }
 
-  /* =========================
-     GOAL TYPE NORMALIZATION
-  ========================== */
   function normGoalType(v){
     const s = String(v || "").toLowerCase();
     if(s.includes("čas") || s.includes("cas") || s.includes("time") || s.includes("min")) return "time";
@@ -755,19 +751,14 @@
     return null;
   }
 
-  /* Format metric value so it never becomes “5.0000001” */
   function fmtMetricValue(v){
     const n = Number(v || 0);
     if(!isFinite(n)) return "—";
-    const rounded = Math.round(n * 10) / 10; // max 1 decimal
-    // If integer after rounding, show as int
+    const rounded = Math.round(n * 10) / 10;
     if(Math.abs(rounded - Math.round(rounded)) < 1e-9) return String(Math.round(rounded));
     return String(rounded);
   }
 
-  /* =========================
-     TAB NAV
-  ========================== */
   let currentTab = "dash";
   function setTab(t){
     currentTab = t;
@@ -783,9 +774,6 @@
     document.getElementById("screenSet").style.display = (t==="set") ? "block" : "none";
   }
 
-  /* =========================
-     WEEK COUNTS (planned vs done)
-  ========================== */
   function weekCounts(refDate=new Date()){
     const ws = startOfWeekMon(refDate);
     let plannedCount = 0;
@@ -804,9 +792,6 @@
     return plannedCount>0 && doneCount===plannedCount;
   }
 
-  /* =========================
-     30-DAY METRICS
-  ========================== */
   function last30DaysMetrics(){
     const today = new Date();
     let planned = 0;
@@ -827,9 +812,6 @@
     return {planned, donePlanned, consistencyPct, done, extra};
   }
 
-  /* =========================
-     WEEKLY BONUS
-  ========================== */
   function maybePayWeeklyBonus(){
     if(!settings.streakEnabled) return;
     const today = new Date();
@@ -847,9 +829,6 @@
     }
   }
 
-  /* =========================
-     GOALS
-  ========================== */
   function pickDefaultGoalForSport(sportKey){
     return wallet.goals.find(g => Array.isArray(g.sports) && g.sports.includes(sportKey)) || null;
   }
@@ -862,9 +841,6 @@
     saveWallet();
   }
 
-  /* =========================
-     TODAY CARD
-  ========================== */
   function motivationFor(sportKey){
     const map = {
       run: "Dnes stačí konzistentnosť, nie heroizmus.",
@@ -889,7 +865,6 @@
 
     const m30 = last30DaysMetrics();
 
-    // Tags
     let sportTag = "";
     if(l.sport){
       const s = sportObj(l.sport);
@@ -921,19 +896,18 @@
 
     const showTrophy = settings.streakEnabled && weekComplete();
 
-    let btns = "";
+    let actionBtn = "";
     if(st==="planned"){
-      btns = `
+      actionBtn = `
         <div class="btnrow">
           <button class="primary" id="btnTodayDone">Splnené</button>
           <button class="ghost" onclick="openSheet('${todayIso}')">Upraviť / Presun</button>
         </div>
       `;
     } else {
-      btns = `
+      actionBtn = `
         <div class="btnrow">
-          <button class="ghost" onclick="openSheet('${todayIso}')">Detaily</button>
-          <button class="ghost2" onclick="openSheet('${todayIso}')">Pridať / Upraviť</button>
+          <button class="primary" onclick="openSheet('${todayIso}')">Pridať / Upraviť</button>
         </div>
       `;
     }
@@ -968,6 +942,8 @@
         </div>
       ` : ``}
 
+      ${actionBtn}
+
       <div class="metricStack">
         <div class="metricCard">
           <div class="metricTop">
@@ -985,8 +961,6 @@
           <div class="metricSub">${m30.done} hotovo + ${m30.extra} extra</div>
         </div>
       </div>
-
-      ${btns}
     `;
 
     const btn = document.getElementById("btnTodayDone");
@@ -1009,9 +983,6 @@
     renderAll();
   }
 
-  /* =========================
-     WEEK RENDER
-  ========================== */
   function renderWeek(){
     const today = new Date();
     const todayIso = iso(today);
@@ -1057,9 +1028,6 @@
       `Tréning: ${c.plannedCount===0 ? "0/0" : `${c.doneCount}/${c.plannedCount}`}`;
   }
 
-  /* =========================
-     CALENDAR (month)
-  ========================== */
   let calCursor = new Date();
   calCursor.setDate(1);
   calCursor.setHours(0,0,0,0);
@@ -1087,7 +1055,7 @@
     grid.innerHTML = "";
 
     const first = new Date(y,m,1);
-    const firstDow = (first.getDay()===0 ? 6 : first.getDay()-1); // Mon=0..Sun=6
+    const firstDow = (first.getDay()===0 ? 6 : first.getDay()-1);
     const daysInMonth = new Date(y,m+1,0).getDate();
 
     for(let i=0;i<42;i++){
@@ -1101,66 +1069,42 @@
 
       const cell = document.createElement("div");
       cell.className = "calCell" + (inMonth ? "" : " mutedCell");
-
-      if(st==="planned") cell.classList.add("plannedFill");
-      if(st==="done") cell.classList.add("doneFill");
-      if(st==="extra") cell.classList.add("extraFill");
-      if(st==="rest") cell.classList.add("restFill");
-
       cell.onclick = ()=> openSheet(cellIso);
 
       const num = document.createElement("div");
       num.className = "calDateNum";
-      num.textContent = String(cellDate.getDate()).padStart(2,"0");
+      num.textContent = String(cellDate.getDate());
+
+      const nativeDay = cellDate.getDay();
+      if(nativeDay===0 || nativeDay===6){
+        num.classList.add("weekend");
+      }
+
       cell.appendChild(num);
 
-      // Meta line: ONLY icon + value + unit (km/min). No name/description.
-      if(st!=="none" && st!=="rest" && st!=="adhoc_draft"){
-        const s = sportObj(l.sport || "run");
-        const gt = normGoalType(l.goalType);
+      if(st !== "none"){
+        const point = document.createElement("div");
+        point.className = "calPoint";
+        if(st==="planned") point.classList.add("planned");
+        if(st==="done") point.classList.add("done");
+        if(st==="extra") point.classList.add("extra");
+        if(st==="rest") point.classList.add("rest");
+        cell.appendChild(point);
 
-        let val = "—";
-        let unit = "";
-        if(gt==="time"){
-          val = fmtMetricValue(l.goalValue);
-          unit = "min";
-        } else if(gt==="distance"){
-          val = fmtMetricValue(l.goalValue);
-          unit = "km";
-        } else {
-          // fallback: show number if exists, otherwise dash
-          const n = Number(l.goalValue);
-          val = (isFinite(n) && n !== 0) ? fmtMetricValue(n) : "—";
-          unit = "";
+        const sport = document.createElement("div");
+        sport.className = "calSport";
+        if(st==="rest"){
+          sport.textContent = "🧘";
+        } else if(st!=="adhoc_draft"){
+          sport.textContent = sportObj(l.sport || "run").icon;
         }
-
-        const meta = document.createElement("div");
-        meta.className = "calMiniMeta";
-        meta.innerHTML = `
-          <span class="sico">${s.icon}</span>
-          <span class="val">${escapeHtml(val)}</span>
-          <span class="unit">${unit ? escapeHtml(unit) : ""}</span>
-        `;
-        cell.appendChild(meta);
-      } else if(st==="rest"){
-        const meta = document.createElement("div");
-        meta.className = "calMiniMeta";
-        meta.innerHTML = `<span class="sico">🛌</span><span class="val">rest</span><span class="unit"></span>`;
-        cell.appendChild(meta);
-      } else {
-        const empty = document.createElement("div");
-        empty.className = "calEmpty";
-        empty.textContent = "—";
-        cell.appendChild(empty);
+        cell.appendChild(sport);
       }
 
       grid.appendChild(cell);
     }
   }
 
-  /* =========================
-     FUND (wallet) + SETTINGS LISTS
-  ========================== */
   function renderFund(){
     const total = wallet.walletTotal || 0;
 
@@ -1216,9 +1160,6 @@
     }
   }
 
-  /* =========================
-     SETTINGS
-  ========================== */
   function syncSettingsUI(){
     document.getElementById("setContribution").value = settings.contribution ?? 5;
     document.getElementById("setStreakTarget").value = settings.streakTarget ?? 5;
@@ -1285,9 +1226,6 @@
     hideTpl();
   }
 
-  /* =========================
-     DAY SHEET
-  ========================== */
   let selectedDate = iso(new Date());
 
   function openSheet(date){
@@ -1409,42 +1347,52 @@
       return () => document.getElementById("fGoal").value;
     }
 
-    // ----- NONE
     if(st==="none"){
-      fieldRow(`<div class="chip">voľno</div>`);
-      const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
-
       fieldRow(`
-        <div class="btnrow">
-          <button class="primary" id="btnPlan">Naplánovať</button>
-          <button class="ghost" id="btnUnplanned">Neplánovaný</button>
+        <div class="chip">voľno</div>
+        <div class="small" style="margin-top:12px">
+          Dnes nemáte plánovanú aktivitu. Pridajte aktivitu, alebo si oddýchnite 🧘.
         </div>
-        <div class="btnrow">
-          <button class="ghost" id="btnRest">Rest day</button>
-          <button class="danger" id="btnClear">Vymazať</button>
+        <div class="btnrow" style="margin-top:16px">
+          <button class="primary" id="btnAddActivity">+ Pridať aktivitu</button>
         </div>
-        ${future ? `<div class="small">Neplánovaný tréning môžeš pridať len dnes alebo spätne.</div>` : ``}
       `);
 
-      document.getElementById("btnPlan").onclick = ()=>{
-        const v=get();
-        setLog(selectedDate,{status:"planned", ...v});
-      };
-      document.getElementById("btnUnplanned").onclick = ()=>{
-        const v=get();
-        setLog(selectedDate,{status:"adhoc_draft", ...v});
-      };
-      document.getElementById("btnRest").onclick = ()=> setLog(selectedDate,{status:"rest"});
-      document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
+      document.getElementById("btnAddActivity").onclick = ()=>{
+        body.innerHTML = "";
+        const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
 
-      if(future){
-        const b = document.getElementById("btnUnplanned");
-        if(b) b.disabled = true;
-      }
+        fieldRow(`
+          <div class="btnrow">
+            <button class="primary" id="btnPlan">Naplánovať</button>
+            <button class="ghost" id="btnUnplanned">Neplánovaný</button>
+          </div>
+          <div class="btnrow">
+            <button class="ghost" id="btnRest">Rest day</button>
+            <button class="danger" id="btnClear">Vymazať</button>
+          </div>
+          ${future ? `<div class="small">Neplánovaný tréning môžeš pridať len dnes alebo spätne.</div>` : ``}
+        `);
+
+        document.getElementById("btnPlan").onclick = ()=>{
+          const v=get();
+          setLog(selectedDate,{status:"planned", ...v});
+        };
+        document.getElementById("btnUnplanned").onclick = ()=>{
+          const v=get();
+          setLog(selectedDate,{status:"adhoc_draft", ...v});
+        };
+        document.getElementById("btnRest").onclick = ()=> setLog(selectedDate,{status:"rest"});
+        document.getElementById("btnClear").onclick = ()=> clearDay(selectedDate);
+
+        if(future){
+          const b = document.getElementById("btnUnplanned");
+          if(b) b.disabled = true;
+        }
+      };
       return;
     }
 
-    // ----- REST
     if(st==="rest"){
       fieldRow(`<div class="chip">rest day</div>`);
       const get = renderEditForm({sport:"run", goalType:"distance", goalValue:"", name:"", note:""});
@@ -1468,7 +1416,6 @@
       return;
     }
 
-    // ----- ADHOC DRAFT
     if(st==="adhoc_draft"){
       fieldRow(`<div class="chip">neplánovaný • ešte nie hotovo</div>`);
       const get = renderEditForm(log);
@@ -1501,7 +1448,6 @@
       return;
     }
 
-    // ----- PLANNED
     if(st==="planned"){
       fieldRow(`<div class="chip">plánovaný tréning</div>`);
       const get = renderEditForm(log);
@@ -1566,7 +1512,6 @@
       return;
     }
 
-    // ----- DONE / EXTRA
     if(st==="done" || st==="extra"){
       fieldRow(`<div class="chip">${st==="done" ? "hotovo" : "extra"}</div>`);
       const get = renderEditForm(log);
@@ -1590,9 +1535,6 @@
     fieldRow(`<div class="muted">Neznámy stav.</div>`);
   }
 
-  /* =========================
-     GOAL EDITOR
-  ========================== */
   let editingGoalId = null;
 
   function openGoalEditor(id){
@@ -1679,9 +1621,6 @@
     }
   }
 
-  /* =========================
-     TEMPLATE EDITOR
-  ========================== */
   let editingTplId = null;
 
   function openTemplateEditor(id){
@@ -1771,9 +1710,6 @@
     renderAll();
   }
 
-  /* =========================
-     RENDER ALL
-  ========================== */
   function renderAll(){
     maybePayWeeklyBonus();
     renderToday();
@@ -1783,9 +1719,6 @@
     syncSettingsUI();
   }
 
-  /* =========================
-     ESCAPE HELPERS
-  ========================== */
   function escapeHtml(str){
     return String(str||"")
       .replaceAll("&","&amp;")
@@ -1798,7 +1731,6 @@
     return escapeHtml(str).replaceAll("\n"," ");
   }
 
-  // init
   saveWallet();
   renderAll();
 </script>
